@@ -1,22 +1,19 @@
 //
-//  MainViewController.m
+//  TopViewController.m
 //  vmusic
 //
-//  Created by feng yu on 16/11/29.
+//  Created by yufengvac on 2016/11/30.
 //  Copyright © 2016年 vac. All rights reserved.
 //
 
-#import "MainViewController.h"
-#import "UIColor+ColorChange.h"
-#import "SearchViewController.h"
 #import "TopViewController.h"
-
+#import "UIColor+ColorChange.h"
 #define screenWidth  [[UIScreen mainScreen]bounds].size.width
-#define screenHeight  ([[UIScreen mainScreen]bounds].size.height)
+#define screenHeight  [[UIScreen mainScreen]bounds].size.height
 #define statusBarHeight 15
 #define padding 10
 #define bottomHeight 60
-@interface MainViewController ()
+@interface TopViewController ()
 @property UIImageView *bgImageView;
 @property UILabel *indicator;
 @property UIButton *localMusicBtn;
@@ -24,24 +21,13 @@
 @property UIScrollView *horizonScrollView;
 @end
 
-@implementation MainViewController
+@implementation TopViewController
 
--(instancetype)initWithFrame:(CGRect)rect{
-    if (self == [super init]) {
-        
-    }
-    return self;
-}
 - (void)viewDidLoad {
-    [UIApplication sharedApplication].statusBarStyle=UIStatusBarStyleLightContent;
     [super viewDidLoad];
-   
     [self addHorizontalScrollView];
     [self addScrollView];
     [self addTopContent];
-    [self addChildViewController:[[TopViewController alloc]init]];
-//    [self addBottomView];
-    
 }
 
 -(void)addHorizontalScrollView{
@@ -135,7 +121,7 @@
     }
     NSInteger width = (screenWidth-padding*3)/2;
     NSInteger height = 80;
-
+    
     UIButton *btn;
     if (isLeft) {
         btn = [[UIButton alloc]initWithFrame:CGRectMake(padding, baseHeight, width, height)];
@@ -144,9 +130,9 @@
         btn = [[UIButton alloc]initWithFrame:CGRectMake(padding*2+width, baseHeight+height, width, height)];
         btn.tag = 104;
     }
-//    btn.backgroundColor = [UIColor_ColorChange colorWithHexString:@"#54A4E4"];
+    //    btn.backgroundColor = [UIColor_ColorChange colorWithHexString:@"#54A4E4"];
     btn.backgroundColor = [UIColor colorWithRed:0.33 green:0.64 blue:0.89 alpha:1.0];
-   
+    
     [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     UIImageView *decorate = [[UIImageView alloc]initWithFrame:CGRectMake(width-77, height-60, 77, 60)];
     decorate.userInteractionEnabled = NO;
@@ -163,7 +149,7 @@
     }else{
         lable.text = @"最近播放";
     }
-   
+    
     lable.userInteractionEnabled = NO;
     lable.font = [UIFont systemFontOfSize:15];
     lable.textColor = [UIColor whiteColor];
@@ -185,7 +171,7 @@
     NSInteger baseHeight;
     NSInteger width = (screenWidth-padding*3)/2;
     NSInteger height = 80;
-
+    
     if (isRight) {
         baseHeight = logoHeight+padding;
     }else{
@@ -199,7 +185,7 @@
         btn = [[UIButton alloc]initWithFrame:CGRectMake(padding, baseHeight, width, height)];
         btn.tag = 103;
     }
-   
+    
     btn.backgroundColor = [UIColor colorWithRed:0.33 green:0.64 blue:0.89 alpha:0.67];
     
     [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -209,7 +195,7 @@
     }else{
         lable.text= @"MV下载";
     }
-   
+    
     lable.userInteractionEnabled = NO;
     lable.font = [UIFont systemFontOfSize:15];
     lable.textColor = [UIColor whiteColor];
@@ -328,16 +314,16 @@
     [scrollView addSubview:btn3];
     
     NSLog(@"最终的高度是：%d",(280+padding*3+80*2+10+10+padding+70+10 + 70 + padding*2+10+padding+70+10));
-//    UILabel *lable_test  =[[UILabel alloc]initWithFrame:CGRectMake(0, 770, screenWidth, 1)];
-//    lable_test.backgroundColor = [UIColor redColor];
-//    [scrollView addSubview:lable_test];
+    //    UILabel *lable_test  =[[UILabel alloc]initWithFrame:CGRectMake(0, 770, screenWidth, 1)];
+    //    lable_test.backgroundColor = [UIColor redColor];
+    //    [scrollView addSubview:lable_test];
 }
 
 -(void)btnClick:(UIButton *)btn{
     NSInteger tag = btn.tag;
     switch (tag) {
         case 101:
-             NSLog(@"本地音乐点击");
+            NSLog(@"本地音乐点击");
             break;
         case 102:
             NSLog(@"音乐下载点击");
@@ -362,7 +348,7 @@
             break;
         case 109:
             NSLog(@"点击了播放按钮");
-            [self.delegate play];
+            
             break;
         case 110:
             NSLog(@"点击了歌单按钮");
@@ -377,98 +363,11 @@
             break;
         case 114:
             NSLog(@"点击了搜索按钮");
-            [self presentViewController:[[SearchViewController alloc]init] animated:NO completion:nil];
-//            [self.navigationController pushViewController:[[SearchViewController alloc]init] animated:YES];
+            
             break;
         default:
             break;
     }
-}
-
--(void)addBottomView{
-    NSInteger baseHeight = screenHeight - bottomHeight;
-    NSInteger margin = 10;
-    
-    UILabel *line = [[UILabel alloc]initWithFrame:CGRectMake(0,baseHeight, screenWidth, 0.3)];
-    line.backgroundColor = [UIColor blackColor];
-    [self.view addSubview:line];
-    UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0, baseHeight, screenWidth, bottomHeight)];
-    btn.backgroundColor = [UIColor whiteColor];
-    btn.tag = 108;
-    [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
-    
-    UIImageView *singerImageView = [[UIImageView alloc]initWithFrame:CGRectMake(margin, margin, bottomHeight-margin*2, bottomHeight-margin*2)];
-    singerImageView.layer.masksToBounds = YES;
-    singerImageView.image = [UIImage imageNamed:@"default_bg"];
-    singerImageView.layer.cornerRadius = (bottomHeight-margin*2)/2;
-    [btn addSubview:singerImageView];
-    
-    NSInteger width = bottomHeight-20;
-    UIButton *playBtn = [[UIButton alloc]initWithFrame:CGRectMake(screenWidth-width*2, 10, width, width)];
-    [playBtn setImage:[UIImage imageNamed:@"icon_play"] forState:UIControlStateNormal];
-    playBtn.tag = 109;
-    [playBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
-    [btn addSubview:playBtn];
-    
-    UIButton *songListBtn =[[UIButton alloc]initWithFrame:CGRectMake(screenWidth-width, 10, width, width)];
-    [songListBtn setImage:[UIImage imageNamed:@"icon_songlist"] forState:UIControlStateNormal];
-    songListBtn.tag = 110;
-    [songListBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
-    [btn addSubview:songListBtn];
-    [self.view addSubview:btn];
-}
-
-
-
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    CGPoint point = scrollView.contentOffset;
-    CGFloat offestY = point.y;
-    CGFloat offestX = point.x;
-    if (self.bgImageView==nil) {
-        self.bgImageView =  [self.view viewWithTag:201];
-    }
-    if (self.indicator == nil) {
-        self.indicator = [self.view viewWithTag:401];
-    }
-    if (self.localMusicBtn==nil) {
-        self.localMusicBtn = [self.view viewWithTag:111];
-    }
-    if (self.onLineMusicBtn==nil) {
-        self.onLineMusicBtn = [self.view viewWithTag:112];
-    }
-    if (scrollView.tag==302) {//上下滑动
-        if (offestY>10&&offestY<=163) {
-            CGFloat scale = offestY/163;
-            self.currentRed = (0.33-0.0627-0)*scale;
-            self.currentGreen = (0.64-0.0627-0)*scale;
-            self.currentBlue = (0.89-0.0627-0)*scale;
-            self.currentAlpha = ((1.0-0.1)*scale+0.1);
-        }else if (offestY<=10){
-            self.currentRed = 0;self.currentGreen = 0;self.currentBlue=0;self.currentAlpha = 0.1;
-        }else if (offestY>163){
-            self.currentRed =(0.33-0.0627);
-            self.currentGreen = (0.64-0.0627);
-            self.currentBlue = (0.89-0.0627);
-            self.currentAlpha = 1.0;
-        }
-        self.bgImageView.backgroundColor = [UIColor colorWithRed:self.currentRed green:self.currentGreen blue:self.currentBlue alpha:self.currentAlpha];
-    }else if(scrollView.tag==301){//左右滑动
-        if (offestX>0&&offestX<=screenWidth) {
-            CGFloat scale = offestX*1.0/screenWidth;
-             self.bgImageView.backgroundColor = [UIColor colorWithRed:((0.33-0.0627-self.currentRed)*scale+self.currentRed) green:self.currentGreen+(0.64-0.0627-self.currentGreen)*scale blue:self.currentBlue+(0.89-0.0627-self.currentBlue)*scale alpha:((1.0-self.currentAlpha)*scale+self.currentAlpha)];
-
-            CGRect cgRect = CGRectMake(screenWidth/2-80+80*scale, statusBarHeight+50-1.5, 80, 1.5);
-            self.indicator.frame = cgRect;
-            if (scale>=0.99) {
-                self.onLineMusicBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
-                self.localMusicBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-            }else if(scale<=0.01){
-                self.localMusicBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
-                self.onLineMusicBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-            }
-        }
-    }
-    
 }
 
 - (void)didReceiveMemoryWarning {

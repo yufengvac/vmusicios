@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		17138F961DEF1B7200C6C354 /* TopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17138F951DEF1B7200C6C354 /* TopViewController.m */; };
+		17138F9A1DEF27F500C6C354 /* PresentAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 17138F991DEF27F500C6C354 /* PresentAnimation.m */; };
 		1D7B265F1DED1D6F00A1C1A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B265E1DED1D6F00A1C1A1 /* main.m */; };
 		1D7B26621DED1D6F00A1C1A1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26611DED1D6F00A1C1A1 /* AppDelegate.m */; };
 		1D7B266A1DED1D6F00A1C1A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D7B26691DED1D6F00A1C1A1 /* Assets.xcassets */; };
@@ -24,11 +26,14 @@
 		1D7B26C11DEED98100A1C1A1 /* STKLocalFileDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26B61DEED98100A1C1A1 /* STKLocalFileDataSource.m */; };
 		1D7B26C21DEED98100A1C1A1 /* STKQueueEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26B81DEED98100A1C1A1 /* STKQueueEntry.m */; };
 		1D7B26C61DEEDEF100A1C1A1 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26C51DEEDEF100A1C1A1 /* SearchViewController.m */; };
-		1D7B26CA1DEEE57200A1C1A1 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26C91DEEE57200A1C1A1 /* TestViewController.m */; };
 		1D7B26CD1DEEE5BA00A1C1A1 /* BottomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26CC1DEEE5BA00A1C1A1 /* BottomViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		17138F941DEF1B7200C6C354 /* TopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopViewController.h; sourceTree = "<group>"; };
+		17138F951DEF1B7200C6C354 /* TopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopViewController.m; sourceTree = "<group>"; };
+		17138F981DEF27F500C6C354 /* PresentAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentAnimation.h; sourceTree = "<group>"; };
+		17138F991DEF27F500C6C354 /* PresentAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentAnimation.m; sourceTree = "<group>"; };
 		1D7B265A1DED1D6F00A1C1A1 /* vmusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vmusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D7B265E1DED1D6F00A1C1A1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1D7B26601DED1D6F00A1C1A1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -63,8 +68,6 @@
 		1D7B26B91DEED98100A1C1A1 /* StreamingKit-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "StreamingKit-Prefix.pch"; sourceTree = "<group>"; };
 		1D7B26C41DEEDEF100A1C1A1 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		1D7B26C51DEEDEF100A1C1A1 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
-		1D7B26C81DEEE57200A1C1A1 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
-		1D7B26C91DEEE57200A1C1A1 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		1D7B26CB1DEEE5BA00A1C1A1 /* BottomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomViewController.h; sourceTree = "<group>"; };
 		1D7B26CC1DEEE5BA00A1C1A1 /* BottomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -81,6 +84,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		17138F971DEF27C800C6C354 /* presentervc */ = {
+			isa = PBXGroup;
+			children = (
+				17138F981DEF27F500C6C354 /* PresentAnimation.h */,
+				17138F991DEF27F500C6C354 /* PresentAnimation.m */,
+			);
+			name = presentervc;
+			sourceTree = "<group>";
+		};
 		1D7B26511DED1D6F00A1C1A1 = {
 			isa = PBXGroup;
 			children = (
@@ -135,6 +147,7 @@
 		1D7B267D1DED3D9100A1C1A1 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				17138F971DEF27C800C6C354 /* presentervc */,
 				1D7B26831DEE8EA600A1C1A1 /* colorhelper */,
 				1D7B26821DEE8E9300A1C1A1 /* color */,
 			);
@@ -205,10 +218,10 @@
 		1D7B26C71DEEE56700A1C1A1 /* test */ = {
 			isa = PBXGroup;
 			children = (
-				1D7B26C81DEEE57200A1C1A1 /* TestViewController.h */,
-				1D7B26C91DEEE57200A1C1A1 /* TestViewController.m */,
 				1D7B26CB1DEEE5BA00A1C1A1 /* BottomViewController.h */,
 				1D7B26CC1DEEE5BA00A1C1A1 /* BottomViewController.m */,
+				17138F941DEF1B7200C6C354 /* TopViewController.h */,
+				17138F951DEF1B7200C6C354 /* TopViewController.m */,
 			);
 			name = test;
 			sourceTree = "<group>";
@@ -244,6 +257,7 @@
 				TargetAttributes = {
 					1D7B26591DED1D6F00A1C1A1 = {
 						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = 92J3D5S8UZ;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -288,8 +302,10 @@
 				1D7B26C21DEED98100A1C1A1 /* STKQueueEntry.m in Sources */,
 				1D7B26C01DEED98100A1C1A1 /* STKHTTPDataSource.m in Sources */,
 				1D7B26BC1DEED98100A1C1A1 /* STKAutoRecoveringHTTPDataSource.m in Sources */,
+				17138F9A1DEF27F500C6C354 /* PresentAnimation.m in Sources */,
 				1D7B26BE1DEED98100A1C1A1 /* STKDataSource.m in Sources */,
 				1D7B26C61DEEDEF100A1C1A1 /* SearchViewController.m in Sources */,
+				17138F961DEF1B7200C6C354 /* TopViewController.m in Sources */,
 				1D7B267C1DED3D8D00A1C1A1 /* UIColor+ColorChange.m in Sources */,
 				1D7B26771DED1F4C00A1C1A1 /* MainViewController.m in Sources */,
 				1D7B26861DEE999900A1C1A1 /* AlphaColorHelper.m in Sources */,
@@ -297,7 +313,6 @@
 				1D7B265F1DED1D6F00A1C1A1 /* main.m in Sources */,
 				1D7B26BD1DEED98100A1C1A1 /* STKCoreFoundationDataSource.m in Sources */,
 				1D7B26CD1DEEE5BA00A1C1A1 /* BottomViewController.m in Sources */,
-				1D7B26CA1DEEE57200A1C1A1 /* TestViewController.m in Sources */,
 				1D7B26C11DEED98100A1C1A1 /* STKLocalFileDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -397,6 +412,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 92J3D5S8UZ;
 				INFOPLIST_FILE = vmusic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vac.vmusic;
@@ -408,6 +424,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 92J3D5S8UZ;
 				INFOPLIST_FILE = vmusic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vac.vmusic;
@@ -434,6 +451,7 @@
 				1D7B26731DED1D6F00A1C1A1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

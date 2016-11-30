@@ -16,7 +16,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view setBackgroundColor:[UIColor redColor]];
+    [self.view setBackgroundColor:[UIColor whiteColor]];
+    UIButton *back = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 400, 300)];
+    [back setTitle:@"返回" forState:UIControlStateNormal];
+    [back addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchDown];
+    [self.view addSubview:back];
+}
+-(void)back{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
