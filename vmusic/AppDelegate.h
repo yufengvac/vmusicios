@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+#import "MainViewController.h"
+@interface AppDelegate : UIResponder <UIApplicationDelegate,AudioPlayerControlDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

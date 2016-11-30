@@ -7,11 +7,13 @@
 //
 
 #import "AppDelegate.h"
-#import "MainViewController.h"
+#import "STKAudioPlayer.h"
+#import <AVFoundation/AVFoundation.h>
+#import "TestViewController.h"
 #define screenWidth  [[UIScreen mainScreen]bounds].size.width
 #define screenHeight  [[UIScreen mainScreen]bounds].size.height
 @interface AppDelegate ()
-
+@property(nonnull,strong) STKAudioPlayer *audioPlayer;
 @end
 
 @implementation AppDelegate
@@ -20,13 +22,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self initWindow];
     [self addSplashScreen];
+    [self initAudio];
     return YES;
 }
 -(void)initWindow{
     self.window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    self.window.rootViewController = [[MainViewController alloc]init];
+    MainViewController *mainController = [[MainViewController alloc]init];
+    mainController.delegate = self;
+    self.window.rootViewController = mainController;
+    
 }
 
 -(void)addSplashScreen{
@@ -39,6 +45,30 @@
     }completion:^(BOOL finished){
         [splashImageView removeFromSuperview];
     }];
+}
+-(void)initAudio{
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+    self.audioPlayer = [[STKAudioPlayer alloc] initWithOptions:(STKAudioPlayerOptions){ .flushQueueOnSeek = YES, .enableVolumeMixer = NO, .equalizerBandFrequencies = {50, 100, 200, 400, 800, 1600, 2600, 16000} }];
+    self.audioPlayer.meteringEnabled = YES;
+    self.audioPlayer.volume = 1;
+    
+}
+
+-(void)play{
+    NSURL *url = [NSURL URLWithString:@"http://m6.file.xiami.com/260/1260/168592/2081179_1439370573.mp3?auth_key=69750fb56a655719cab80b2664bc3108-1481079600-0-null"];
+    
+    STKDataSource* dataSource = [STKAudioPlayer dataSourceFromURL:url];
+    
+    [self.audioPlayer playDataSource:dataSource];
+  
+    [self.audioPlayer queueURL:[NSURL URLWithString:@"http://m6.file.xiami.com/260/1260/350824/1769164002_1441381832.mp3?auth_key=2ae4dfce15f3b00d5cf64b4986edbef7-1481079600-0-null"]];
+    [self.audioPlayer queueURL:[NSURL URLWithString:@"http://m5.file.xiami.com/169/7169/415752/1769918293_2309762_l.mp3?auth_key=78972371c5f4efb799a18bc6137fcf28-1481079600-0-null"]];
+    [self.audioPlayer queueURL:[NSURL URLWithString:@"http://m6.file.xiami.com/812/634530812/2100361431/1776230341_60378614_h.mp3?auth_key=31fe0f10d99aba78d819469cfb075171-1481079600-0-null"]];
+    [self.audioPlayer queueURL:[NSURL URLWithString:@"http://m6.file.xiami.com/197/1964894197/2100314404/1775919020_60013952_h.mp3?auth_key=fe5e9528d40f0449ea264c79488a5d94-1481079600-0-null"]];
+    [self.audioPlayer queueURL:[NSURL URLWithString:@"http://m5.file.xiami.com/1/169/7169/189915/2307728_119184_l.mp3?auth_key=aebef621c7af7b93b4a9457fd44541fd-1481079600-0-null"]];
+    [self.audioPlayer queueURL:[NSURL URLWithString:@"http://m6.file.xiami.com/260/1260/33046/394604_3959845_h.mp3?auth_key=7973b0de56a9d6ccecc779a81fbe993e-1481079600-0-null"]];
+    [self.audioPlayer queueURL:[NSURL URLWithString:@"http://m6.file.xiami.com/260/1260/436317/1770153970_1439388803.mp3?auth_key=0cbfb0ae5060577996899de89a49afe8-1480734000-0-null"]];
 }
 
 

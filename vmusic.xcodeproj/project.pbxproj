@@ -12,6 +12,20 @@
 		1D7B266A1DED1D6F00A1C1A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D7B26691DED1D6F00A1C1A1 /* Assets.xcassets */; };
 		1D7B26771DED1F4C00A1C1A1 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26761DED1F4C00A1C1A1 /* MainViewController.m */; };
 		1D7B267C1DED3D8D00A1C1A1 /* UIColor+ColorChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B267B1DED3D8D00A1C1A1 /* UIColor+ColorChange.m */; };
+		1D7B26861DEE999900A1C1A1 /* AlphaColorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26851DEE999900A1C1A1 /* AlphaColorHelper.m */; };
+		1D7B26A61DEEBBCE00A1C1A1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D7B26A51DEEBBCE00A1C1A1 /* AVFoundation.framework */; };
+		1D7B26BA1DEED98100A1C1A1 /* NSMutableArray+STKAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26A81DEED98100A1C1A1 /* NSMutableArray+STKAudioPlayer.m */; };
+		1D7B26BB1DEED98100A1C1A1 /* STKAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26AA1DEED98100A1C1A1 /* STKAudioPlayer.m */; };
+		1D7B26BC1DEED98100A1C1A1 /* STKAutoRecoveringHTTPDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26AC1DEED98100A1C1A1 /* STKAutoRecoveringHTTPDataSource.m */; };
+		1D7B26BD1DEED98100A1C1A1 /* STKCoreFoundationDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26AE1DEED98100A1C1A1 /* STKCoreFoundationDataSource.m */; };
+		1D7B26BE1DEED98100A1C1A1 /* STKDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26B01DEED98100A1C1A1 /* STKDataSource.m */; };
+		1D7B26BF1DEED98100A1C1A1 /* STKDataSourceWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26B21DEED98100A1C1A1 /* STKDataSourceWrapper.m */; };
+		1D7B26C01DEED98100A1C1A1 /* STKHTTPDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26B41DEED98100A1C1A1 /* STKHTTPDataSource.m */; };
+		1D7B26C11DEED98100A1C1A1 /* STKLocalFileDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26B61DEED98100A1C1A1 /* STKLocalFileDataSource.m */; };
+		1D7B26C21DEED98100A1C1A1 /* STKQueueEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26B81DEED98100A1C1A1 /* STKQueueEntry.m */; };
+		1D7B26C61DEEDEF100A1C1A1 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26C51DEEDEF100A1C1A1 /* SearchViewController.m */; };
+		1D7B26CA1DEEE57200A1C1A1 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26C91DEEE57200A1C1A1 /* TestViewController.m */; };
+		1D7B26CD1DEEE5BA00A1C1A1 /* BottomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26CC1DEEE5BA00A1C1A1 /* BottomViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +39,34 @@
 		1D7B26761DED1F4C00A1C1A1 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		1D7B267A1DED3D8D00A1C1A1 /* UIColor+ColorChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ColorChange.h"; sourceTree = "<group>"; };
 		1D7B267B1DED3D8D00A1C1A1 /* UIColor+ColorChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ColorChange.m"; sourceTree = "<group>"; };
+		1D7B26841DEE999900A1C1A1 /* AlphaColorHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlphaColorHelper.h; sourceTree = "<group>"; };
+		1D7B26851DEE999900A1C1A1 /* AlphaColorHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlphaColorHelper.m; sourceTree = "<group>"; };
+		1D7B26A51DEEBBCE00A1C1A1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		1D7B26A71DEED98100A1C1A1 /* NSMutableArray+STKAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+STKAudioPlayer.h"; sourceTree = "<group>"; };
+		1D7B26A81DEED98100A1C1A1 /* NSMutableArray+STKAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+STKAudioPlayer.m"; sourceTree = "<group>"; };
+		1D7B26A91DEED98100A1C1A1 /* STKAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STKAudioPlayer.h; sourceTree = "<group>"; };
+		1D7B26AA1DEED98100A1C1A1 /* STKAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STKAudioPlayer.m; sourceTree = "<group>"; };
+		1D7B26AB1DEED98100A1C1A1 /* STKAutoRecoveringHTTPDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STKAutoRecoveringHTTPDataSource.h; sourceTree = "<group>"; };
+		1D7B26AC1DEED98100A1C1A1 /* STKAutoRecoveringHTTPDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STKAutoRecoveringHTTPDataSource.m; sourceTree = "<group>"; };
+		1D7B26AD1DEED98100A1C1A1 /* STKCoreFoundationDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STKCoreFoundationDataSource.h; sourceTree = "<group>"; };
+		1D7B26AE1DEED98100A1C1A1 /* STKCoreFoundationDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STKCoreFoundationDataSource.m; sourceTree = "<group>"; };
+		1D7B26AF1DEED98100A1C1A1 /* STKDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STKDataSource.h; sourceTree = "<group>"; };
+		1D7B26B01DEED98100A1C1A1 /* STKDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STKDataSource.m; sourceTree = "<group>"; };
+		1D7B26B11DEED98100A1C1A1 /* STKDataSourceWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STKDataSourceWrapper.h; sourceTree = "<group>"; };
+		1D7B26B21DEED98100A1C1A1 /* STKDataSourceWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STKDataSourceWrapper.m; sourceTree = "<group>"; };
+		1D7B26B31DEED98100A1C1A1 /* STKHTTPDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STKHTTPDataSource.h; sourceTree = "<group>"; };
+		1D7B26B41DEED98100A1C1A1 /* STKHTTPDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STKHTTPDataSource.m; sourceTree = "<group>"; };
+		1D7B26B51DEED98100A1C1A1 /* STKLocalFileDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STKLocalFileDataSource.h; sourceTree = "<group>"; };
+		1D7B26B61DEED98100A1C1A1 /* STKLocalFileDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STKLocalFileDataSource.m; sourceTree = "<group>"; };
+		1D7B26B71DEED98100A1C1A1 /* STKQueueEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STKQueueEntry.h; sourceTree = "<group>"; };
+		1D7B26B81DEED98100A1C1A1 /* STKQueueEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STKQueueEntry.m; sourceTree = "<group>"; };
+		1D7B26B91DEED98100A1C1A1 /* StreamingKit-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "StreamingKit-Prefix.pch"; sourceTree = "<group>"; };
+		1D7B26C41DEEDEF100A1C1A1 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		1D7B26C51DEEDEF100A1C1A1 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		1D7B26C81DEEE57200A1C1A1 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
+		1D7B26C91DEEE57200A1C1A1 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		1D7B26CB1DEEE5BA00A1C1A1 /* BottomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomViewController.h; sourceTree = "<group>"; };
+		1D7B26CC1DEEE5BA00A1C1A1 /* BottomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D7B26A61DEEBBCE00A1C1A1 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +86,7 @@
 			children = (
 				1D7B265C1DED1D6F00A1C1A1 /* vmusic */,
 				1D7B265B1DED1D6F00A1C1A1 /* Products */,
+				1D7B26A41DEEBBCE00A1C1A1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,6 +101,9 @@
 		1D7B265C1DED1D6F00A1C1A1 /* vmusic */ = {
 			isa = PBXGroup;
 			children = (
+				1D7B26C71DEEE56700A1C1A1 /* test */,
+				1D7B26C31DEEDED200A1C1A1 /* search */,
+				1D7B26871DEEBB1900A1C1A1 /* audio */,
 				1D7B267D1DED3D9100A1C1A1 /* util */,
 				1D7B26741DED1F2B00A1C1A1 /* main */,
 				1D7B26601DED1D6F00A1C1A1 /* AppDelegate.h */,
@@ -88,10 +135,82 @@
 		1D7B267D1DED3D9100A1C1A1 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				1D7B26831DEE8EA600A1C1A1 /* colorhelper */,
+				1D7B26821DEE8E9300A1C1A1 /* color */,
+			);
+			name = util;
+			sourceTree = "<group>";
+		};
+		1D7B26821DEE8E9300A1C1A1 /* color */ = {
+			isa = PBXGroup;
+			children = (
 				1D7B267A1DED3D8D00A1C1A1 /* UIColor+ColorChange.h */,
 				1D7B267B1DED3D8D00A1C1A1 /* UIColor+ColorChange.m */,
 			);
-			name = util;
+			name = color;
+			sourceTree = "<group>";
+		};
+		1D7B26831DEE8EA600A1C1A1 /* colorhelper */ = {
+			isa = PBXGroup;
+			children = (
+				1D7B26841DEE999900A1C1A1 /* AlphaColorHelper.h */,
+				1D7B26851DEE999900A1C1A1 /* AlphaColorHelper.m */,
+			);
+			name = colorhelper;
+			sourceTree = "<group>";
+		};
+		1D7B26871DEEBB1900A1C1A1 /* audio */ = {
+			isa = PBXGroup;
+			children = (
+				1D7B26A71DEED98100A1C1A1 /* NSMutableArray+STKAudioPlayer.h */,
+				1D7B26A81DEED98100A1C1A1 /* NSMutableArray+STKAudioPlayer.m */,
+				1D7B26A91DEED98100A1C1A1 /* STKAudioPlayer.h */,
+				1D7B26AA1DEED98100A1C1A1 /* STKAudioPlayer.m */,
+				1D7B26AB1DEED98100A1C1A1 /* STKAutoRecoveringHTTPDataSource.h */,
+				1D7B26AC1DEED98100A1C1A1 /* STKAutoRecoveringHTTPDataSource.m */,
+				1D7B26AD1DEED98100A1C1A1 /* STKCoreFoundationDataSource.h */,
+				1D7B26AE1DEED98100A1C1A1 /* STKCoreFoundationDataSource.m */,
+				1D7B26AF1DEED98100A1C1A1 /* STKDataSource.h */,
+				1D7B26B01DEED98100A1C1A1 /* STKDataSource.m */,
+				1D7B26B11DEED98100A1C1A1 /* STKDataSourceWrapper.h */,
+				1D7B26B21DEED98100A1C1A1 /* STKDataSourceWrapper.m */,
+				1D7B26B31DEED98100A1C1A1 /* STKHTTPDataSource.h */,
+				1D7B26B41DEED98100A1C1A1 /* STKHTTPDataSource.m */,
+				1D7B26B51DEED98100A1C1A1 /* STKLocalFileDataSource.h */,
+				1D7B26B61DEED98100A1C1A1 /* STKLocalFileDataSource.m */,
+				1D7B26B71DEED98100A1C1A1 /* STKQueueEntry.h */,
+				1D7B26B81DEED98100A1C1A1 /* STKQueueEntry.m */,
+				1D7B26B91DEED98100A1C1A1 /* StreamingKit-Prefix.pch */,
+			);
+			name = audio;
+			sourceTree = "<group>";
+		};
+		1D7B26A41DEEBBCE00A1C1A1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1D7B26A51DEEBBCE00A1C1A1 /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1D7B26C31DEEDED200A1C1A1 /* search */ = {
+			isa = PBXGroup;
+			children = (
+				1D7B26C41DEEDEF100A1C1A1 /* SearchViewController.h */,
+				1D7B26C51DEEDEF100A1C1A1 /* SearchViewController.m */,
+			);
+			name = search;
+			sourceTree = "<group>";
+		};
+		1D7B26C71DEEE56700A1C1A1 /* test */ = {
+			isa = PBXGroup;
+			children = (
+				1D7B26C81DEEE57200A1C1A1 /* TestViewController.h */,
+				1D7B26C91DEEE57200A1C1A1 /* TestViewController.m */,
+				1D7B26CB1DEEE5BA00A1C1A1 /* BottomViewController.h */,
+				1D7B26CC1DEEE5BA00A1C1A1 /* BottomViewController.m */,
+			);
+			name = test;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,9 +283,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D7B26621DED1D6F00A1C1A1 /* AppDelegate.m in Sources */,
+				1D7B26BF1DEED98100A1C1A1 /* STKDataSourceWrapper.m in Sources */,
+				1D7B26BB1DEED98100A1C1A1 /* STKAudioPlayer.m in Sources */,
+				1D7B26C21DEED98100A1C1A1 /* STKQueueEntry.m in Sources */,
+				1D7B26C01DEED98100A1C1A1 /* STKHTTPDataSource.m in Sources */,
+				1D7B26BC1DEED98100A1C1A1 /* STKAutoRecoveringHTTPDataSource.m in Sources */,
+				1D7B26BE1DEED98100A1C1A1 /* STKDataSource.m in Sources */,
+				1D7B26C61DEEDEF100A1C1A1 /* SearchViewController.m in Sources */,
 				1D7B267C1DED3D8D00A1C1A1 /* UIColor+ColorChange.m in Sources */,
 				1D7B26771DED1F4C00A1C1A1 /* MainViewController.m in Sources */,
+				1D7B26861DEE999900A1C1A1 /* AlphaColorHelper.m in Sources */,
+				1D7B26BA1DEED98100A1C1A1 /* NSMutableArray+STKAudioPlayer.m in Sources */,
 				1D7B265F1DED1D6F00A1C1A1 /* main.m in Sources */,
+				1D7B26BD1DEED98100A1C1A1 /* STKCoreFoundationDataSource.m in Sources */,
+				1D7B26CD1DEEE5BA00A1C1A1 /* BottomViewController.m in Sources */,
+				1D7B26CA1DEEE57200A1C1A1 /* TestViewController.m in Sources */,
+				1D7B26C11DEED98100A1C1A1 /* STKLocalFileDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

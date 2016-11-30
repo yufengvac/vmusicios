@@ -8,13 +8,19 @@
 
 #import "MainViewController.h"
 #import "UIColor+ColorChange.h"
+#import "SearchViewController.h"
+
 #define screenWidth  [[UIScreen mainScreen]bounds].size.width
 #define screenHeight  [[UIScreen mainScreen]bounds].size.height
 #define statusBarHeight 15
 #define padding 10
 #define bottomHeight 60
 @interface MainViewController ()
-
+@property UIImageView *bgImageView;
+@property UILabel *indicator;
+@property UIButton *localMusicBtn;
+@property UIButton *onLineMusicBtn;
+@property UIScrollView *horizonScrollView;
 @end
 
 @implementation MainViewController
@@ -22,47 +28,32 @@
 - (void)viewDidLoad {
     [UIApplication sharedApplication].statusBarStyle=UIStatusBarStyleLightContent;
     [super viewDidLoad];
+   
+    [self addHorizontalScrollView];
     [self addScrollView];
     [self addTopContent];
     [self addBottomView];
+    
 }
 
--(void)addTopContent{
-    
-    UIImageView *bgImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, statusBarHeight+50)];
-    [bgImageView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.1]];
-    [self.view addSubview:bgImageView];
-    
-    UIButton *menuBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, statusBarHeight, 50 , 50)];
-    [menuBtn setImage:[UIImage imageNamed:@"main_head_left_menu"] forState:UIControlStateNormal];
-    [self.view addSubview:menuBtn];
-    
-    UIButton *searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(screenWidth-50, statusBarHeight, 50, 50)];
-    [searchBtn setImage:[UIImage imageNamed:@"main_head_right_search"] forState:UIControlStateNormal];
-    [self.view addSubview:searchBtn];
-    
-    UIButton *localMusicBtn = [[UIButton alloc]initWithFrame:CGRectMake(screenWidth/2-70, statusBarHeight, 60, 50)];
-    [localMusicBtn setTitle:@"我的" forState:UIControlStateNormal];
-    localMusicBtn.titleLabel.textColor = [UIColor whiteColor];
-    localMusicBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    localMusicBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
-    [self.view addSubview:localMusicBtn];
-    
-    UIButton *onLineMusicBtn = [[UIButton alloc]initWithFrame:CGRectMake(screenWidth/2+10, statusBarHeight, 60, 50)];
-    [onLineMusicBtn setTitle:@"音乐库" forState:UIControlStateNormal];
-    onLineMusicBtn.titleLabel.textColor = [UIColor whiteColor];
-    onLineMusicBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    onLineMusicBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-    [self.view addSubview:onLineMusicBtn];
-    
-    UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(screenWidth/2-80, statusBarHeight+50-1.5, 80, 1.5)];
-    lineLabel.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:lineLabel];
+-(void)addHorizontalScrollView{
+    self.horizonScrollView= [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-bottomHeight)];
+    self.horizonScrollView.scrollEnabled = YES;
+    self.horizonScrollView.contentSize  = CGSizeMake(screenWidth*2, screenHeight-bottomHeight);
+    self.horizonScrollView.pagingEnabled = YES;
+    self.horizonScrollView.bounces = NO;
+    self.horizonScrollView.tag = 301;
+    self.horizonScrollView.delegate = self;
+    self.horizonScrollView.showsHorizontalScrollIndicator = NO;
+    [self.view addSubview:self.horizonScrollView];
 }
+
 
 -(void)addScrollView{
     UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-bottomHeight)];
     scrollView.scrollEnabled = YES;
+    scrollView .tag = 302;
+    scrollView.delegate = self;
     scrollView.contentSize = CGSizeMake(screenWidth, 700+padding*7);
     scrollView.showsVerticalScrollIndicator = NO;
     scrollView.panGestureRecognizer.delaysTouchesBegan = YES;
@@ -80,8 +71,53 @@
     
     [self addMyFavor:logoHeight+padding*3+80*2+10 withScrollView:scrollView];
     
-    [self.view addSubview:scrollView];
+    [[self.view viewWithTag:301] addSubview:scrollView];
 }
+
+-(void)addTopContent{
+    
+    UIImageView *bgImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, statusBarHeight+50)];
+    bgImageView.tag = 201;
+    [bgImageView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.1]];
+    [self.view addSubview:bgImageView];
+    
+    UIButton *menuBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, statusBarHeight, 50 , 50)];
+    [menuBtn setImage:[UIImage imageNamed:@"main_head_left_menu"] forState:UIControlStateNormal];
+    menuBtn.tag = 113;
+    [menuBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
+    [self.view addSubview:menuBtn];
+    
+    UIButton *searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(screenWidth-50, statusBarHeight, 50, 50)];
+    searchBtn.tag = 114;
+    [searchBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
+    [searchBtn setImage:[UIImage imageNamed:@"main_head_right_search"] forState:UIControlStateNormal];
+    [self.view addSubview:searchBtn];
+    
+    UIButton *localMusicBtn = [[UIButton alloc]initWithFrame:CGRectMake(screenWidth/2-70, statusBarHeight, 60, 50)];
+    [localMusicBtn setTitle:@"我的" forState:UIControlStateNormal];
+    localMusicBtn.tag = 111;
+    [localMusicBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
+    localMusicBtn.titleLabel.textColor = [UIColor whiteColor];
+    localMusicBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+    localMusicBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
+    [self.view addSubview:localMusicBtn];
+    
+    UIButton *onLineMusicBtn = [[UIButton alloc]initWithFrame:CGRectMake(screenWidth/2+10, statusBarHeight, 60, 50)];
+    [onLineMusicBtn setTitle:@"音乐库" forState:UIControlStateNormal];
+    onLineMusicBtn.tag = 112;
+    [onLineMusicBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
+    onLineMusicBtn.titleLabel.textColor = [UIColor whiteColor];
+    onLineMusicBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+    onLineMusicBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+    [self.view addSubview:onLineMusicBtn];
+    
+    UILabel *lineLabel = [[UILabel alloc]initWithFrame:CGRectMake(screenWidth/2-80, statusBarHeight+50-1.5, 80, 1.5)];
+    lineLabel.tag = 401;
+    lineLabel.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:lineLabel];
+}
+
+
 -(void)addTopLeftAndBottomRightBtn:(NSInteger) logoHeight withScrollView:(UIScrollView *)scrollView options:(BOOL)isLeft{
     NSInteger baseHeight ;
     if (isLeft) {
@@ -318,9 +354,22 @@
             break;
         case 109:
             NSLog(@"点击了播放按钮");
+            [self.delegate play];
             break;
         case 110:
             NSLog(@"点击了歌单按钮");
+            break;
+        case 111:
+            [self.horizonScrollView setContentOffset:CGPointMake(0,0) animated:YES];
+            break;
+        case 112:
+            [self.horizonScrollView setContentOffset:CGPointMake(screenWidth,0) animated:YES];
+            break;
+        case 113:
+            break;
+        case 114:
+            NSLog(@"点击了搜索按钮");
+            
             break;
         default:
             break;
@@ -358,6 +407,59 @@
     [songListBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
     [btn addSubview:songListBtn];
     [self.view addSubview:btn];
+}
+
+
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    CGPoint point = scrollView.contentOffset;
+    CGFloat offestY = point.y;
+    CGFloat offestX = point.x;
+    if (self.bgImageView==nil) {
+        self.bgImageView =  [self.view viewWithTag:201];
+    }
+    if (self.indicator == nil) {
+        self.indicator = [self.view viewWithTag:401];
+    }
+    if (self.localMusicBtn==nil) {
+        self.localMusicBtn = [self.view viewWithTag:111];
+    }
+    if (self.onLineMusicBtn==nil) {
+        self.onLineMusicBtn = [self.view viewWithTag:112];
+    }
+    if (scrollView.tag==302) {//上下滑动
+        if (offestY>10&&offestY<=163) {
+            CGFloat scale = offestY/163;
+            self.currentRed = (0.33-0.0627-0)*scale;
+            self.currentGreen = (0.64-0.0627-0)*scale;
+            self.currentBlue = (0.89-0.0627-0)*scale;
+            self.currentAlpha = ((1.0-0.1)*scale+0.1);
+        }else if (offestY<=10){
+            self.currentRed = 0;self.currentGreen = 0;self.currentBlue=0;self.currentAlpha = 0.1;
+        }else if (offestY>163){
+            self.currentRed =(0.33-0.0627);
+            self.currentGreen = (0.64-0.0627);
+            self.currentBlue = (0.89-0.0627);
+            self.currentAlpha = 1.0;
+        }
+        self.bgImageView.backgroundColor = [UIColor colorWithRed:self.currentRed green:self.currentGreen blue:self.currentBlue alpha:self.currentAlpha];
+    }else if(scrollView.tag==301){//左右滑动
+        if (offestX>0&&offestX<=screenWidth) {
+            CGFloat scale = offestX*1.0/screenWidth;
+             self.bgImageView.backgroundColor = [UIColor colorWithRed:((0.33-0.0627-self.currentRed)*scale+self.currentRed) green:self.currentGreen+(0.64-0.0627-self.currentGreen)*scale blue:self.currentBlue+(0.89-0.0627-self.currentBlue)*scale alpha:((1.0-self.currentAlpha)*scale+self.currentAlpha)];
+
+            CGRect cgRect = CGRectMake(screenWidth/2-80+80*scale, statusBarHeight+50-1.5, 80, 1.5);
+            self.indicator.frame = cgRect;
+            if (scale>=0.99) {
+                self.onLineMusicBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
+                self.localMusicBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+            }else if(scale<=0.01){
+                self.localMusicBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
+                self.onLineMusicBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+            }
+        }
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {

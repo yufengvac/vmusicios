@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainViewController : UIViewController
+@protocol AudioPlayerControlDelegate <NSObject>
 
+-(void)play;
+
+@end
+
+@interface MainViewController : UIViewController<UIScrollViewDelegate>
+@property CGFloat currentRed;
+@property CGFloat currentGreen;
+@property CGFloat currentBlue;
+@property CGFloat currentAlpha;
+@property (readwrite, unsafe_unretained) id<AudioPlayerControlDelegate> delegate;
 @end
