@@ -31,7 +31,6 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     MainViewController *mainController = [[MainViewController alloc]init];
-    mainController.delegate = self;
     self.window.rootViewController = mainController;
 }
 

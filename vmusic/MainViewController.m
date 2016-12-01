@@ -9,7 +9,8 @@
 #import "MainViewController.h"
 #import "UIColor+ColorChange.h"
 #import "SearchViewController.h"
-#import "TopViewController.h"
+
+#import "SCPresentTransition.h"
 
 #define screenWidth  [[UIScreen mainScreen]bounds].size.width
 #define screenHeight  ([[UIScreen mainScreen]bounds].size.height)
@@ -22,6 +23,7 @@
 @property UIButton *localMusicBtn;
 @property UIButton *onLineMusicBtn;
 @property UIScrollView *horizonScrollView;
+//@property PresentAnimation *presentAni;
 @end
 
 @implementation MainViewController
@@ -35,12 +37,11 @@
 - (void)viewDidLoad {
     [UIApplication sharedApplication].statusBarStyle=UIStatusBarStyleLightContent;
     [super viewDidLoad];
-   
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.navigationController.navigationBarHidden = YES;
     [self addHorizontalScrollView];
     [self addScrollView];
     [self addTopContent];
-    [self addChildViewController:[[TopViewController alloc]init]];
-//    [self addBottomView];
     
 }
 
@@ -362,7 +363,6 @@
             break;
         case 109:
             NSLog(@"点击了播放按钮");
-            [self.delegate play];
             break;
         case 110:
             NSLog(@"点击了歌单按钮");
@@ -377,10 +377,9 @@
             break;
         case 114:
             NSLog(@"点击了搜索按钮");
-            [self presentViewController:[[SearchViewController alloc]init] animated:NO completion:nil];
-//            [self.navigationController pushViewController:[[SearchViewController alloc]init] animated:YES];
-            break;
-        default:
+            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:[[SearchViewController alloc]init]];
+            nav.navigationBarHidden = YES;
+            [SCPresentTransition presentViewController:nav animated:YES completion:nil];
             break;
     }
 }

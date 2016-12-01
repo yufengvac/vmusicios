@@ -7,6 +7,7 @@
 //
 
 #import "SearchViewController.h"
+#import "SCPresentTransition.h"
 
 @interface SearchViewController ()
 
@@ -16,14 +17,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view setBackgroundColor:[UIColor whiteColor]];
+    [self.view setBackgroundColor:[UIColor lightGrayColor]];
     UIButton *back = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 400, 300)];
     [back setTitle:@"返回" forState:UIControlStateNormal];
     [back addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:back];
 }
 -(void)back{
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [SCPresentTransition dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {

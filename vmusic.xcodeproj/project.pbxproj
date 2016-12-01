@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		17138F961DEF1B7200C6C354 /* TopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17138F951DEF1B7200C6C354 /* TopViewController.m */; };
-		17138F9A1DEF27F500C6C354 /* PresentAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 17138F991DEF27F500C6C354 /* PresentAnimation.m */; };
 		1D7B265F1DED1D6F00A1C1A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B265E1DED1D6F00A1C1A1 /* main.m */; };
 		1D7B26621DED1D6F00A1C1A1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26611DED1D6F00A1C1A1 /* AppDelegate.m */; };
 		1D7B266A1DED1D6F00A1C1A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D7B26691DED1D6F00A1C1A1 /* Assets.xcassets */; };
@@ -26,14 +24,19 @@
 		1D7B26C11DEED98100A1C1A1 /* STKLocalFileDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26B61DEED98100A1C1A1 /* STKLocalFileDataSource.m */; };
 		1D7B26C21DEED98100A1C1A1 /* STKQueueEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26B81DEED98100A1C1A1 /* STKQueueEntry.m */; };
 		1D7B26C61DEEDEF100A1C1A1 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26C51DEEDEF100A1C1A1 /* SearchViewController.m */; };
-		1D7B26CD1DEEE5BA00A1C1A1 /* BottomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26CC1DEEE5BA00A1C1A1 /* BottomViewController.m */; };
+		1D7B27491DF0085000A1C1A1 /* SCGestureTransitionBackContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B27361DF0085000A1C1A1 /* SCGestureTransitionBackContext.m */; };
+		1D7B274A1DF0085000A1C1A1 /* SCNormalDismissTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B27381DF0085000A1C1A1 /* SCNormalDismissTransition.m */; };
+		1D7B274B1DF0085000A1C1A1 /* SCNormalPresentTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B273A1DF0085000A1C1A1 /* SCNormalPresentTransition.m */; };
+		1D7B274C1DF0085000A1C1A1 /* SCPresentTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B273C1DF0085000A1C1A1 /* SCPresentTransition.m */; };
+		1D7B274D1DF0085000A1C1A1 /* SCPushTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B273E1DF0085000A1C1A1 /* SCPushTransition.m */; };
+		1D7B274E1DF0085000A1C1A1 /* SCSwipeBackInteractionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B27401DF0085000A1C1A1 /* SCSwipeBackInteractionController.m */; };
+		1D7B274F1DF0085000A1C1A1 /* SCTransitionDelegateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B27421DF0085000A1C1A1 /* SCTransitionDelegateManager.m */; };
+		1D7B27501DF0085000A1C1A1 /* SCZoomDismissTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B27441DF0085000A1C1A1 /* SCZoomDismissTransition.m */; };
+		1D7B27511DF0085000A1C1A1 /* SCZoomPresentTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B27461DF0085000A1C1A1 /* SCZoomPresentTransition.m */; };
+		1D7B27521DF0085000A1C1A1 /* UIView+Capture.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B27481DF0085000A1C1A1 /* UIView+Capture.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		17138F941DEF1B7200C6C354 /* TopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopViewController.h; sourceTree = "<group>"; };
-		17138F951DEF1B7200C6C354 /* TopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopViewController.m; sourceTree = "<group>"; };
-		17138F981DEF27F500C6C354 /* PresentAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentAnimation.h; sourceTree = "<group>"; };
-		17138F991DEF27F500C6C354 /* PresentAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentAnimation.m; sourceTree = "<group>"; };
 		1D7B265A1DED1D6F00A1C1A1 /* vmusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vmusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D7B265E1DED1D6F00A1C1A1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1D7B26601DED1D6F00A1C1A1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -68,8 +71,26 @@
 		1D7B26B91DEED98100A1C1A1 /* StreamingKit-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "StreamingKit-Prefix.pch"; sourceTree = "<group>"; };
 		1D7B26C41DEEDEF100A1C1A1 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		1D7B26C51DEEDEF100A1C1A1 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
-		1D7B26CB1DEEE5BA00A1C1A1 /* BottomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomViewController.h; sourceTree = "<group>"; };
-		1D7B26CC1DEEE5BA00A1C1A1 /* BottomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomViewController.m; sourceTree = "<group>"; };
+		1D7B27351DF0085000A1C1A1 /* SCGestureTransitionBackContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCGestureTransitionBackContext.h; sourceTree = "<group>"; };
+		1D7B27361DF0085000A1C1A1 /* SCGestureTransitionBackContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCGestureTransitionBackContext.m; sourceTree = "<group>"; };
+		1D7B27371DF0085000A1C1A1 /* SCNormalDismissTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNormalDismissTransition.h; sourceTree = "<group>"; };
+		1D7B27381DF0085000A1C1A1 /* SCNormalDismissTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNormalDismissTransition.m; sourceTree = "<group>"; };
+		1D7B27391DF0085000A1C1A1 /* SCNormalPresentTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNormalPresentTransition.h; sourceTree = "<group>"; };
+		1D7B273A1DF0085000A1C1A1 /* SCNormalPresentTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNormalPresentTransition.m; sourceTree = "<group>"; };
+		1D7B273B1DF0085000A1C1A1 /* SCPresentTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPresentTransition.h; sourceTree = "<group>"; };
+		1D7B273C1DF0085000A1C1A1 /* SCPresentTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPresentTransition.m; sourceTree = "<group>"; };
+		1D7B273D1DF0085000A1C1A1 /* SCPushTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPushTransition.h; sourceTree = "<group>"; };
+		1D7B273E1DF0085000A1C1A1 /* SCPushTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPushTransition.m; sourceTree = "<group>"; };
+		1D7B273F1DF0085000A1C1A1 /* SCSwipeBackInteractionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSwipeBackInteractionController.h; sourceTree = "<group>"; };
+		1D7B27401DF0085000A1C1A1 /* SCSwipeBackInteractionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSwipeBackInteractionController.m; sourceTree = "<group>"; };
+		1D7B27411DF0085000A1C1A1 /* SCTransitionDelegateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCTransitionDelegateManager.h; sourceTree = "<group>"; };
+		1D7B27421DF0085000A1C1A1 /* SCTransitionDelegateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTransitionDelegateManager.m; sourceTree = "<group>"; };
+		1D7B27431DF0085000A1C1A1 /* SCZoomDismissTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCZoomDismissTransition.h; sourceTree = "<group>"; };
+		1D7B27441DF0085000A1C1A1 /* SCZoomDismissTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCZoomDismissTransition.m; sourceTree = "<group>"; };
+		1D7B27451DF0085000A1C1A1 /* SCZoomPresentTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCZoomPresentTransition.h; sourceTree = "<group>"; };
+		1D7B27461DF0085000A1C1A1 /* SCZoomPresentTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCZoomPresentTransition.m; sourceTree = "<group>"; };
+		1D7B27471DF0085000A1C1A1 /* UIView+Capture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Capture.h"; sourceTree = "<group>"; };
+		1D7B27481DF0085000A1C1A1 /* UIView+Capture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Capture.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,15 +105,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		17138F971DEF27C800C6C354 /* presentervc */ = {
-			isa = PBXGroup;
-			children = (
-				17138F981DEF27F500C6C354 /* PresentAnimation.h */,
-				17138F991DEF27F500C6C354 /* PresentAnimation.m */,
-			);
-			name = presentervc;
-			sourceTree = "<group>";
-		};
 		1D7B26511DED1D6F00A1C1A1 = {
 			isa = PBXGroup;
 			children = (
@@ -113,7 +125,7 @@
 		1D7B265C1DED1D6F00A1C1A1 /* vmusic */ = {
 			isa = PBXGroup;
 			children = (
-				1D7B26C71DEEE56700A1C1A1 /* test */,
+				1D7B27341DF0080300A1C1A1 /* transition */,
 				1D7B26C31DEEDED200A1C1A1 /* search */,
 				1D7B26871DEEBB1900A1C1A1 /* audio */,
 				1D7B267D1DED3D9100A1C1A1 /* util */,
@@ -147,7 +159,6 @@
 		1D7B267D1DED3D9100A1C1A1 /* util */ = {
 			isa = PBXGroup;
 			children = (
-				17138F971DEF27C800C6C354 /* presentervc */,
 				1D7B26831DEE8EA600A1C1A1 /* colorhelper */,
 				1D7B26821DEE8E9300A1C1A1 /* color */,
 			);
@@ -215,15 +226,31 @@
 			name = search;
 			sourceTree = "<group>";
 		};
-		1D7B26C71DEEE56700A1C1A1 /* test */ = {
+		1D7B27341DF0080300A1C1A1 /* transition */ = {
 			isa = PBXGroup;
 			children = (
-				1D7B26CB1DEEE5BA00A1C1A1 /* BottomViewController.h */,
-				1D7B26CC1DEEE5BA00A1C1A1 /* BottomViewController.m */,
-				17138F941DEF1B7200C6C354 /* TopViewController.h */,
-				17138F951DEF1B7200C6C354 /* TopViewController.m */,
+				1D7B27351DF0085000A1C1A1 /* SCGestureTransitionBackContext.h */,
+				1D7B27361DF0085000A1C1A1 /* SCGestureTransitionBackContext.m */,
+				1D7B27371DF0085000A1C1A1 /* SCNormalDismissTransition.h */,
+				1D7B27381DF0085000A1C1A1 /* SCNormalDismissTransition.m */,
+				1D7B27391DF0085000A1C1A1 /* SCNormalPresentTransition.h */,
+				1D7B273A1DF0085000A1C1A1 /* SCNormalPresentTransition.m */,
+				1D7B273B1DF0085000A1C1A1 /* SCPresentTransition.h */,
+				1D7B273C1DF0085000A1C1A1 /* SCPresentTransition.m */,
+				1D7B273D1DF0085000A1C1A1 /* SCPushTransition.h */,
+				1D7B273E1DF0085000A1C1A1 /* SCPushTransition.m */,
+				1D7B273F1DF0085000A1C1A1 /* SCSwipeBackInteractionController.h */,
+				1D7B27401DF0085000A1C1A1 /* SCSwipeBackInteractionController.m */,
+				1D7B27411DF0085000A1C1A1 /* SCTransitionDelegateManager.h */,
+				1D7B27421DF0085000A1C1A1 /* SCTransitionDelegateManager.m */,
+				1D7B27431DF0085000A1C1A1 /* SCZoomDismissTransition.h */,
+				1D7B27441DF0085000A1C1A1 /* SCZoomDismissTransition.m */,
+				1D7B27451DF0085000A1C1A1 /* SCZoomPresentTransition.h */,
+				1D7B27461DF0085000A1C1A1 /* SCZoomPresentTransition.m */,
+				1D7B27471DF0085000A1C1A1 /* UIView+Capture.h */,
+				1D7B27481DF0085000A1C1A1 /* UIView+Capture.m */,
 			);
-			name = test;
+			name = transition;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -296,23 +323,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D7B27501DF0085000A1C1A1 /* SCZoomDismissTransition.m in Sources */,
 				1D7B26621DED1D6F00A1C1A1 /* AppDelegate.m in Sources */,
+				1D7B274B1DF0085000A1C1A1 /* SCNormalPresentTransition.m in Sources */,
 				1D7B26BF1DEED98100A1C1A1 /* STKDataSourceWrapper.m in Sources */,
 				1D7B26BB1DEED98100A1C1A1 /* STKAudioPlayer.m in Sources */,
 				1D7B26C21DEED98100A1C1A1 /* STKQueueEntry.m in Sources */,
 				1D7B26C01DEED98100A1C1A1 /* STKHTTPDataSource.m in Sources */,
+				1D7B27491DF0085000A1C1A1 /* SCGestureTransitionBackContext.m in Sources */,
 				1D7B26BC1DEED98100A1C1A1 /* STKAutoRecoveringHTTPDataSource.m in Sources */,
-				17138F9A1DEF27F500C6C354 /* PresentAnimation.m in Sources */,
 				1D7B26BE1DEED98100A1C1A1 /* STKDataSource.m in Sources */,
 				1D7B26C61DEEDEF100A1C1A1 /* SearchViewController.m in Sources */,
-				17138F961DEF1B7200C6C354 /* TopViewController.m in Sources */,
+				1D7B274F1DF0085000A1C1A1 /* SCTransitionDelegateManager.m in Sources */,
 				1D7B267C1DED3D8D00A1C1A1 /* UIColor+ColorChange.m in Sources */,
+				1D7B274A1DF0085000A1C1A1 /* SCNormalDismissTransition.m in Sources */,
+				1D7B274D1DF0085000A1C1A1 /* SCPushTransition.m in Sources */,
+				1D7B274C1DF0085000A1C1A1 /* SCPresentTransition.m in Sources */,
+				1D7B274E1DF0085000A1C1A1 /* SCSwipeBackInteractionController.m in Sources */,
+				1D7B27521DF0085000A1C1A1 /* UIView+Capture.m in Sources */,
 				1D7B26771DED1F4C00A1C1A1 /* MainViewController.m in Sources */,
 				1D7B26861DEE999900A1C1A1 /* AlphaColorHelper.m in Sources */,
 				1D7B26BA1DEED98100A1C1A1 /* NSMutableArray+STKAudioPlayer.m in Sources */,
 				1D7B265F1DED1D6F00A1C1A1 /* main.m in Sources */,
 				1D7B26BD1DEED98100A1C1A1 /* STKCoreFoundationDataSource.m in Sources */,
-				1D7B26CD1DEEE5BA00A1C1A1 /* BottomViewController.m in Sources */,
+				1D7B27511DF0085000A1C1A1 /* SCZoomPresentTransition.m in Sources */,
 				1D7B26C11DEED98100A1C1A1 /* STKLocalFileDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

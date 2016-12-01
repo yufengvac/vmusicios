@@ -19,6 +19,5 @@
 @property CGFloat currentGreen;
 @property CGFloat currentBlue;
 @property CGFloat currentAlpha;
-@property (readwrite, unsafe_unretained) id<AudioPlayerControlDelegate> delegate;
 -(instancetype)initWithFrame:(CGRect)rect;
 @end
