@@ -17,13 +17,13 @@
 #define statusBarHeight 15
 #define padding 10
 #define bottomHeight 60
+#define topContentHeight 50
 @interface MainViewController ()
 @property UIImageView *bgImageView;
 @property UILabel *indicator;
 @property UIButton *localMusicBtn;
 @property UIButton *onLineMusicBtn;
 @property UIScrollView *horizonScrollView;
-//@property PresentAnimation *presentAni;
 @end
 
 @implementation MainViewController
@@ -85,24 +85,24 @@
 
 -(void)addTopContent{
     
-    UIImageView *bgImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, statusBarHeight+50)];
+    UIImageView *bgImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, statusBarHeight+topContentHeight)];
     bgImageView.tag = 201;
     [bgImageView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.1]];
     [self.view addSubview:bgImageView];
     
-    UIButton *menuBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, statusBarHeight, 50 , 50)];
+    UIButton *menuBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, statusBarHeight, topContentHeight , topContentHeight)];
     [menuBtn setImage:[UIImage imageNamed:@"main_head_left_menu"] forState:UIControlStateNormal];
     menuBtn.tag = 113;
     [menuBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:menuBtn];
     
-    UIButton *searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(screenWidth-50, statusBarHeight, 50, 50)];
+    UIButton *searchBtn = [[UIButton alloc]initWithFrame:CGRectMake(screenWidth-50, statusBarHeight, topContentHeight, topContentHeight)];
     searchBtn.tag = 114;
     [searchBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
     [searchBtn setImage:[UIImage imageNamed:@"main_head_right_search"] forState:UIControlStateNormal];
     [self.view addSubview:searchBtn];
     
-    UIButton *localMusicBtn = [[UIButton alloc]initWithFrame:CGRectMake(screenWidth/2-70, statusBarHeight, 60, 50)];
+    UIButton *localMusicBtn = [[UIButton alloc]initWithFrame:CGRectMake(screenWidth/2-70, statusBarHeight, 60, topContentHeight)];
     [localMusicBtn setTitle:@"我的" forState:UIControlStateNormal];
     localMusicBtn.tag = 111;
     [localMusicBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
@@ -111,7 +111,7 @@
     localMusicBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
     [self.view addSubview:localMusicBtn];
     
-    UIButton *onLineMusicBtn = [[UIButton alloc]initWithFrame:CGRectMake(screenWidth/2+10, statusBarHeight, 60, 50)];
+    UIButton *onLineMusicBtn = [[UIButton alloc]initWithFrame:CGRectMake(screenWidth/2+10, statusBarHeight, 60, topContentHeight)];
     [onLineMusicBtn setTitle:@"音乐库" forState:UIControlStateNormal];
     onLineMusicBtn.tag = 112;
     [onLineMusicBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
