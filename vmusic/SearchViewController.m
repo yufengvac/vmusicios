@@ -9,6 +9,9 @@
 #import "SearchViewController.h"
 #import "SCPresentTransition.h"
 #import "AVFoundation/AVFoundation.h"
+#import "SearchSongView.h"
+#import "TingSong.h"
+#include "TingAudition.h"
 #define screenWidth  [[UIScreen mainScreen]bounds].size.width
 #define screenHeight  ([[UIScreen mainScreen]bounds].size.height)
 #define statusBarHeight 15
@@ -16,23 +19,25 @@
 #define navigationViewHeight 40
 #define bottomHeight 60
 @interface SearchViewController ()
-
+@property NSMutableDictionary *diction;
+@property NSString *keyWord;
+@property NSMutableArray *songDataArray;
 @end
 
 @implementation SearchViewController
-
+BOOL hasAddView = NO;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view setBackgroundColor:[UIColor whiteColor]];
     [self addTopContent];
     
-    [self addNavigatonView];
-    [self addCollectionView];
+//    [self addNavigatonView];
+//    [self addCollectionView];
 }
 
 -(void)addTopContent{
     UIImageView *bgImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, statusBarHeight+topContentHeight)];
-    bgImageView.tag = 201;
+    bgImageView.tag = 501;
     [bgImageView setBackgroundColor:[UIColor colorWithRed:0.33-0.0627 green:0.64-0.0627 blue:0.89-0.0627 alpha:1.0]];
     [self.view addSubview:bgImageView];
     
@@ -56,6 +61,7 @@
     textField.placeholder = @"搜索音乐、歌单、专辑、MV";
     textField.font = [UIFont systemFontOfSize:13];
     textField.textColor = [UIColor whiteColor];
+    textField.delegate = self;
     textField.clearButtonMode = UITextBorderStyleNone;
     textField.returnKeyType = UIReturnKeySearch;
     textField.tintColor = [UIColor whiteColor];
@@ -74,6 +80,75 @@
     [self.view addSubview:cancel];
     
     
+}
+
+
+-(void)addLoadingTips{
+    
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake((screenWidth-150)/2, (screenHeight-20)/3, 150, 20)];
+    label.text = [NSString stringWithFormat:@"正在搜索%@",self.keyWord];
+    label.textColor = [UIColor blackColor];
+    label.font = [UIFont systemFontOfSize:15];
+    label.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:label];
+    
+    NSString *url = [NSString stringWithFormat:@"http://search.dongting.com/song/search?size=20&page=%d&q=%@",1,self.keyWord];
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSURLSessionTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error){
+        NSString *result = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"result=%@",result);
+        if (data==nil) {
+            label.text = @"无返回结果！";
+            return ;
+        }
+        NSDictionary *jsonDirc = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger pageCount = (NSInteger)[jsonDirc objectForKey:@"pageCount"];
+        self.songDataArray = [[NSMutableArray alloc]init];
+        NSMutableArray *tingSongArray =  [jsonDirc mutableArrayValueForKey:@"data"];
+        if (tingSongArray.count>0) {
+            for (int i=0; i<tingSongArray.count; i++) {
+                NSDictionary *jsonDirc1 = [tingSongArray objectAtIndex:i];
+                TingSong *tingSong = [[TingSong alloc]init];
+                tingSong.songId = (NSInteger)[jsonDirc1 objectForKey:@"songId"];
+                tingSong.name = [jsonDirc1 objectForKey:@"name"];
+                tingSong.alias = [jsonDirc1 objectForKey:@"alias"];
+                tingSong.singerId = (NSInteger)[jsonDirc1 objectForKey:@"singerId"];
+                tingSong.singerName = [jsonDirc1 objectForKey:@"singerName"];
+                tingSong.albumId  = (NSInteger)[jsonDirc1 objectForKey:@"albumId"];
+                tingSong.albumName = [jsonDirc1 objectForKey:@"albumName"];
+                tingSong.favorites = (NSInteger)[jsonDirc1 objectForKey:@"favorites"];
+                tingSong.auditionList = [[NSMutableArray alloc]init];
+                
+                NSMutableArray *auditionArray = [jsonDirc1 mutableArrayValueForKey:@"auditionList"];
+                if (auditionArray.count>0) {
+                    for (int j=0; j<auditionArray.count; j++) {
+                        TingAudition *auditon = [[TingAudition alloc]init];
+                        NSDictionary *audionDic = [auditionArray objectAtIndex:j];
+                        auditon.bitRate = (NSInteger)[audionDic objectForKey:@"auditionList"];
+                        auditon.duration = (NSInteger)[audionDic objectForKey:@"duration"];
+                        auditon.size = (NSInteger)[audionDic objectForKey:@"size"];
+                        auditon.suffix= [audionDic objectForKey:@"suffix"];
+                        auditon.url = [audionDic objectForKey:@"url"];
+                        auditon.typeDescription = [audionDic objectForKey:@"typeDescription"];
+                        [tingSong.auditionList addObject:auditon];
+                    }
+                }
+                [self.songDataArray addObject:tingSong];
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [label removeFromSuperview];
+                [self removeNavigationView];
+                [self addNavigatonView];
+                [self addCollectionView];
+            });
+        }else{
+            label.text = @"无返回结果！";
+        }
+    }];
+    [task resume];
 }
 
 
@@ -115,16 +190,147 @@
     [self.view addSubview:btn4];
     
     UILabel *line = [[UILabel alloc]initWithFrame:CGRectMake(0, baseH+navigationViewHeight, screenWidth, 0.1)];
+    line.tag = 201;
     line.backgroundColor = [UIColor blackColor];
     [self.view addSubview:line];
     
     UILabel *indcaitor = [[UILabel alloc]initWithFrame:CGRectMake(0, baseH+navigationViewHeight-1, width, 1.4)];
+    indcaitor.tag = 202;
     indcaitor.backgroundColor = [UIColor colorWithRed:0.33 green:0.64 blue:0.89 alpha:1.0];
     [self.view addSubview:indcaitor];
 }
+
+-(void)removeNavigationView{
+    UIButton *btn1 = [self.view viewWithTag:101];
+    UIButton *btn2 = [self.view viewWithTag:102];
+    UIButton *btn3 = [self.view viewWithTag:103];
+    UIButton *btn4 = [self.view viewWithTag:104];
+    
+    UILabel *label1 = [self.view viewWithTag:201];
+    UILabel *label2 = [self.view viewWithTag:202];
+    
+    UIScrollView *scrollView = [self.view viewWithTag:301];
+    if (btn1!=nil) {
+        [btn1 removeFromSuperview];
+    }
+    if (btn2!=nil) {
+        [btn2 removeFromSuperview];
+    }
+    if (btn3!=nil) {
+        [btn3 removeFromSuperview];
+    }
+    if (btn4!=nil) {
+        [btn4 removeFromSuperview];
+    }
+    if (label1!=nil) {
+        [label1 removeFromSuperview];
+    }
+    if (label2!=nil) {
+        [label2 removeFromSuperview];
+    }
+    if (scrollView!=nil) {
+        [scrollView removeFromSuperview];
+    }
+}
+//-(void)addCollectionView{
+//    CGFloat y = statusBarHeight+topContentHeight+navigationViewHeight+0.1;
+//    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
+//    [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+//    
+//    UICollectionView *collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, y , screenWidth, screenHeight - y -bottomHeight) collectionViewLayout:flowLayout];
+//    [collectionView registerClass:[SearchSongCell class] forCellWithReuseIdentifier:@"cellId"];
+//    collectionView.pagingEnabled = YES;
+//    collectionView.scrollEnabled = YES;
+//    collectionView.dataSource = self;
+//    collectionView.backgroundColor = [UIColor whiteColor];
+//    collectionView.showsHorizontalScrollIndicator = NO;
+//    [self.view addSubview:collectionView];
+//}
+
 -(void)addCollectionView{
-    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
-    [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+    CGFloat y = statusBarHeight+topContentHeight+navigationViewHeight+0.1;
+    self.diction = [[NSMutableDictionary alloc]init];
+    
+    UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, y , screenWidth, screenHeight - y -bottomHeight)];
+    scrollView.contentSize = CGSizeMake(screenWidth*4, screenHeight - y -bottomHeight);
+    scrollView.pagingEnabled = YES;
+    scrollView.scrollEnabled = YES;
+    scrollView.backgroundColor = [UIColor whiteColor];
+    scrollView.showsHorizontalScrollIndicator = YES;
+    scrollView.delegate = self;
+    scrollView.tag = 301;
+    [self.view addSubview:scrollView];
+    
+    UITableView *songTableView = [self.diction objectForKey:@"one"];
+    if (songTableView!=nil) {
+        [songTableView removeFromSuperview];
+    }
+    
+    UITableView *tableView = [[UITableView alloc]initWithFrame:scrollView.bounds];
+    tableView.dataSource = self;
+    tableView.dataSource = self;
+    tableView.scrollEnabled = YES;
+    tableView.tag = 401;
+    tableView.contentSize = CGSizeMake(scrollView.bounds.size.width ,scrollView.bounds.size.height);
+    [tableView registerClass:[SearchSongView class] forCellReuseIdentifier:@"cellId"];
+    [self.diction setObject:tableView forKey:@"one"];
+    [scrollView addSubview:tableView];
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.songDataArray.count;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    SearchSongView *cell = [tableView dequeueReusableCellWithIdentifier:@"cellId"];
+    if (cell==nil) {
+        cell = [[SearchSongView alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellId"];
+    }
+    TingSong *tingSong = self.songDataArray[indexPath.row];
+    cell.nameLabel.text =  tingSong.name;
+    cell.albumLabel.text = tingSong.albumName;
+    cell.singerLabel.text = tingSong.singerName;
+    return cell;
+}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    NSLog(@"textFieldShouldReturn");
+    if (textField.text==nil) {
+        
+    }else{
+        [textField resignFirstResponder];
+        self.keyWord = textField.text;
+        [self addLoadingTips];
+    }
+    return YES;
+}
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
+    NSLog(@"scrollViewDidEndScrollingAnimation -%.2f",scrollView.contentOffset.x);
+}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+
+    if (scrollView.contentOffset.x == 0) {
+        NSLog(@"第一页");
+        UIView *uiview = [self.diction objectForKey:@"one"];
+        if (uiview==nil) {
+             NSLog(@"第一页为nil,去加载一个");
+            UITableView *tableView = [[UITableView alloc]initWithFrame:scrollView.bounds];
+            tableView.dataSource = self;
+            tableView.dataSource = self;
+            tableView.scrollEnabled = YES;
+            tableView.contentSize = CGSizeMake(scrollView.bounds.size.width ,scrollView.bounds.size.height);
+            [self.diction setObject:tableView forKey:@"one"];
+            [scrollView addSubview:tableView];
+        }
+       
+    }else if (scrollView.contentOffset.x == screenWidth){
+        NSLog(@"第二页");
+    }else if (scrollView.contentOffset.x == screenWidth*2){
+        NSLog(@"第三页");
+    }else if (scrollView.contentOffset.x == screenWidth*3){
+        NSLog(@"第四页");
+    }
 }
 
 -(void)btnClick:(UIButton *)btn{
