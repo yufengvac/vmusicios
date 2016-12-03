@@ -14,6 +14,7 @@
 #define bottomHeight 60
 @interface AppDelegate ()
 @property(nonnull,strong) STKAudioPlayer *audioPlayer;
+@property(strong,nonatomic) NSMutableArray *musicQueueArray;
 @end
 
 @implementation AppDelegate
@@ -31,6 +32,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     MainViewController *mainController = [[MainViewController alloc]init];
+    mainController.delegate = self;
     self.window.rootViewController = mainController;
 }
 
@@ -95,7 +97,7 @@
             break;
         case 109:
             NSLog(@"点击了播放按钮");
-            
+            [self play];
             break;
         case 110:
             NSLog(@"点击了歌单按钮");
@@ -106,7 +108,7 @@
 }
 
 -(void)play{
-    NSURL *url = [NSURL URLWithString:@"http://m6.file.xiami.com/260/1260/436317/1770153970_1439388803.mp3?auth_key=0cbfb0ae5060577996899de89a49afe8-1480734000-0-null"];
+    NSURL *url = [NSURL URLWithString:@"http://m6.file.xiami.com/849/849/4058/49645_16376576_h.mp3?auth_key=53cb00c028a829badd9cc10f06140967-1481338800-0-null"];
     
     STKDataSource* dataSource = [STKAudioPlayer dataSourceFromURL:url];
     
@@ -120,6 +122,38 @@
     [self.audioPlayer queueURL:[NSURL URLWithString:@"http://m6.file.xiami.com/260/1260/33046/394604_3959845_h.mp3?auth_key=7973b0de56a9d6ccecc779a81fbe993e-1481079600-0-null"]];
     [self.audioPlayer queueURL:[NSURL URLWithString:@"http://m6.file.xiami.com/260/1260/436317/1770153970_1439388803.mp3?auth_key=0cbfb0ae5060577996899de89a49afe8-1480734000-0-null"]];
     [self.audioPlayer queueURL:[NSURL URLWithString:@"http://m6.file.xiami.com/260/1260/168592/2081179_1439370573.mp3?auth_key=69750fb56a655719cab80b2664bc3108-1481079600-0-null"]];
+}
+-(void)setTingSongQueue:(NSMutableArray *)tingSongArray{
+    NSLog(@"TingSongArray.count=%ld",tingSongArray.count);
+    if (self.musicQueueArray==nil) {
+        self.musicQueueArray = [[NSMutableArray alloc]init];
+         [self.musicQueueArray addObjectsFromArray:tingSongArray];
+    }else{
+        [self.musicQueueArray removeAllObjects];
+        [self.musicQueueArray addObjectsFromArray:tingSongArray];
+    }
+}
+
+-(void)toogglePlay:(TingSong *)tingSong{
+    NSLog(@"要播放的 是：%@",tingSong.name);
+    if (tingSong.auditionList.count>0) {
+        TingAudition *tingAudion = [tingSong.auditionList lastObject];
+        STKDataSource* dataSource = [STKAudioPlayer dataSourceFromURL:[NSURL URLWithString:tingAudion.url]];
+        
+        [self.audioPlayer playDataSource:dataSource];
+        [self.audioPlayer playURL:[NSURL URLWithString:tingAudion.url]];
+    }
+    [self.audioPlayer clearQueue];
+    for (int i=1; i<self.musicQueueArray.count; i++) {
+        TingSong *queueTingSong = [self.musicQueueArray objectAtIndex:i];
+        if (queueTingSong.auditionList.count>0) {
+             TingAudition *tingAudion = [queueTingSong.auditionList lastObject];
+             [self.audioPlayer queueURL:[NSURL URLWithString:tingAudion.url]];
+            NSLog(@"添加到第%d队列%@",i,tingAudion.url);
+        }
+       
+    }
+    NSLog(@"播放队列数量是：%ld",[self.audioPlayer pendingQueueCount]);
 }
 
 

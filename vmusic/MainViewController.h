@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SearchViewController.h"
 
 @protocol AudioPlayerControlDelegate <NSObject>
 
@@ -20,4 +21,5 @@
 @property CGFloat currentBlue;
 @property CGFloat currentAlpha;
 -(instancetype)initWithFrame:(CGRect)rect;
+@property(weak,nonatomic) id<AudioPlayerDelegate> delegate;
 @end

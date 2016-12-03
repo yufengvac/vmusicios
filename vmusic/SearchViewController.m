@@ -84,18 +84,23 @@ BOOL hasAddView = NO;
 
 
 -(void)addLoadingTips{
-    
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake((screenWidth-150)/2, (screenHeight-20)/3, 150, 20)];
-    label.text = [NSString stringWithFormat:@"正在搜索%@",self.keyWord];
-    label.textColor = [UIColor blackColor];
-    label.font = [UIFont systemFontOfSize:15];
-    label.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:label];
+    UILabel *label;
+    if ([self.view viewWithTag:203]==nil) {
+        label = [[UILabel alloc]initWithFrame:CGRectMake((screenWidth-150)/2, (screenHeight-20)/3, 150, 20)];
+        label.text = [NSString stringWithFormat:@"正在搜索%@",self.keyWord];
+        label.tag = 203;
+        label.textColor = [UIColor blackColor];
+        label.font = [UIFont systemFontOfSize:15];
+        label.textAlignment = NSTextAlignmentCenter;
+        [self.view addSubview:label];
+    }
+   
     
     NSString *url = [NSString stringWithFormat:@"http://search.dongting.com/song/search?size=20&page=%d&q=%@",1,self.keyWord];
+    NSString *urlEncode = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"`#%^{}\"[]|\\<> "].invertedSet];
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlEncode]];
     NSURLSessionTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error){
         NSString *result = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
         NSLog(@"result=%@",result);
@@ -287,7 +292,12 @@ BOOL hasAddView = NO;
     }else{
         return 80;
     }
-   
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [self.delegate setTingSongQueue:self.songDataArray];
+    [self.delegate toogglePlay:[self.songDataArray objectAtIndex:indexPath.row]];
+    TingSong *tingSong = [self.songDataArray objectAtIndex:indexPath.row];
+    NSLog(@"名字是：%@",tingSong.name);
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -298,6 +308,7 @@ BOOL hasAddView = NO;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     SearchSongCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellId"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (cell==nil) {
         cell = [[SearchSongCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellId"];
     }
@@ -322,7 +333,6 @@ BOOL hasAddView = NO;
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
 
     if (scrollView.contentOffset.x == 0) {
-        NSLog(@"第一页");
         UIView *uiview = [self.diction objectForKey:@"one"];
         if (uiview==nil) {
              NSLog(@"第一页为nil,去加载一个");

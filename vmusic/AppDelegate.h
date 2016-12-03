@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "MainViewController.h"
-@interface AppDelegate : UIResponder <UIApplicationDelegate,AudioPlayerControlDelegate>
+#import "SearchViewController.h"
+@interface AppDelegate : UIResponder <UIApplicationDelegate,AudioPlayerControlDelegate,AudioPlayerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

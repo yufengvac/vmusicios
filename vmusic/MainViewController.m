@@ -377,7 +377,9 @@
             break;
         case 114:
             NSLog(@"点击了搜索按钮");
-            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:[[SearchViewController alloc]init]];
+            SearchViewController *searchView = [[SearchViewController alloc]init];
+            searchView.delegate = self.delegate;
+            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:searchView];
             nav.navigationBarHidden = YES;
             [SCPresentTransition presentViewController:nav animated:YES completion:nil];
             break;
