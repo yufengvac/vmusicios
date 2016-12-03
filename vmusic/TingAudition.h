@@ -16,9 +16,9 @@
 #import <Foundation/Foundation.h>
 
 @interface TingAudition : NSObject
-@property(nonatomic,assign) NSInteger bitRate;
-@property(nonatomic,assign) NSInteger duration;
-@property(nonatomic,assign) NSInteger size;
+@property(nonatomic,assign) NSNumber *bitRate;
+@property(nonatomic,assign) NSNumber *duration;
+@property(nonatomic,assign) NSNumber *size;
 @property(nonatomic,strong) NSString *suffix;
 @property(nonatomic,strong) NSString *url;
 @property(nonatomic,strong) NSString *typeDescription;

@@ -34,7 +34,7 @@
 		1D7B27501DF0085000A1C1A1 /* SCZoomDismissTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B27441DF0085000A1C1A1 /* SCZoomDismissTransition.m */; };
 		1D7B27511DF0085000A1C1A1 /* SCZoomPresentTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B27461DF0085000A1C1A1 /* SCZoomPresentTransition.m */; };
 		1D7B27521DF0085000A1C1A1 /* UIView+Capture.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B27481DF0085000A1C1A1 /* UIView+Capture.m */; };
-		1D7B27561DF11BD700A1C1A1 /* SearchSongView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B27551DF11BD700A1C1A1 /* SearchSongView.m */; };
+		1D7B27561DF11BD700A1C1A1 /* SearchSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B27551DF11BD700A1C1A1 /* SearchSongCell.m */; };
 		1D7B275A1DF15F4A00A1C1A1 /* TingSong.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B27591DF15F4A00A1C1A1 /* TingSong.m */; };
 		1D7B277F1DF162BE00A1C1A1 /* TingAudition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B277E1DF162BE00A1C1A1 /* TingAudition.m */; };
 /* End PBXBuildFile section */
@@ -94,8 +94,8 @@
 		1D7B27461DF0085000A1C1A1 /* SCZoomPresentTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCZoomPresentTransition.m; sourceTree = "<group>"; };
 		1D7B27471DF0085000A1C1A1 /* UIView+Capture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Capture.h"; sourceTree = "<group>"; };
 		1D7B27481DF0085000A1C1A1 /* UIView+Capture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Capture.m"; sourceTree = "<group>"; };
-		1D7B27541DF11BD700A1C1A1 /* SearchSongView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchSongView.h; sourceTree = "<group>"; };
-		1D7B27551DF11BD700A1C1A1 /* SearchSongView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchSongView.m; sourceTree = "<group>"; };
+		1D7B27541DF11BD700A1C1A1 /* SearchSongCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchSongCell.h; sourceTree = "<group>"; };
+		1D7B27551DF11BD700A1C1A1 /* SearchSongCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchSongCell.m; sourceTree = "<group>"; };
 		1D7B27581DF15F4A00A1C1A1 /* TingSong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TingSong.h; sourceTree = "<group>"; };
 		1D7B27591DF15F4A00A1C1A1 /* TingSong.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TingSong.m; sourceTree = "<group>"; };
 		1D7B277D1DF162BE00A1C1A1 /* TingAudition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TingAudition.h; sourceTree = "<group>"; };
@@ -267,8 +267,8 @@
 		1D7B27531DF11BB800A1C1A1 /* searchcell */ = {
 			isa = PBXGroup;
 			children = (
-				1D7B27541DF11BD700A1C1A1 /* SearchSongView.h */,
-				1D7B27551DF11BD700A1C1A1 /* SearchSongView.m */,
+				1D7B27541DF11BD700A1C1A1 /* SearchSongCell.h */,
+				1D7B27551DF11BD700A1C1A1 /* SearchSongCell.m */,
 			);
 			name = searchcell;
 			sourceTree = "<group>";
@@ -364,7 +364,7 @@
 				1D7B26C01DEED98100A1C1A1 /* STKHTTPDataSource.m in Sources */,
 				1D7B27491DF0085000A1C1A1 /* SCGestureTransitionBackContext.m in Sources */,
 				1D7B26BC1DEED98100A1C1A1 /* STKAutoRecoveringHTTPDataSource.m in Sources */,
-				1D7B27561DF11BD700A1C1A1 /* SearchSongView.m in Sources */,
+				1D7B27561DF11BD700A1C1A1 /* SearchSongCell.m in Sources */,
 				1D7B26BE1DEED98100A1C1A1 /* STKDataSource.m in Sources */,
 				1D7B26C61DEEDEF100A1C1A1 /* SearchViewController.m in Sources */,
 				1D7B274F1DF0085000A1C1A1 /* SCTransitionDelegateManager.m in Sources */,

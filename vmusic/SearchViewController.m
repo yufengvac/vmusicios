@@ -9,7 +9,7 @@
 #import "SearchViewController.h"
 #import "SCPresentTransition.h"
 #import "AVFoundation/AVFoundation.h"
-#import "SearchSongView.h"
+#import "SearchSongCell.h"
 #import "TingSong.h"
 #include "TingAudition.h"
 #define screenWidth  [[UIScreen mainScreen]bounds].size.width
@@ -104,37 +104,39 @@ BOOL hasAddView = NO;
             return ;
         }
         NSDictionary *jsonDirc = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-        NSInteger pageCount = (NSInteger)[jsonDirc objectForKey:@"pageCount"];
+//        NSNumber *pageCount = [jsonDirc objectForKey:@"pageCount"];
         self.songDataArray = [[NSMutableArray alloc]init];
         NSMutableArray *tingSongArray =  [jsonDirc mutableArrayValueForKey:@"data"];
         if (tingSongArray.count>0) {
             for (int i=0; i<tingSongArray.count; i++) {
                 NSDictionary *jsonDirc1 = [tingSongArray objectAtIndex:i];
                 TingSong *tingSong = [[TingSong alloc]init];
-                tingSong.songId = (NSInteger)[jsonDirc1 objectForKey:@"songId"];
+                tingSong.songId = [jsonDirc1 objectForKey:@"songId"];
                 tingSong.name = [jsonDirc1 objectForKey:@"name"];
                 tingSong.alias = [jsonDirc1 objectForKey:@"alias"];
-                tingSong.singerId = (NSInteger)[jsonDirc1 objectForKey:@"singerId"];
+                tingSong.singerId = [jsonDirc1 objectForKey:@"singerId"];
                 tingSong.singerName = [jsonDirc1 objectForKey:@"singerName"];
-                tingSong.albumId  = (NSInteger)[jsonDirc1 objectForKey:@"albumId"];
+                tingSong.albumId  = [jsonDirc1 objectForKey:@"albumId"];
                 tingSong.albumName = [jsonDirc1 objectForKey:@"albumName"];
-                tingSong.favorites = (NSInteger)[jsonDirc1 objectForKey:@"favorites"];
+                tingSong.favorites = [jsonDirc1 objectForKey:@"favorites"];
                 tingSong.auditionList = [[NSMutableArray alloc]init];
                 
                 NSMutableArray *auditionArray = [jsonDirc1 mutableArrayValueForKey:@"auditionList"];
+                
                 if (auditionArray.count>0) {
                     for (int j=0; j<auditionArray.count; j++) {
                         TingAudition *auditon = [[TingAudition alloc]init];
                         NSDictionary *audionDic = [auditionArray objectAtIndex:j];
-                        auditon.bitRate = (NSInteger)[audionDic objectForKey:@"auditionList"];
-                        auditon.duration = (NSInteger)[audionDic objectForKey:@"duration"];
-                        auditon.size = (NSInteger)[audionDic objectForKey:@"size"];
+                        auditon.bitRate = [audionDic objectForKey:@"bitRate"];
+                        auditon.duration = [audionDic objectForKey:@"duration"];
+                        auditon.size = [audionDic objectForKey:@"size"];
                         auditon.suffix= [audionDic objectForKey:@"suffix"];
                         auditon.url = [audionDic objectForKey:@"url"];
                         auditon.typeDescription = [audionDic objectForKey:@"typeDescription"];
                         [tingSong.auditionList addObject:auditon];
                     }
                 }
+                
                 [self.songDataArray addObject:tingSong];
             }
             
@@ -194,7 +196,7 @@ BOOL hasAddView = NO;
     line.backgroundColor = [UIColor blackColor];
     [self.view addSubview:line];
     
-    UILabel *indcaitor = [[UILabel alloc]initWithFrame:CGRectMake(0, baseH+navigationViewHeight-1, width, 1.4)];
+    UILabel *indcaitor = [[UILabel alloc]initWithFrame:CGRectMake(0, baseH+navigationViewHeight-1, width, 2)];
     indcaitor.tag = 202;
     indcaitor.backgroundColor = [UIColor colorWithRed:0.33 green:0.64 blue:0.89 alpha:1.0];
     [self.view addSubview:indcaitor];
@@ -268,13 +270,24 @@ BOOL hasAddView = NO;
     
     UITableView *tableView = [[UITableView alloc]initWithFrame:scrollView.bounds];
     tableView.dataSource = self;
-    tableView.dataSource = self;
+    tableView.delegate = self;
     tableView.scrollEnabled = YES;
     tableView.tag = 401;
+    tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 0);
     tableView.contentSize = CGSizeMake(scrollView.bounds.size.width ,scrollView.bounds.size.height);
-    [tableView registerClass:[SearchSongView class] forCellReuseIdentifier:@"cellId"];
+    [tableView registerClass:[SearchSongCell class] forCellReuseIdentifier:@"cellId"];
     [self.diction setObject:tableView forKey:@"one"];
     [scrollView addSubview:tableView];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    TingSong *tingSong = [self.songDataArray objectAtIndex:indexPath.row];
+    if([tingSong.alias isKindOfClass:[NSNull class]]||tingSong.alias==nil||tingSong.alias.length==0){
+        return 60;
+    }else{
+        return 80;
+    }
+   
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -284,14 +297,12 @@ BOOL hasAddView = NO;
     return self.songDataArray.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    SearchSongView *cell = [tableView dequeueReusableCellWithIdentifier:@"cellId"];
+    SearchSongCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellId"];
     if (cell==nil) {
-        cell = [[SearchSongView alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellId"];
+        cell = [[SearchSongCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellId"];
     }
     TingSong *tingSong = self.songDataArray[indexPath.row];
-    cell.nameLabel.text =  tingSong.name;
-    cell.albumLabel.text = tingSong.albumName;
-    cell.singerLabel.text = tingSong.singerName;
+    [cell setTingSong:tingSong];
     return cell;
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -316,7 +327,7 @@ BOOL hasAddView = NO;
         if (uiview==nil) {
              NSLog(@"第一页为nil,去加载一个");
             UITableView *tableView = [[UITableView alloc]initWithFrame:scrollView.bounds];
-            tableView.dataSource = self;
+            tableView.delegate = self;
             tableView.dataSource = self;
             tableView.scrollEnabled = YES;
             tableView.contentSize = CGSizeMake(scrollView.bounds.size.width ,scrollView.bounds.size.height);

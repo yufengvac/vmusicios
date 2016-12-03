@@ -7,16 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TingAudition.h"
 #import "UIKit/UIKit.h"
 
 @interface TingSong : NSObject
-@property(nonatomic,assign) NSInteger songId;
+@property(nonatomic,assign) NSNumber *songId;
 @property(nonatomic,strong) NSString *name;
 @property(nonatomic,strong) NSString *alias;
-@property(nonatomic,assign) NSInteger singerId;
+@property(nonatomic,assign) NSNumber *singerId;
 @property(nonatomic,strong) NSString *singerName;
-@property(nonatomic,assign) NSInteger albumId;
+@property(nonatomic,assign) NSNumber *albumId;
 @property(nonatomic,strong) NSString *albumName;
-@property(nonatomic,assign) NSInteger favorites;
+@property(nonatomic,assign) NSNumber *favorites;
 @property(nonatomic,strong) NSMutableArray *auditionList;
 @end
