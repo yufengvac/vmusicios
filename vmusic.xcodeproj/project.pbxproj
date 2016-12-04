@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		177CB99B1DF4049B00E197C9 /* MyMusicQueueId.m in Sources */ = {isa = PBXBuildFile; fileRef = 177CB99A1DF4049B00E197C9 /* MyMusicQueueId.m */; };
+		177CB9A01DF4331B00E197C9 /* TingSongUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 177CB99F1DF4331B00E197C9 /* TingSongUtil.m */; };
 		1D7B265F1DED1D6F00A1C1A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B265E1DED1D6F00A1C1A1 /* main.m */; };
 		1D7B26621DED1D6F00A1C1A1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B26611DED1D6F00A1C1A1 /* AppDelegate.m */; };
 		1D7B266A1DED1D6F00A1C1A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D7B26691DED1D6F00A1C1A1 /* Assets.xcassets */; };
@@ -40,6 +42,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		177CB9991DF4049B00E197C9 /* MyMusicQueueId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyMusicQueueId.h; sourceTree = "<group>"; };
+		177CB99A1DF4049B00E197C9 /* MyMusicQueueId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMusicQueueId.m; sourceTree = "<group>"; };
+		177CB99E1DF4331B00E197C9 /* TingSongUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TingSongUtil.h; sourceTree = "<group>"; };
+		177CB99F1DF4331B00E197C9 /* TingSongUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TingSongUtil.m; sourceTree = "<group>"; };
 		1D7B265A1DED1D6F00A1C1A1 /* vmusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vmusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D7B265E1DED1D6F00A1C1A1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1D7B26601DED1D6F00A1C1A1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -114,6 +120,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		177CB9981DF4048E00E197C9 /* quque */ = {
+			isa = PBXGroup;
+			children = (
+				177CB9991DF4049B00E197C9 /* MyMusicQueueId.h */,
+				177CB99A1DF4049B00E197C9 /* MyMusicQueueId.m */,
+			);
+			name = quque;
+			sourceTree = "<group>";
+		};
+		177CB99C1DF4186C00E197C9 /* http */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = http;
+			sourceTree = "<group>";
+		};
+		177CB99D1DF432FF00E197C9 /* tingsongutil */ = {
+			isa = PBXGroup;
+			children = (
+				177CB99E1DF4331B00E197C9 /* TingSongUtil.h */,
+				177CB99F1DF4331B00E197C9 /* TingSongUtil.m */,
+			);
+			name = tingsongutil;
+			sourceTree = "<group>";
+		};
 		1D7B26511DED1D6F00A1C1A1 = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +199,9 @@
 		1D7B267D1DED3D9100A1C1A1 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				177CB99D1DF432FF00E197C9 /* tingsongutil */,
+				177CB99C1DF4186C00E197C9 /* http */,
+				177CB9981DF4048E00E197C9 /* quque */,
 				1D7B26831DEE8EA600A1C1A1 /* colorhelper */,
 				1D7B26821DEE8E9300A1C1A1 /* color */,
 			);
@@ -383,8 +417,10 @@
 				1D7B26771DED1F4C00A1C1A1 /* MainViewController.m in Sources */,
 				1D7B26861DEE999900A1C1A1 /* AlphaColorHelper.m in Sources */,
 				1D7B26BA1DEED98100A1C1A1 /* NSMutableArray+STKAudioPlayer.m in Sources */,
+				177CB9A01DF4331B00E197C9 /* TingSongUtil.m in Sources */,
 				1D7B265F1DED1D6F00A1C1A1 /* main.m in Sources */,
 				1D7B26BD1DEED98100A1C1A1 /* STKCoreFoundationDataSource.m in Sources */,
+				177CB99B1DF4049B00E197C9 /* MyMusicQueueId.m in Sources */,
 				1D7B27511DF0085000A1C1A1 /* SCZoomPresentTransition.m in Sources */,
 				1D7B26C11DEED98100A1C1A1 /* STKLocalFileDataSource.m in Sources */,
 			);

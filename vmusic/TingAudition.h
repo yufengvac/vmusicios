@@ -15,7 +15,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TingAudition : NSObject
+@interface TingAudition : NSObject<NSCoding>
 @property(nonatomic,assign) NSNumber *bitRate;
 @property(nonatomic,assign) NSNumber *duration;
 @property(nonatomic,assign) NSNumber *size;

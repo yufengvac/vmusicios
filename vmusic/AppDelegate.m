@@ -9,12 +9,16 @@
 #import "AppDelegate.h"
 #import "STKAudioPlayer.h"
 #import <AVFoundation/AVFoundation.h>
+#import "MyMusicQueueId.h"
+#import "TingSongUtil.h"
 #define screenWidth  [[UIScreen mainScreen]bounds].size.width
 #define screenHeight  [[UIScreen mainScreen]bounds].size.height
 #define bottomHeight 60
 @interface AppDelegate ()
 @property(nonnull,strong) STKAudioPlayer *audioPlayer;
 @property(strong,nonatomic) NSMutableArray *musicQueueArray;
+@property(assign,nonatomic) int index;
+@property(strong,nonatomic) TingSong *currentTingSong;
 @end
 
 @implementation AppDelegate
@@ -49,6 +53,7 @@
     }];
 }
 -(void)addBottomView{
+    
     NSInteger baseHeight = screenHeight - bottomHeight;
     NSInteger margin = 10;
     
@@ -64,6 +69,7 @@
     singerImageView.layer.masksToBounds = YES;
     singerImageView.image = [UIImage imageNamed:@"default_bg"];
     singerImageView.layer.cornerRadius = (bottomHeight-margin*2)/2;
+    singerImageView.tag = 301;
     [btn addSubview:singerImageView];
     
     NSInteger width = bottomHeight-20;
@@ -79,6 +85,31 @@
     [songListBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
     [btn addSubview:songListBtn];
     [self.window addSubview:btn];
+    
+    UILabel *songNameLable = [[UILabel alloc]initWithFrame:CGRectMake(bottomHeight,(bottomHeight-20)/3, screenWidth-bottomHeight-width*2, 20)];
+    songNameLable.font = [UIFont systemFontOfSize:15];
+    songNameLable.textColor = [UIColor blackColor];
+    songNameLable.tag = 201;
+    songNameLable.text = @"";
+    [btn addSubview:songNameLable];
+    
+    UILabel *singerNameLable = [[UILabel alloc]initWithFrame:CGRectMake(bottomHeight,(bottomHeight-20)/3+20, screenWidth-bottomHeight-width*2, 20)];
+    singerNameLable.tag = 202;
+    singerNameLable.font = [UIFont systemFontOfSize:13];
+    singerNameLable.textColor = [UIColor grayColor];
+    singerNameLable.text = @"";
+    [btn addSubview:singerNameLable];
+    
+    [self initializeDefaultDataList];
+    NSNumber *lastSongId = [[NSUserDefaults standardUserDefaults] objectForKey:@"id"];
+    self.index = [TingSongUtil getIndexOfMusicQueue:self.musicQueueArray bySongId:lastSongId];
+    if (self.index>0) {
+        self.currentTingSong = self.musicQueueArray[self.index];
+        songNameLable.text = self.currentTingSong.name;
+        singerNameLable.text = self.currentTingSong.singerName;
+        [self loadSingerPic:self.currentTingSong.singerName];
+        
+    }
 }
 -(void)initAudio{
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
@@ -86,7 +117,9 @@
     self.audioPlayer = [[STKAudioPlayer alloc] initWithOptions:(STKAudioPlayerOptions){ .flushQueueOnSeek = YES, .enableVolumeMixer = NO, .equalizerBandFrequencies = {50, 100, 200, 400, 800, 1600, 2600, 16000} }];
     self.audioPlayer.meteringEnabled = YES;
     self.audioPlayer.volume = 1;
-    
+    self.audioPlayer.delegate = self;
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    [self becomeFirstResponder];
 }
 
 -(void)btnClick:(UIButton *)btn{
@@ -94,10 +127,23 @@
     switch (tag) {
         case 108:
             NSLog(@"点击底部的widget");
+            
+            [self.audioPlayer seekToTime:200];
             break;
         case 109:
-            NSLog(@"点击了播放按钮");
-            [self play];
+            if (!self.audioPlayer){
+                return;
+            }
+            
+            if (self.audioPlayer.state == STKAudioPlayerStatePaused){
+                [self.audioPlayer resume];
+                [btn setImage:[UIImage imageNamed:@"icon_pause"] forState:UIControlStateNormal];
+            }else if(self.audioPlayer.state == STKAudioPlayerStatePlaying){
+                [self.audioPlayer pause];
+                [btn setImage:[UIImage imageNamed:@"icon_play"] forState:UIControlStateNormal];
+            }else{
+                [self toogglePlay:self.currentTingSong index:self.index];
+            }
             break;
         case 110:
             NSLog(@"点击了歌单按钮");
@@ -131,31 +177,133 @@
     }else{
         [self.musicQueueArray removeAllObjects];
         [self.musicQueueArray addObjectsFromArray:tingSongArray];
+        
     }
 }
 
--(void)toogglePlay:(TingSong *)tingSong{
+-(void)toogglePlay:(TingSong *)tingSong index:(int)index{
     NSLog(@"要播放的 是：%@",tingSong.name);
     if (tingSong.auditionList.count>0) {
         TingAudition *tingAudion = [tingSong.auditionList lastObject];
-        STKDataSource* dataSource = [STKAudioPlayer dataSourceFromURL:[NSURL URLWithString:tingAudion.url]];
+        NSURL *playUrl = [NSURL URLWithString:tingAudion.url];
+        STKDataSource* dataSource = [STKAudioPlayer dataSourceFromURL:playUrl];
         
-        [self.audioPlayer playDataSource:dataSource];
-        [self.audioPlayer playURL:[NSURL URLWithString:tingAudion.url]];
+        [self.audioPlayer setDataSource:dataSource withQueueItemId:[[MyMusicQueueId alloc]initWithUrl:playUrl andCount:0 andTingSong:tingSong]];
     }
-    [self.audioPlayer clearQueue];
-    for (int i=1; i<self.musicQueueArray.count; i++) {
+
+    for (int i=index+1; i<self.musicQueueArray.count; i++) {
         TingSong *queueTingSong = [self.musicQueueArray objectAtIndex:i];
         if (queueTingSong.auditionList.count>0) {
              TingAudition *tingAudion = [queueTingSong.auditionList lastObject];
-             [self.audioPlayer queueURL:[NSURL URLWithString:tingAudion.url]];
+            NSURL *ququeUrl = [NSURL URLWithString:tingAudion.url];
+            [self.audioPlayer queueURL:ququeUrl withQueueItemId:[[MyMusicQueueId alloc]initWithUrl:ququeUrl andCount:0 andTingSong:queueTingSong]];
             NSLog(@"添加到第%d队列%@",i,tingAudion.url);
         }
        
     }
-    NSLog(@"播放队列数量是：%ld",[self.audioPlayer pendingQueueCount]);
+    
+//    NSURL *queueUrl = [NSURL URLWithString:@"http://m6.file.xiami.com/260/1260/168592/2081179_1439370573.mp3?auth_key=69750fb56a655719cab80b2664bc3108-1481079600-0-null"] ;
+//    [self.audioPlayer queueURL:queueUrl withQueueItemId:[[MyMusicQueueId alloc]initWithUrl:queueUrl andCount:0]];
+
+    
+    
+    UILabel *songNameLabel = [[self.window viewWithTag:108] viewWithTag:201];
+    songNameLabel.text = tingSong.name;
+    UILabel *singerLabel = [[self.window viewWithTag:108] viewWithTag:202];
+    singerLabel.text = tingSong.singerName;
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.musicQueueArray];
+    
+    [defaults setObject:data forKey:@"musicQueueArray"];
+    [defaults setObject:tingSong.songId forKey:@"id"];
+    [defaults synchronize];
+    
+//    for (int i=0; i<self.musicQueueArray.count; i++) {
+//        TingSong *ts = self.musicQueueArray[i];
+//        NSLog(@"%@",[ts description]);
+//    }
+    
+//    NSArray *pendingQueue  = self.audioPlayer.pendingQueue;
+//    for (int i=0; i<pendingQueue.count; i++) {
+//        NSString *t = pendingQueue[i];
+//        NSLog(@"播放队列%d,名字是：%@",i,t);
+//    }
+//    NSLog(@"播放队列数量是：%ld",[self.audioPlayer pendingQueueCount]);
 }
 
+-(void)audioPlayer:(STKAudioPlayer *)audioPlayer didStartPlayingQueueItemId:(NSObject *)queueItemId{
+    NSLog(@"didStartPlayingQueueItemId");
+    TingSong *tingSong = ((MyMusicQueueId *)queueItemId).tingSong;
+    UILabel *songNameLabel = [[self.window viewWithTag:108] viewWithTag:201];
+    songNameLabel.text = tingSong.name;
+    UILabel *singerLabel = [[self.window viewWithTag:108] viewWithTag:202];
+    singerLabel.text = tingSong.singerName;
+    [self loadSingerPic:tingSong.name];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:tingSong.songId forKey:@"id"];
+    [defaults synchronize];
+}
+-(void)audioPlayer:(STKAudioPlayer *)audioPlayer didFinishBufferingSourceWithQueueItemId:(NSObject *)queueItemId{
+    NSLog(@"didFinishBufferingSourceWithQueueItemId");
+}
+-(void)audioPlayer:(STKAudioPlayer *)audioPlayer stateChanged:(STKAudioPlayerState)state previousState:(STKAudioPlayerState)previousState{
+    NSLog(@"stateChanged");
+    UIButton *btn = [self.window viewWithTag:109];
+    if (state == STKAudioPlayerStatePaused){
+        [btn setImage:[UIImage imageNamed:@"icon_play"] forState:UIControlStateNormal];
+    }else{
+        [btn setImage:[UIImage imageNamed:@"icon_pause"] forState:UIControlStateNormal];
+    }
+}
+-(void)audioPlayer:(STKAudioPlayer *)audioPlayer unexpectedError:(STKAudioPlayerErrorCode)errorCode{
+    NSLog(@"===========unexpectedError=============");
+}
+-(void)audioPlayer:(STKAudioPlayer *)audioPlayer logInfo:(NSString *)line{
+    NSLog(@"logInfo--%@",line);
+}
+-(void)audioPlayer:(STKAudioPlayer *)audioPlayer didCancelQueuedItems:(NSArray *)queuedItems{
+    NSLog(@"didCancelQueueItems");
+}
+-(void)audioPlayer:(STKAudioPlayer *)audioPlayer didFinishPlayingQueueItemId:(NSObject *)queueItemId withReason:(STKAudioPlayerStopReason)stopReason andProgress:(double)progress andDuration:(double)duration{
+    NSLog(@"");
+}
+
+-(void)loadSingerPic:(NSString *)singerName{
+    NSString *url = [NSString stringWithFormat:@"http://search.dongting.com/artist/search?q=%@&size=1",singerName];
+    NSString *urlEncode = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"`#%^{}\"[]|\\<> "].invertedSet];
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlEncode]];
+    NSURLSessionTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error){
+        if ([data isKindOfClass:[NSNull class]]||data ==nil) {
+            return;
+        }
+        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+        NSMutableArray *array = [json mutableArrayValueForKey:@"data"];
+        if (array.count>0) {
+            NSDictionary *json1 = [array objectAtIndex:0];
+            NSString *picUrl = [NSString stringWithFormat:@"%@",[json1 objectForKey:@"pic_url"]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIImageView *singerImageView = [[self.window viewWithTag:108] viewWithTag:301];
+                [singerImageView setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:picUrl]]]];
+            });
+        }
+    }];
+    [task resume];
+}
+
+-(void)initializeDefaultDataList{
+    NSUserDefaults   *defaults = [NSUserDefaults standardUserDefaults];
+    NSData   *savedEncodedData = [defaults objectForKey:@"musicQueueArray"];
+    if(savedEncodedData   == nil){
+        NSMutableArray   *sightingList = [[NSMutableArray alloc] init];
+        self.musicQueueArray   = sightingList;
+    }else{
+        self.musicQueueArray   = (NSMutableArray *)[NSKeyedUnarchiver unarchiveObjectWithData:savedEncodedData];
+    }
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

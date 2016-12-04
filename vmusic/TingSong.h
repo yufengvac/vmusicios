@@ -10,7 +10,7 @@
 #import "TingAudition.h"
 #import "UIKit/UIKit.h"
 
-@interface TingSong : NSObject
+@interface TingSong : NSObject<NSCoding>
 @property(nonatomic,assign) NSNumber *songId;
 @property(nonatomic,strong) NSString *name;
 @property(nonatomic,strong) NSString *alias;

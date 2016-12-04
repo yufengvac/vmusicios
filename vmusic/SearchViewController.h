@@ -12,7 +12,7 @@
 @protocol AudioPlayerDelegate <NSObject>
 
 -(void)setTingSongQueue:(NSMutableArray *)tingSongArray;
--(void)toogglePlay:(TingSong *)tingSong;
+-(void)toogglePlay:(TingSong *)tingSong index:(int) index;
 @end
 
 @interface SearchViewController : UIViewController<UIScrollViewDelegate,UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>

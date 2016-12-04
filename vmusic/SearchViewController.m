@@ -117,12 +117,12 @@ BOOL hasAddView = NO;
                 NSDictionary *jsonDirc1 = [tingSongArray objectAtIndex:i];
                 TingSong *tingSong = [[TingSong alloc]init];
                 tingSong.songId = [jsonDirc1 objectForKey:@"songId"];
-                tingSong.name = [jsonDirc1 objectForKey:@"name"];
-                tingSong.alias = [jsonDirc1 objectForKey:@"alias"];
+                tingSong.name = [NSString stringWithFormat:@"%@",[jsonDirc1 objectForKey:@"name"]];
+                tingSong.alias = [NSString stringWithFormat:@"%@",[jsonDirc1 objectForKey:@"alias"]];
                 tingSong.singerId = [jsonDirc1 objectForKey:@"singerId"];
-                tingSong.singerName = [jsonDirc1 objectForKey:@"singerName"];
+                tingSong.singerName = [NSString stringWithFormat:@"%@",[jsonDirc1 objectForKey:@"singerName"]];
                 tingSong.albumId  = [jsonDirc1 objectForKey:@"albumId"];
-                tingSong.albumName = [jsonDirc1 objectForKey:@"albumName"];
+                tingSong.albumName = [NSString stringWithFormat:@"%@",[jsonDirc1 objectForKey:@"albumName"]];
                 tingSong.favorites = [jsonDirc1 objectForKey:@"favorites"];
                 tingSong.auditionList = [[NSMutableArray alloc]init];
                 
@@ -295,9 +295,7 @@ BOOL hasAddView = NO;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self.delegate setTingSongQueue:self.songDataArray];
-    [self.delegate toogglePlay:[self.songDataArray objectAtIndex:indexPath.row]];
-    TingSong *tingSong = [self.songDataArray objectAtIndex:indexPath.row];
-    NSLog(@"名字是：%@",tingSong.name);
+    [self.delegate toogglePlay:[self.songDataArray objectAtIndex:indexPath.row] index:(int)indexPath.row];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
