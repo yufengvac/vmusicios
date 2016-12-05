@@ -39,6 +39,9 @@
 		1D7B27561DF11BD700A1C1A1 /* SearchSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B27551DF11BD700A1C1A1 /* SearchSongCell.m */; };
 		1D7B275A1DF15F4A00A1C1A1 /* TingSong.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B27591DF15F4A00A1C1A1 /* TingSong.m */; };
 		1D7B277F1DF162BE00A1C1A1 /* TingAudition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7B277E1DF162BE00A1C1A1 /* TingAudition.m */; };
+		1DB223B31DF57A5C00702A3F /* AudioPlayerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB223B21DF57A5C00702A3F /* AudioPlayerDelegate.m */; };
+		1DC7E2D61DF51CBB0087D6AF /* MusicQueueSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC7E2D51DF51CBB0087D6AF /* MusicQueueSheetView.m */; };
+		1DC7E2D91DF542EC0087D6AF /* MusicQueueCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC7E2D81DF542EC0087D6AF /* MusicQueueCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +109,12 @@
 		1D7B27591DF15F4A00A1C1A1 /* TingSong.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TingSong.m; sourceTree = "<group>"; };
 		1D7B277D1DF162BE00A1C1A1 /* TingAudition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TingAudition.h; sourceTree = "<group>"; };
 		1D7B277E1DF162BE00A1C1A1 /* TingAudition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TingAudition.m; sourceTree = "<group>"; };
+		1DB223B11DF57A5C00702A3F /* AudioPlayerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioPlayerDelegate.h; sourceTree = "<group>"; };
+		1DB223B21DF57A5C00702A3F /* AudioPlayerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioPlayerDelegate.m; sourceTree = "<group>"; };
+		1DC7E2D41DF51CBB0087D6AF /* MusicQueueSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicQueueSheetView.h; sourceTree = "<group>"; };
+		1DC7E2D51DF51CBB0087D6AF /* MusicQueueSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicQueueSheetView.m; sourceTree = "<group>"; };
+		1DC7E2D71DF542EC0087D6AF /* MusicQueueCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicQueueCell.h; sourceTree = "<group>"; };
+		1DC7E2D81DF542EC0087D6AF /* MusicQueueCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicQueueCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +174,8 @@
 		1D7B265C1DED1D6F00A1C1A1 /* vmusic */ = {
 			isa = PBXGroup;
 			children = (
+				1DB223B01DF57A0C00702A3F /* protocol */,
+				1DC7E2D31DF51BDE0087D6AF /* musicqueue */,
 				1D7B27341DF0080300A1C1A1 /* transition */,
 				1D7B26C31DEEDED200A1C1A1 /* search */,
 				1D7B26871DEEBB1900A1C1A1 /* audio */,
@@ -318,6 +329,26 @@
 			name = SearchModel;
 			sourceTree = "<group>";
 		};
+		1DB223B01DF57A0C00702A3F /* protocol */ = {
+			isa = PBXGroup;
+			children = (
+				1DB223B11DF57A5C00702A3F /* AudioPlayerDelegate.h */,
+				1DB223B21DF57A5C00702A3F /* AudioPlayerDelegate.m */,
+			);
+			name = protocol;
+			sourceTree = "<group>";
+		};
+		1DC7E2D31DF51BDE0087D6AF /* musicqueue */ = {
+			isa = PBXGroup;
+			children = (
+				1DC7E2D41DF51CBB0087D6AF /* MusicQueueSheetView.h */,
+				1DC7E2D51DF51CBB0087D6AF /* MusicQueueSheetView.m */,
+				1DC7E2D71DF542EC0087D6AF /* MusicQueueCell.h */,
+				1DC7E2D81DF542EC0087D6AF /* MusicQueueCell.m */,
+			);
+			name = musicqueue;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -394,6 +425,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D7B27501DF0085000A1C1A1 /* SCZoomDismissTransition.m in Sources */,
+				1DC7E2D91DF542EC0087D6AF /* MusicQueueCell.m in Sources */,
 				1D7B26621DED1D6F00A1C1A1 /* AppDelegate.m in Sources */,
 				1D7B274B1DF0085000A1C1A1 /* SCNormalPresentTransition.m in Sources */,
 				1D7B26BF1DEED98100A1C1A1 /* STKDataSourceWrapper.m in Sources */,
@@ -402,6 +434,7 @@
 				1D7B275A1DF15F4A00A1C1A1 /* TingSong.m in Sources */,
 				1D7B26C01DEED98100A1C1A1 /* STKHTTPDataSource.m in Sources */,
 				1D7B27491DF0085000A1C1A1 /* SCGestureTransitionBackContext.m in Sources */,
+				1DB223B31DF57A5C00702A3F /* AudioPlayerDelegate.m in Sources */,
 				1D7B26BC1DEED98100A1C1A1 /* STKAutoRecoveringHTTPDataSource.m in Sources */,
 				1D7B27561DF11BD700A1C1A1 /* SearchSongCell.m in Sources */,
 				1D7B26BE1DEED98100A1C1A1 /* STKDataSource.m in Sources */,
@@ -419,6 +452,7 @@
 				1D7B26BA1DEED98100A1C1A1 /* NSMutableArray+STKAudioPlayer.m in Sources */,
 				177CB9A01DF4331B00E197C9 /* TingSongUtil.m in Sources */,
 				1D7B265F1DED1D6F00A1C1A1 /* main.m in Sources */,
+				1DC7E2D61DF51CBB0087D6AF /* MusicQueueSheetView.m in Sources */,
 				1D7B26BD1DEED98100A1C1A1 /* STKCoreFoundationDataSource.m in Sources */,
 				177CB99B1DF4049B00E197C9 /* MyMusicQueueId.m in Sources */,
 				1D7B27511DF0085000A1C1A1 /* SCZoomPresentTransition.m in Sources */,

@@ -8,12 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "TingSong.h"
+#import "AudioPlayerDelegate.h"
 
-@protocol AudioPlayerDelegate <NSObject>
-
--(void)setTingSongQueue:(NSMutableArray *)tingSongArray;
--(void)toogglePlay:(TingSong *)tingSong index:(int) index;
-@end
 
 @interface SearchViewController : UIViewController<UIScrollViewDelegate,UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
 @property(weak,nonatomic) id<AudioPlayerDelegate> delegate;

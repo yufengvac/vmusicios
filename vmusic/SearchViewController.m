@@ -11,7 +11,7 @@
 #import "AVFoundation/AVFoundation.h"
 #import "SearchSongCell.h"
 #import "TingSong.h"
-#include "TingAudition.h"
+#import "TingAudition.h"
 #define screenWidth  [[UIScreen mainScreen]bounds].size.width
 #define screenHeight  ([[UIScreen mainScreen]bounds].size.height)
 #define statusBarHeight 15
@@ -22,6 +22,8 @@
 @property NSMutableDictionary *diction;
 @property NSString *keyWord;
 @property NSMutableArray *songDataArray;
+@property int curIndex;
+@property BOOL isLoading;
 @end
 
 @implementation SearchViewController
@@ -94,9 +96,14 @@ BOOL hasAddView = NO;
         label.textAlignment = NSTextAlignmentCenter;
         [self.view addSubview:label];
     }
+    self.curIndex = 1;
+    self.isLoading = YES;
+    [self loadData:self.curIndex withLabel:label];
    
-    
-    NSString *url = [NSString stringWithFormat:@"http://search.dongting.com/song/search?size=20&page=%d&q=%@",1,self.keyWord];
+}
+
+-(void)loadData:(int)index withLabel:(UILabel *)label{
+    NSString *url = [NSString stringWithFormat:@"http://search.dongting.com/song/search?size=20&page=%d&q=%@",index,self.keyWord];
     NSString *urlEncode = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"`#%^{}\"[]|\\<> "].invertedSet];
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
@@ -105,12 +112,19 @@ BOOL hasAddView = NO;
         NSString *result = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
         NSLog(@"result=%@",result);
         if (data==nil) {
-            label.text = @"无返回结果！";
+            if (label!=nil) {
+                label.text = @"无返回结果！";
+            }else{
+                NSLog(@"无更多数据");
+            }
+            
             return ;
         }
         NSDictionary *jsonDirc = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-//        NSNumber *pageCount = [jsonDirc objectForKey:@"pageCount"];
-        self.songDataArray = [[NSMutableArray alloc]init];
+        //        NSNumber *pageCount = [jsonDirc objectForKey:@"pageCount"];
+        if (index==1) {
+            self.songDataArray = [[NSMutableArray alloc]init];
+        }
         NSMutableArray *tingSongArray =  [jsonDirc mutableArrayValueForKey:@"data"];
         if (tingSongArray.count>0) {
             for (int i=0; i<tingSongArray.count; i++) {
@@ -146,16 +160,28 @@ BOOL hasAddView = NO;
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [label removeFromSuperview];
-                [self removeNavigationView];
-                [self addNavigatonView];
-                [self addCollectionView];
+                self.isLoading = NO;
+                if (index==1) {
+                    [label removeFromSuperview];
+                    [self removeNavigationView];
+                    [self addNavigatonView];
+                    [self addCollectionView];
+                }else{
+                    UITableView *tableView = [[self.view viewWithTag:301]viewWithTag:401];
+                    [tableView reloadData];
+                }
             });
         }else{
-            label.text = @"无返回结果！";
+            if (label!=nil) {
+                label.text = @"无返回结果！";
+            }else{
+                NSLog(@"----无更多数据");
+            }
+           
         }
     }];
     [task resume];
+    
 }
 
 
@@ -333,12 +359,15 @@ BOOL hasAddView = NO;
     if (scrollView.contentOffset.x == 0) {
         UIView *uiview = [self.diction objectForKey:@"one"];
         if (uiview==nil) {
-             NSLog(@"第一页为nil,去加载一个");
+            NSLog(@"第一页为nil,去加载一个");
             UITableView *tableView = [[UITableView alloc]initWithFrame:scrollView.bounds];
-            tableView.delegate = self;
             tableView.dataSource = self;
+            tableView.delegate = self;
             tableView.scrollEnabled = YES;
+            tableView.tag = 401;
+            tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 0);
             tableView.contentSize = CGSizeMake(scrollView.bounds.size.width ,scrollView.bounds.size.height);
+            [tableView registerClass:[SearchSongCell class] forCellReuseIdentifier:@"cellId"];
             [self.diction setObject:tableView forKey:@"one"];
             [scrollView addSubview:tableView];
         }
@@ -349,6 +378,20 @@ BOOL hasAddView = NO;
         NSLog(@"第三页");
     }else if (scrollView.contentOffset.x == screenWidth*3){
         NSLog(@"第四页");
+    }
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (tableView.tag == 401) {
+        if (tableView.contentOffset.y+tableView.frame.size.height>tableView.contentSize.height) {
+            if (!self.isLoading) {
+                self.isLoading = YES;
+                self.curIndex++;
+                NSLog(@"加载第%d页",self.curIndex);
+                [self loadData:self.curIndex withLabel:nil];
+            }
+           
+        }
     }
 }
 

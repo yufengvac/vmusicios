@@ -11,6 +11,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "MyMusicQueueId.h"
 #import "TingSongUtil.h"
+#import "MusicQueueSheetView.h"
 #define screenWidth  [[UIScreen mainScreen]bounds].size.width
 #define screenHeight  [[UIScreen mainScreen]bounds].size.height
 #define bottomHeight 60
@@ -147,8 +148,10 @@
             break;
         case 110:
             NSLog(@"点击了歌单按钮");
-            break;
-        default:
+            MusicQueueSheetView *musicQueueView = [[MusicQueueSheetView alloc]init];
+            musicQueueView.delegate = self;
+            musicQueueView.dataArray = self.musicQueueArray;
+            [musicQueueView showInView:self.window];
             break;
     }
 }

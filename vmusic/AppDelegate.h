@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MainViewController.h"
-#import "SearchViewController.h"
+#import "AudioPlayerDelegate.h"
 #import "STKAudioPlayer.h"
 @interface AppDelegate : UIResponder <UIApplicationDelegate,AudioPlayerControlDelegate,AudioPlayerDelegate,STKAudioPlayerDelegate>
 
