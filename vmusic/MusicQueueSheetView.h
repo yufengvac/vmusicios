@@ -12,6 +12,7 @@
 @interface MusicQueueSheetView : UIView<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong) UIView *contentView;
 @property(nonatomic,strong) NSMutableArray *dataArray;
+@property(nonatomic,assign) int curIndex;
 -(void)showInView:(UIView *)view;
 @property(weak,nonatomic) id<AudioPlayerDelegate> delegate;
 @end

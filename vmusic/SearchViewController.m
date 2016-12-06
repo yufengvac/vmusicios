@@ -320,8 +320,13 @@ BOOL hasAddView = NO;
     }
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    TingSong *tingSong = [self.songDataArray objectAtIndex:indexPath.row];
+    if (tingSong.auditionList.count==0) {
+        return;
+    }
     [self.delegate setTingSongQueue:self.songDataArray];
-    [self.delegate toogglePlay:[self.songDataArray objectAtIndex:indexPath.row] index:(int)indexPath.row];
+   
+    [self.delegate initPlay:tingSong.songId index:(int)indexPath.row];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

@@ -40,7 +40,7 @@
     }
     return self;
 }
--(void)setData:(TingSong *)tingSong{
+-(void)setData:(TingSong *)tingSong withFocuseIndex:(int)index withRow:(NSInteger)row{
     self.name.frame = CGRectMake(margin*1.5,(btnSize-20)/2 , screenWidth/2, 20);
     self.name.text = tingSong.name;
     
@@ -56,6 +56,19 @@
     
     self.favorBtn.frame = CGRectMake(screenWidth-btnSize*2, 0, btnSize, btnSize);
     self.deleteBtn.frame= CGRectMake(screenWidth-btnSize, 0, btnSize, btnSize);
+    
+    if (tingSong.auditionList.count==0) {
+        self.name.enabled = NO;
+        self.singerName.enabled = NO;
+    }else{
+        self.name.enabled = YES;
+        self.name.enabled = YES;
+    }
+    
+    if (row==index) {
+        self.name.textColor = [UIColor colorWithRed:0.33 green:0.64 blue:0.89 alpha:1.0];
+        self.singerName.textColor = [UIColor colorWithRed:0.33 green:0.64 blue:0.89 alpha:1.0];
+    }
 }
 
 - (CGSize)sizeWithString:(NSString *)str font:(UIFont *)font maxSize:(CGSize)maxSize

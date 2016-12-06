@@ -18,5 +18,5 @@
 @property(nonatomic,strong) UIButton *deleteBtn;
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
--(void)setData:(TingSong *)tingSong;
+-(void)setData:(TingSong *)tingSong withFocuseIndex:(int)index withRow:(NSInteger)row;
 @end

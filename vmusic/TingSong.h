@@ -20,4 +20,5 @@
 @property(nonatomic,strong) NSString *albumName;
 @property(nonatomic,assign) NSNumber *favorites;
 @property(nonatomic,strong) NSMutableArray *auditionList;
+
 @end

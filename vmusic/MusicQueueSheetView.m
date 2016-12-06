@@ -116,13 +116,18 @@
         cell = [[MusicQueueCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     TingSong *tingSong =self.dataArray[indexPath.row];
-    [cell setData:tingSong];
+    [cell setData:tingSong withFocuseIndex:self.curIndex withRow:indexPath.row];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    [self.delegate setTingSongQueue:self.dataArray];
-    [self.delegate toogglePlay:[self.dataArray objectAtIndex:indexPath.row] index:(int)indexPath.row];
+    TingSong *tingSong = [self.dataArray objectAtIndex:indexPath.row];
+    if (tingSong.auditionList.count==0) {
+        return;
+    }
+    [self.delegate setTingSongQueue:self.dataArray];
+    
+    [self.delegate initPlay:tingSong.songId index:(int)indexPath.row];
 }
 
 -(void)btnClick:(UIButton *)btn{

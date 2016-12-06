@@ -11,7 +11,7 @@
 @protocol AudioPlayerDelegate <NSObject>
 
 -(void)setTingSongQueue:(NSMutableArray *)tingSongArray;
--(void)toogglePlay:(TingSong *)tingSong index:(int) index;
+-(void)initPlay:(NSNumber *)songId index:(int) index;
 @end
 @interface AudioPlayerDelegate : NSObject
 

@@ -21,7 +21,7 @@
     [coder encodeObject:self.albumName forKey:@"albumName"];
     [coder encodeObject:self.favorites forKey:@"favorites"];
     [coder encodeObject:self.auditionList forKey:@"auditionList"];
-    
+//    [coder encodeObject:self.foucseIndex forKey:@"foucseIndex"];
 }
 -(instancetype)initWithCoder:(NSCoder *)aDecoder{
     if (self ==[super init]) {
@@ -34,6 +34,7 @@
         self.albumName = [aDecoder decodeObjectForKey:@"albumName"];
         self.favorites = [aDecoder decodeObjectForKey:@"favorites"];
         self.auditionList = [aDecoder decodeObjectForKey:@"auditionList"];
+//        self.foucseIndex = [aDecoder decodeObjectForKey:@"foucseIndex"];
     }
     return self;
 }

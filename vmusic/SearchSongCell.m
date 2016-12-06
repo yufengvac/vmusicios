@@ -86,6 +86,14 @@
             self.qualityImageView.image = [UIImage imageNamed:@"icon_hq"];
             [self.contentView addSubview:self.qualityImageView];
         }
+        self.nameLabel.enabled = YES;
+        self.singerLabel.enabled = YES;
+        self.albumLabel.enabled = YES;
+
+    }else{
+        self.nameLabel.enabled = NO;
+        self.singerLabel.enabled = NO;
+        self.albumLabel.enabled = NO;
     }
     
 }
