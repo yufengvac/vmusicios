@@ -47,7 +47,7 @@
         modeImageView.image = [UIImage imageNamed:@"icon_mode_all_repeat"];
         [btn addSubview:modeImageView];
         
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(margin+25, 0, screenWidth/2, topBarHeight)];
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(margin+35, 0, screenWidth/2, topBarHeight)];
         label.textColor = [UIColor blackColor];
         label.font = [UIFont systemFontOfSize:15];
         label.textAlignment = NSTextAlignmentLeft;
@@ -100,6 +100,7 @@
 //    tableView.separatorColor = [UIColor_ColorChange colorWithHexString:@"#949494"];
     tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     [tableView registerClass:[MusicQueueCell class] forCellReuseIdentifier:@"cell"];
+    [tableView scrollToNearestSelectedRowAtScrollPosition:self.curIndex animated:NO];
     [self.contentView addSubview:tableView];
 }
 
@@ -125,7 +126,7 @@
     if (tingSong.auditionList.count==0) {
         return;
     }
-    [self.delegate setTingSongQueue:self.dataArray];
+//    [self.delegate setTingSongQueue:self.dataArray];
     
     [self.delegate initPlay:tingSong.songId index:(int)indexPath.row];
 }

@@ -42,6 +42,7 @@
 		1DB223B31DF57A5C00702A3F /* AudioPlayerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB223B21DF57A5C00702A3F /* AudioPlayerDelegate.m */; };
 		1DC7E2D61DF51CBB0087D6AF /* MusicQueueSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC7E2D51DF51CBB0087D6AF /* MusicQueueSheetView.m */; };
 		1DC7E2D91DF542EC0087D6AF /* MusicQueueCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC7E2D81DF542EC0087D6AF /* MusicQueueCell.m */; };
+		1DD876C01DF7F69200AA5D43 /* PlayMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD876BF1DF7F69200AA5D43 /* PlayMusicViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -115,6 +116,8 @@
 		1DC7E2D51DF51CBB0087D6AF /* MusicQueueSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicQueueSheetView.m; sourceTree = "<group>"; };
 		1DC7E2D71DF542EC0087D6AF /* MusicQueueCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicQueueCell.h; sourceTree = "<group>"; };
 		1DC7E2D81DF542EC0087D6AF /* MusicQueueCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicQueueCell.m; sourceTree = "<group>"; };
+		1DD876BE1DF7F69200AA5D43 /* PlayMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayMusicViewController.h; sourceTree = "<group>"; };
+		1DD876BF1DF7F69200AA5D43 /* PlayMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayMusicViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +177,7 @@
 		1D7B265C1DED1D6F00A1C1A1 /* vmusic */ = {
 			isa = PBXGroup;
 			children = (
+				1DD876BD1DF7F1A400AA5D43 /* playmusic */,
 				1DB223B01DF57A0C00702A3F /* protocol */,
 				1DC7E2D31DF51BDE0087D6AF /* musicqueue */,
 				1D7B27341DF0080300A1C1A1 /* transition */,
@@ -349,6 +353,15 @@
 			name = musicqueue;
 			sourceTree = "<group>";
 		};
+		1DD876BD1DF7F1A400AA5D43 /* playmusic */ = {
+			isa = PBXGroup;
+			children = (
+				1DD876BE1DF7F69200AA5D43 /* PlayMusicViewController.h */,
+				1DD876BF1DF7F69200AA5D43 /* PlayMusicViewController.m */,
+			);
+			name = playmusic;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -440,6 +453,7 @@
 				1D7B26BE1DEED98100A1C1A1 /* STKDataSource.m in Sources */,
 				1D7B26C61DEEDEF100A1C1A1 /* SearchViewController.m in Sources */,
 				1D7B274F1DF0085000A1C1A1 /* SCTransitionDelegateManager.m in Sources */,
+				1DD876C01DF7F69200AA5D43 /* PlayMusicViewController.m in Sources */,
 				1D7B267C1DED3D8D00A1C1A1 /* UIColor+ColorChange.m in Sources */,
 				1D7B274A1DF0085000A1C1A1 /* SCNormalDismissTransition.m in Sources */,
 				1D7B277F1DF162BE00A1C1A1 /* TingAudition.m in Sources */,

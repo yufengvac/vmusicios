@@ -68,6 +68,9 @@
     if (row==index) {
         self.name.textColor = [UIColor colorWithRed:0.33 green:0.64 blue:0.89 alpha:1.0];
         self.singerName.textColor = [UIColor colorWithRed:0.33 green:0.64 blue:0.89 alpha:1.0];
+    }else{
+        self.name.textColor = [UIColor blackColor];
+        self.singerName.textColor = [UIColor_ColorChange colorWithHexString:@"#949494"];
     }
 }
 

@@ -13,6 +13,8 @@
 #import "TingSongUtil.h"
 #import "MusicQueueSheetView.h"
 #import "UIColor+ColorChange.h"
+#import "PlayMusicViewController.h"
+#import "SCPresentTransition.h"
 #define screenWidth  [[UIScreen mainScreen]bounds].size.width
 #define screenHeight  [[UIScreen mainScreen]bounds].size.height
 #define bottomHeight 60
@@ -32,7 +34,8 @@
     [self initWindow];
     [self addSplashScreen];
     [self initAudio];
-    
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(showBottom) name:@"showBottom" object:nil];
     return YES;
 }
 -(void)initWindow{
@@ -64,12 +67,6 @@
     self.progressTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateUi) userInfo:nil repeats:YES];
     [self.progressTimer setFireDate:[NSDate distantFuture]];
     
-//    UILabel *line = [[UILabel alloc]initWithFrame:CGRectMake(0,baseHeight, screenWidth, 0.3)];
-//    line.backgroundColor = [UIColor blackColor];
-//    [self.window addSubview:line];
-    
-    
-    
     UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0, baseHeight, screenWidth, bottomHeight)];
     btn.backgroundColor = [UIColor whiteColor];
     btn.tag = 108;
@@ -90,6 +87,7 @@
     singerImageView.image = [UIImage imageNamed:@"default_bg"];
     singerImageView.layer.cornerRadius = (bottomHeight-margin*2)/2;
     singerImageView.tag = 301;
+    singerImageView.contentMode = UIViewContentModeScaleAspectFill;
     [btn addSubview:singerImageView];
     
     NSInteger width = bottomHeight-20;
@@ -104,7 +102,7 @@
     songListBtn.tag = 110;
     [songListBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
     [btn addSubview:songListBtn];
-    [self.window addSubview:btn];
+    
     
     UILabel *songNameLable = [[UILabel alloc]initWithFrame:CGRectMake(bottomHeight,(bottomHeight-20)/3, screenWidth-bottomHeight-width*2, 20)];
     songNameLable.font = [UIFont systemFontOfSize:15];
@@ -120,6 +118,8 @@
     singerNameLable.text = @"";
     [btn addSubview:singerNameLable];
     
+    [self.window addSubview:btn];
+    
     [self initializeDefaultDataList];
     NSNumber *lastSongId = [[NSUserDefaults standardUserDefaults] objectForKey:@"id"];
     self.currentIndex = [TingSongUtil getIndexOfMusicQueue:self.musicQueueArray bySongId:lastSongId];
@@ -130,6 +130,12 @@
         [self loadSingerPic:self.currentTingSong.singerName];
         
     }
+    
+}
+
+-(void)showBottom{
+    UIButton *btn = [self.window viewWithTag:108];
+    btn.hidden = NO;
 }
 -(void)initAudio{
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
@@ -146,9 +152,9 @@
     NSInteger tag = btn.tag;
     switch (tag) {
         case 108:
-            NSLog(@"点击底部的widget");
-            
-            [self.audioPlayer seekToTime:self.audioPlayer.duration-10];
+            btn.hidden = YES;
+            [self.window.rootViewController presentViewController:[[PlayMusicViewController alloc]init] animated: YES completion:nil];
+//            [self.audioPlayer seekToTime:self.audioPlayer.duration-10];
             break;
         case 109:
             if (!self.audioPlayer){
@@ -194,15 +200,15 @@
 }
 -(void)setTingSongQueue:(NSMutableArray *)tingSongArray{
     NSLog(@"TingSongArray.count=%ld",tingSongArray.count);
-//    if (self.musicQueueArray==nil) {
+    if (self.musicQueueArray==nil) {
         self.musicQueueArray = [[NSMutableArray alloc]init];
          [self.musicQueueArray addObjectsFromArray:tingSongArray];
          NSLog(@"musicQueueArray.count=%ld",tingSongArray.count);
-//    }else{
-//        [self.musicQueueArray removeAllObjects];
-//        [self.musicQueueArray addObjectsFromArray:tingSongArray];
-//        NSLog(@"self.musicQueueArray.count=%ld",self.musicQueueArray.count);
-//    }
+    }else{
+        [self.musicQueueArray removeAllObjects];
+        [self.musicQueueArray addObjectsFromArray:tingSongArray];
+        NSLog(@"self.musicQueueArray.count=%ld",self.musicQueueArray.count);
+    }
 }
 
 
@@ -283,16 +289,20 @@
 
 -(void)playSong:(int)index{
     if (index>=self.musicQueueArray.count) {
-        NSLog(@"超过了最后一条");
+        NSLog(@"index=%d,self.musicQueueArray.count = %ld,超过了最后一条",index,self.musicQueueArray.count);
         return;
     }
+//    [self.audioPlayer stop];
     self.currentTingSong = self.musicQueueArray[index];
     if (self.currentTingSong.auditionList.count>0) {
         TingAudition *tingAudition = [self.currentTingSong.auditionList lastObject];
         NSURL *playUrl = [NSURL URLWithString:tingAudition.url];
-        STKDataSource* dataSource = [STKAudioPlayer dataSourceFromURL:playUrl];
+//        STKDataSource* dataSource = [STKAudioPlayer dataSourceFromURL:playUrl];
         
-        [self.audioPlayer playDataSource:dataSource withQueueItemID:[[MyMusicQueueId alloc]initWithUrl:playUrl andCount:0 andTingSong:self.currentTingSong]];
+//        [self.audioPlayer playDataSource:dataSource withQueueItemID:[[MyMusicQueueId alloc]initWithUrl:playUrl andCount:0 andTingSong:self.currentTingSong]];
+        self.progressView.progress = 0;
+        [self.audioPlayer playURL:playUrl withQueueItemID:[[MyMusicQueueId alloc]initWithUrl:playUrl andCount:0 andTingSong:self.currentTingSong]];
+        
         [self loadSingerPic:self.currentTingSong.singerName];
         
     }else{
@@ -302,7 +312,9 @@
 
 -(void)updateUi{
     double percent =  [self.audioPlayer progress]/[self.audioPlayer duration];
-    self.progressView.progress = percent;
+    if (!isnan(percent)) {
+        self.progressView.progress = percent;
+    }
 }
 
 //-(void)toogglePlay:(TingSong *)tingSong index:(int)index{
@@ -323,7 +335,6 @@
 ////            [self.audioPlayer queueURL:ququeUrl withQueueItemId:[[MyMusicQueueId alloc]initWithUrl:ququeUrl andCount:0 andTingSong:queueTingSong]];
 ////            NSLog(@"添加到第%d队列%@",i,tingAudion.url);
 ////        }
-////       
 ////    }
 //    
 ////    NSURL *queueUrl = [NSURL URLWithString:@"http://m6.file.xiami.com/260/1260/168592/2081179_1439370573.mp3?auth_key=69750fb56a655719cab80b2664bc3108-1481079600-0-null"] ;
@@ -363,7 +374,7 @@
     songNameLabel.text = tingSong.name;
     UILabel *singerLabel = [[self.window viewWithTag:108] viewWithTag:202];
     singerLabel.text = tingSong.singerName;
-    [self loadSingerPic:tingSong.name];
+    [self loadSingerPic:tingSong.singerName];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:tingSong.songId forKey:@"id"];
@@ -397,16 +408,20 @@
     NSLog(@"didCancelQueueItems");
 }
 -(void)audioPlayer:(STKAudioPlayer *)audioPlayer didFinishPlayingQueueItemId:(NSObject *)queueItemId withReason:(STKAudioPlayerStopReason)stopReason andProgress:(double)progress andDuration:(double)duration{
-    TingSong *tingSong = ((MyMusicQueueId *)queueItemId).tingSong;
-    NSLog(@"didFinishPlayingQueueItemId=%@,progress=%f",tingSong.name,progress);
-    self.currentIndex = self.currentIndex+1;
-    [self playSong:self.currentIndex];
+    NSLog(@"STKAudioPlayerStopReason=%ld",stopReason);
+    if (stopReason==1) {
+        TingSong *tingSong = ((MyMusicQueueId *)queueItemId).tingSong;
+        NSLog(@"didFinishPlayingQueueItemId=%@,progress=%f",tingSong.name,progress);
+        self.currentIndex = self.currentIndex+1;
+        [self playSong:self.currentIndex];
+    }
 }
 
 -(void)loadSingerPic:(NSString *)singerName{
     dispatch_queue_t serialQueue = dispatch_queue_create("loadSingerPic", DISPATCH_QUEUE_SERIAL);
     dispatch_async(serialQueue, ^{
         NSString *url = [NSString stringWithFormat:@"http://search.dongting.com/artist/search?q=%@&size=1",singerName];
+        NSLog(@"loadSingerPic->%@",singerName);
         NSString *urlEncode = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"`#%^{}\"[]|\\<> "].invertedSet];
         NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
@@ -444,6 +459,7 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+    NSLog(@"applicationWillResignActive");
 }
 
 
@@ -466,14 +482,13 @@
     if (self.progressTimer!=nil) {
         [self.progressTimer setFireDate:[NSDate distantPast]];
     }
-    
+    NSLog(@"applicationDidBecomeActive");
 }
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
-
 
 
 

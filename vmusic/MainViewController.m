@@ -42,7 +42,7 @@
     [self addHorizontalScrollView];
     [self addScrollView];
     [self addTopContent];
-    
+//    [self addBottomView];
 }
 
 -(void)addHorizontalScrollView{
@@ -437,6 +437,80 @@
             }
         }
     }
+    
+}
+
+-(void)addBottomView{
+    
+    NSInteger baseHeight = screenHeight - bottomHeight;
+    NSInteger margin = 10;
+    
+//    UIProgressView *progressTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateUi) userInfo:nil repeats:YES];
+//    [progressTimer setFireDate:[NSDate distantFuture]];
+    
+    UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0, baseHeight, screenWidth, bottomHeight)];
+    btn.backgroundColor = [UIColor whiteColor];
+    btn.tag = 108;
+    [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
+    
+    UIProgressView *progressView = [[UIProgressView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 1)];
+    progressView.trackTintColor = [UIColor_ColorChange colorWithHexString:@"#EBEDED"];
+    progressView.progressTintColor = [UIColor colorWithRed:0.33 green:0.64 blue:0.89 alpha:1.0];
+    progressView.progressViewStyle = UIProgressViewStyleBar;
+    CGAffineTransform transform = CGAffineTransformMakeScale(1.0f, 0.5f);
+    progressView.transform = transform;
+    progressView.progress = 0;
+    progressView.tag = 1000;
+    [btn addSubview:progressView];
+    
+    UIImageView *singerImageView = [[UIImageView alloc]initWithFrame:CGRectMake(margin, margin, bottomHeight-margin*2, bottomHeight-margin*2)];
+    singerImageView.layer.masksToBounds = YES;
+    singerImageView.image = [UIImage imageNamed:@"default_bg"];
+    singerImageView.layer.cornerRadius = (bottomHeight-margin*2)/2;
+    singerImageView.tag = 301;
+    singerImageView.contentMode = UIViewContentModeScaleAspectFill;
+    [btn addSubview:singerImageView];
+    
+    NSInteger width = bottomHeight-20;
+    UIButton *playBtn = [[UIButton alloc]initWithFrame:CGRectMake(screenWidth-width*2, 10, width, width)];
+    [playBtn setImage:[UIImage imageNamed:@"icon_play"] forState:UIControlStateNormal];
+    playBtn.tag = 109;
+    [playBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
+    [btn addSubview:playBtn];
+    
+    UIButton *songListBtn =[[UIButton alloc]initWithFrame:CGRectMake(screenWidth-width, 10, width, width)];
+    [songListBtn setImage:[UIImage imageNamed:@"icon_songlist"] forState:UIControlStateNormal];
+    songListBtn.tag = 110;
+    [songListBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
+    [btn addSubview:songListBtn];
+    
+    
+    UILabel *songNameLable = [[UILabel alloc]initWithFrame:CGRectMake(bottomHeight,(bottomHeight-20)/3, screenWidth-bottomHeight-width*2, 20)];
+    songNameLable.font = [UIFont systemFontOfSize:15];
+    songNameLable.textColor = [UIColor blackColor];
+    songNameLable.tag = 201;
+    songNameLable.text = @"";
+    [btn addSubview:songNameLable];
+    
+    UILabel *singerNameLable = [[UILabel alloc]initWithFrame:CGRectMake(bottomHeight,(bottomHeight-20)/3+20, screenWidth-bottomHeight-width*2, 20)];
+    singerNameLable.tag = 202;
+    singerNameLable.font = [UIFont systemFontOfSize:13];
+    singerNameLable.textColor = [UIColor grayColor];
+    singerNameLable.text = @"";
+    [btn addSubview:singerNameLable];
+    
+    [self.view addSubview:btn];
+    
+//    [self initializeDefaultDataList];
+//    NSNumber *lastSongId = [[NSUserDefaults standardUserDefaults] objectForKey:@"id"];
+//    self.currentIndex = [TingSongUtil getIndexOfMusicQueue:self.musicQueueArray bySongId:lastSongId];
+//    if (self.currentIndex>0) {
+//        self.currentTingSong = self.musicQueueArray[self.currentIndex];
+//        songNameLable.text = self.currentTingSong.name;
+//        singerNameLable.text = self.currentTingSong.singerName;
+//        [self loadSingerPic:self.currentTingSong.singerName];
+//        
+//    }
     
 }
 
