@@ -37,6 +37,8 @@ BOOL hasAddView = NO;
 //    [self addCollectionView];
 }
 
+
+
 -(void)addTopContent{
     UIImageView *bgImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, statusBarHeight+topContentHeight)];
     bgImageView.tag = 501;

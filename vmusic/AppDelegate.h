@@ -10,10 +10,16 @@
 #import "MainViewController.h"
 #import "AudioPlayerDelegate.h"
 #import "STKAudioPlayer.h"
-@interface AppDelegate : UIResponder <UIApplicationDelegate,AudioPlayerControlDelegate,AudioPlayerDelegate,STKAudioPlayerDelegate>
 
+@protocol OtherSongPlayDelegate <NSObject>
+
+-(void)newSongWillPlay:(TingSong *)oldTingSong andNewSong:(TingSong *)newSong;
+-(void)newSongDidPlay:(TingSong *)newSong;
+
+@end
+@interface AppDelegate : UIResponder <UIApplicationDelegate,AudioPlayerControlDelegate,AudioPlayerDelegate,STKAudioPlayerDelegate>
 @property (strong, nonatomic) UIWindow *window;
 
-
+@property (weak,nonatomic) id<OtherSongPlayDelegate> otherSongPlayDelegate;
 @end
 

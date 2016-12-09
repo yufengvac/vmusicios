@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AudioPlayerDelegate.h"
+#import "STKAudioPlayer.h"
+#import "AppDelegate.h"
 
-@interface PlayMusicViewController : UIViewController
-
+@interface PlayMusicViewController : UIViewController<OtherSongPlayDelegate>
+@property(weak,nonatomic) id<AudioPlayerDelegate> delegate;
+@property(weak,nonatomic) STKAudioPlayer *audioPlayer;
 @end

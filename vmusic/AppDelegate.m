@@ -15,6 +15,7 @@
 #import "UIColor+ColorChange.h"
 #import "PlayMusicViewController.h"
 #import "SCPresentTransition.h"
+#import "UIImageView+WebCache.h"
 #define screenWidth  [[UIScreen mainScreen]bounds].size.width
 #define screenHeight  [[UIScreen mainScreen]bounds].size.height
 #define bottomHeight 60
@@ -134,6 +135,7 @@
 }
 
 -(void)showBottom{
+    NSLog(@"showBottom============");
     UIButton *btn = [self.window viewWithTag:108];
     btn.hidden = NO;
 }
@@ -151,10 +153,17 @@
 -(void)btnClick:(UIButton *)btn{
     NSInteger tag = btn.tag;
     switch (tag) {
-        case 108:
+        case 108:{
             btn.hidden = YES;
-            [self.window.rootViewController presentViewController:[[PlayMusicViewController alloc]init] animated: YES completion:nil];
-//            [self.audioPlayer seekToTime:self.audioPlayer.duration-10];
+            PlayMusicViewController *playMusicVc = [[PlayMusicViewController alloc]init];
+            playMusicVc.delegate = self;
+            playMusicVc.audioPlayer = self.audioPlayer;
+            self.otherSongPlayDelegate = playMusicVc;
+//            [self.window.rootViewController presentViewController:playMusicVc animated: YES completion:nil];
+            //            [self.audioPlayer seekToTime:self.audioPlayer.duration-10];
+            [[self getPresentedViewController] presentViewController:playMusicVc animated: YES completion:nil];
+
+        }
             break;
         case 109:
             if (!self.audioPlayer){
@@ -180,6 +189,16 @@
             [musicQueueView showInView:self.window];
             break;
     }
+}
+- (UIViewController *)getPresentedViewController
+{
+    UIViewController *appRootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    UIViewController *topVC = appRootVC;
+    if (topVC.presentedViewController) {
+        topVC = topVC.presentedViewController;
+    }
+    
+    return topVC;
 }
 
 -(void)play{
@@ -217,7 +236,7 @@
         NSLog(@"播放队列为空！");
         return;
     }
-    if (index>=self.musicQueueArray.count) {
+    if (index>=self.musicQueueArray.count||index<0) {
         NSLog(@"数组越界!");
         return;
     }
@@ -286,6 +305,26 @@
     //    NSLog(@"播放队列数量是：%ld",[self.audioPlayer pendingQueueCount]);
 }
 
+-(TingSong *)getCurrentTingSong{
+    return self.currentTingSong;
+}
+-(void)togglePlayPause{
+    if (self.audioPlayer.state == STKAudioPlayerStatePaused){
+        [self.audioPlayer resume];
+    }else if(self.audioPlayer.state == STKAudioPlayerStatePlaying){
+        [self.audioPlayer pause];
+    }else{
+        [self initPlay:self.currentTingSong.songId index:self.currentIndex];
+    }
+}
+-(void)playNext{
+    TingSong *tingSong = self.musicQueueArray[self.currentIndex+1];
+    [self initPlay:tingSong.songId index:(self.currentIndex+1)];
+}
+-(void)playPre{
+    TingSong *tingSong = self.musicQueueArray[self.currentIndex-1];
+    [self initPlay:tingSong.songId index:(self.currentIndex-1)];
+}
 
 -(void)playSong:(int)index{
     if (index>=self.musicQueueArray.count) {
@@ -304,7 +343,7 @@
         [self.audioPlayer playURL:playUrl withQueueItemID:[[MyMusicQueueId alloc]initWithUrl:playUrl andCount:0 andTingSong:self.currentTingSong]];
         
         [self loadSingerPic:self.currentTingSong.singerName];
-        
+        [self.otherSongPlayDelegate newSongWillPlay:nil andNewSong:self.currentTingSong];
     }else{
         [self audioPlayer:self.audioPlayer unexpectedError:STKAudioPlayerErrorDataSource];
     }
@@ -376,6 +415,8 @@
     singerLabel.text = tingSong.singerName;
     [self loadSingerPic:tingSong.singerName];
     
+    [self.otherSongPlayDelegate newSongDidPlay:tingSong];
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:tingSong.songId forKey:@"id"];
     [defaults synchronize];
@@ -425,7 +466,7 @@
         NSString *urlEncode = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"`#%^{}\"[]|\\<> "].invertedSet];
         NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlEncode]];
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlEncode] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30];
         NSURLSessionTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error){
             if ([data isKindOfClass:[NSNull class]]||data ==nil) {
                 return;
@@ -437,7 +478,8 @@
                 NSString *picUrl = [NSString stringWithFormat:@"%@",[json1 objectForKey:@"pic_url"]];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     UIImageView *singerImageView = [[self.window viewWithTag:108] viewWithTag:301];
-                    [singerImageView setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:picUrl]]]];
+//                    [singerImageView setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:picUrl]]]];
+                    [singerImageView sd_setImageWithURL:[NSURL URLWithString:picUrl] placeholderImage:[UIImage imageNamed:@"default_bg"] options:SDWebImageContinueInBackground];
                 });
             }
         }];

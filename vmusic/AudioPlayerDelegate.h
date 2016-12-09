@@ -12,6 +12,10 @@
 
 -(void)setTingSongQueue:(NSMutableArray *)tingSongArray;
 -(void)initPlay:(NSNumber *)songId index:(int) index;
+-(TingSong *)getCurrentTingSong;
+-(void)togglePlayPause;
+-(void)playNext;
+-(void)playPre;
 @end
 @interface AudioPlayerDelegate : NSObject
 

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SearchViewController.h"
+#import "AudioPlayerDelegate.h"
 
 @protocol AudioPlayerControlDelegate <NSObject>
 
