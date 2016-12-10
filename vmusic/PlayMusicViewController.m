@@ -10,6 +10,8 @@
 #import "UIColor+ColorChange.h"
 #import "UIImageView+WebCache.h"
 #import "SDWebImageManager.h"
+#import "FileUtils.h"
+#import "AlphaUtil.h"
 #define screenWidth  [[UIScreen mainScreen]bounds].size.width
 #define screenHeight  [[UIScreen mainScreen]bounds].size.height
 #define statusBarHeight 15
@@ -19,25 +21,47 @@
 @interface PlayMusicViewController ()
 @property(strong,nonatomic) TingSong *tingSong;
 @property(weak,nonatomic) NSTimer *progressTimer;
+@property(weak,nonatomic) NSTimer *bgTimer;
 @property(strong,nonatomic) UISlider *slider;
 @property(strong,nonatomic) UILabel *curentTimerLabel;
+@property(readwrite,nonatomic) NSInteger bgIndex;
+@property(strong,nonatomic)UIImageView *imageView;
+@property(strong,nonatomic)UIImageView *imageView1;
 @end
 
 @implementation PlayMusicViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+//    self.view.backgroundColor = [UIColor whiteColor];
     
     self.tingSong = [self.delegate getCurrentTingSong];
    
     
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:self.view.bounds];
-    imageView.tag =1;
-    [imageView setImage:[UIImage imageNamed:@"default_music"]];
-
+    self.imageView = [[UIImageView alloc]initWithFrame:self.view.bounds];
+    self.imageView.tag =1;
+    self.imageView.alpha = 0;
+    [self.imageView setImage:[UIImage imageNamed:@"default_music"]];
     
-    [self.view addSubview:imageView];
+    self.imageView1 = [[UIImageView alloc]initWithFrame:self.view.bounds];
+    self.imageView1.tag =2;
+    [self.imageView1 setImage:[UIImage imageNamed:@"default_music"]];
+    
+    UIImageView *coverImageView = [[UIImageView alloc]initWithFrame:self.view.bounds];
+    coverImageView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+    
+    if ([FileUtils isExitPath:self.tingSong.singerName]) {
+        NSArray *picArray = [FileUtils getPicsBySingerName:self.tingSong.singerName];
+        if (picArray!=nil&&picArray.count>0) {
+            NSString *path = [[FileUtils getRootSingerPathWithSingerName:self.tingSong.singerName] stringByAppendingPathComponent:picArray[self.bgIndex]];
+            self.imageView1.image = [UIImage imageWithContentsOfFile:path];
+        }
+    }
+    
+    
+    [self.view addSubview:self.imageView];
+    [self.view addSubview:self.imageView1];
+    [self.view addSubview:coverImageView];
     [self addTopContent];
     [self addBottomContent];
 }
@@ -151,6 +175,7 @@
             }else{
                 [btn setImage:[UIImage imageNamed:@"icon_play_play"] forState:UIControlStateNormal];
             }
+           
             break;
         case 103:
             [self.delegate playPre];
@@ -188,6 +213,9 @@
         totalTimeLabel.text =[self formatTimeFromSeconds:([audition.duration intValue]/1000.0)];
          NSLog(@"总时长是：%@，显示的时间是：%@",[self formatTimeFromSeconds:[self.audioPlayer duration]],totalTimeLabel.text);
     }
+    [self.bgTimer invalidate];
+    self.bgTimer = nil;
+    [self viewDidAppear:YES];
 }
 -(void)newSongDidPlay:(TingSong *)newSong{
 //    UILabel *totalTimeLabel = [self.view viewWithTag:202];
@@ -216,14 +244,85 @@
     [self.progressTimer setFireDate:[NSDate distantPast]];
 }
 -(void)viewDidAppear:(BOOL)animated{
-    [self loadSingerPicJson:self.tingSong.singerName];
+    if (![FileUtils isExitPath:self.tingSong.singerName]) {
+        [self loadSingerPicJson:self.tingSong.singerName];
+        
+        self.imageView.alpha = 0;
+        [self.imageView setImage:[UIImage imageNamed:@"default_music"]];
+        [self.imageView1 setImage:[UIImage imageNamed:@"default_music"]];
+    }else{
+        NSArray *picArray = [FileUtils getPicsBySingerName:self.tingSong.singerName];
+        if (picArray.count==0) {
+            return;
+        }
+        self.bgIndex = 0;
+
+        if (picArray.count>1) {
+            self.bgIndex = 1;
+            if (self.bgTimer ==nil) {
+                self.bgTimer = [NSTimer scheduledTimerWithTimeInterval:15 target:self selector:@selector(changeSingerPic:) userInfo:picArray repeats:YES];
+            }else{
+                //开启定时器
+                [self.bgTimer setFireDate:[NSDate distantPast]];
+            }
+            
+        }
+    
+    }
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    [self.bgTimer setFireDate:[NSDate distantFuture]];
 }
 -(void)notifi{
     [[NSNotificationCenter defaultCenter]postNotificationName:@"showBottom" object:self];
 }
+-(void)changeSingerPic:(NSTimer *)timer{
+    NSArray *array = timer.userInfo;
+    NSString *path = [[FileUtils getRootSingerPathWithSingerName:self.tingSong.singerName] stringByAppendingPathComponent:array[self.bgIndex%array.count]];
+
+    NSLog(@"imageView的透明是%.2f,imageView1的透明度是%.2f",[self.imageView alpha],[self.imageView1 alpha]);
+    if (self.imageView1.alpha<=0.05) {
+        self.imageView1.image = [UIImage imageWithContentsOfFile:path];
+        
+        NSLog(@"imageView1要显示，imageView要隐藏");
+        
+        dispatch_queue_t queue = dispatch_queue_create("myQueue", DISPATCH_QUEUE_SERIAL);
+        dispatch_async(queue, ^{
+            for (int i =1; i<=100; i++) {
+                __block CGFloat percent = i*i/(100.0*100.0);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [self.imageView1 setAlpha:percent];
+                    [self.imageView setAlpha:(1-percent)];
+                });
+                [NSThread sleepForTimeInterval:0.02];
+            }
+        });
+        
+    }else{
+        
+        NSLog(@"imageView要显示，imageView1要隐藏");
+        self.imageView.image = [UIImage imageWithContentsOfFile:path];
+        
+        dispatch_queue_t queue = dispatch_queue_create("myQueue", DISPATCH_QUEUE_SERIAL);
+        dispatch_async(queue, ^{
+            for (int i =1; i<=100; i++) {
+                __block CGFloat percent = i*i/(100.0*100.0);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [self.imageView setAlpha:percent];
+                    [self.imageView1 setAlpha:(1-percent)];
+                });
+                [NSThread sleepForTimeInterval:0.02];
+            }
+        });
+    }
+    
+    self.bgIndex++;
+}
 
 -(void)loadSingerPicJson:(NSString *)singerName{
-    NSMutableArray *picArray = [[NSMutableArray alloc]init];
+    NSMutableArray *picUrlArray = [[NSMutableArray alloc]init];
     dispatch_queue_t queue = dispatch_queue_create("loadSingerPicJson", DISPATCH_QUEUE_SERIAL);
     dispatch_async(queue, ^{
         NSString *urlStr = [NSString stringWithFormat:@"http://search.dongting.com/artwork/search?artist=%@",singerName];
@@ -247,17 +346,10 @@
                     for (int j=0; j<picUrlsArray.count; j++) {
                         NSDictionary *json3 = [picUrlsArray objectAtIndex:j];
                         NSString *urls = [json3 objectForKey:@"picUrl"];
-                        [picArray addObject:[NSURL URLWithString:urls]];
+                        [picUrlArray addObject:urls];
                     }
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        UIImageView *bgImageView = [self.view viewWithTag:1];
-//                        [bgImageView sd_setImageWithURL:[NSURL URLWithString:picArray[0]]];
-                        NSArray *picArray1 = [picArray copy];
-                        [bgImageView setAnimationDuration:4*30];
-                        [bgImageView sd_setAnimationImagesWithURLs:picArray1];
-                        
-                    });
                     
+                    [self downloadSingerPics:picUrlArray];
                 }
             }
         }];
@@ -282,6 +374,41 @@
     CGImageRelease(cgImage);
     
     return brighterImage;
+}
+
+-(void)downloadSingerPics:(NSMutableArray *)picUrls{
+    NSLog(@"一共有%ld张图片需要下载",picUrls.count);
+    __block NSInteger count = picUrls.count;
+    for (int i=0; i<picUrls.count; i++) {
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:picUrls[i]]];
+        NSURLSessionDownloadTask *downTask = [session downloadTaskWithRequest:request completionHandler:^(NSURL *location,NSURLResponse *response,NSError *error){
+            NSString *fullPath = [FileUtils getPicPathBySingerName:self.tingSong.singerName andUrl:picUrls[i]];
+            [[NSFileManager defaultManager]moveItemAtURL:location toURL:[NSURL fileURLWithPath:fullPath] error:nil];
+            NSLog(@"%@----%d",fullPath,[NSThread isMainThread]);
+            count--;
+            if (count<=0) {
+                NSLog(@"下载全部完成");
+                NSArray *picArray = [FileUtils getPicsBySingerName:self.tingSong.singerName];
+                if (picArray.count==0) {
+                    return;
+                }
+                self.bgIndex = 0;
+                if ([FileUtils isExitPath:self.tingSong.singerName]) {
+                    NSArray *picArray = [FileUtils getPicsBySingerName:self.tingSong.singerName];
+                    if (picArray!=nil&&picArray.count>0) {
+                        NSString *path = [[FileUtils getRootSingerPathWithSingerName:self.tingSong.singerName] stringByAppendingPathComponent:picArray[self.bgIndex]];
+                        self.imageView1.image = [UIImage imageWithContentsOfFile:path];
+                    }
+                }
+                if (picArray.count>1) {
+                    self.bgIndex = 1;
+                    self.bgTimer = [NSTimer scheduledTimerWithTimeInterval:15 target:self selector:@selector(changeSingerPic:) userInfo:picArray repeats:YES];
+                }
+            }
+        }];
+        [downTask resume];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

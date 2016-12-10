@@ -63,6 +63,8 @@
 		1DD876FF1DFA98FE00AA5D43 /* UIView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD876EA1DFA98FE00AA5D43 /* UIView+WebCache.m */; };
 		1DD877001DFA98FE00AA5D43 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD876EC1DFA98FE00AA5D43 /* UIView+WebCacheOperation.m */; };
 		1DD877051DFABAD500AA5D43 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DD877041DFABAD500AA5D43 /* CoreImage.framework */; };
+		1DD877091DFBB7BB00AA5D43 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD877081DFBB7BB00AA5D43 /* FileUtils.m */; };
+		1DD8770D1DFBDD5C00AA5D43 /* AlphaUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD8770C1DFBDD5C00AA5D43 /* AlphaUtil.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -178,6 +180,10 @@
 		1DD876EB1DFA98FE00AA5D43 /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		1DD876EC1DFA98FE00AA5D43 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		1DD877041DFABAD500AA5D43 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		1DD877071DFBB7BB00AA5D43 /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtils.h; sourceTree = "<group>"; };
+		1DD877081DFBB7BB00AA5D43 /* FileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtils.m; sourceTree = "<group>"; };
+		1DD8770B1DFBDD5C00AA5D43 /* AlphaUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlphaUtil.h; sourceTree = "<group>"; };
+		1DD8770C1DFBDD5C00AA5D43 /* AlphaUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlphaUtil.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -276,6 +282,8 @@
 		1D7B267D1DED3D9100A1C1A1 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				1DD8770A1DFBDD4400AA5D43 /* transbg */,
+				1DD877061DFBB79A00AA5D43 /* fileutils */,
 				177CB99D1DF432FF00E197C9 /* tingsongutil */,
 				177CB99C1DF4186C00E197C9 /* http */,
 				177CB9981DF4048E00E197C9 /* quque */,
@@ -471,6 +479,24 @@
 			path = SDWebImage;
 			sourceTree = "<group>";
 		};
+		1DD877061DFBB79A00AA5D43 /* fileutils */ = {
+			isa = PBXGroup;
+			children = (
+				1DD877071DFBB7BB00AA5D43 /* FileUtils.h */,
+				1DD877081DFBB7BB00AA5D43 /* FileUtils.m */,
+			);
+			name = fileutils;
+			sourceTree = "<group>";
+		};
+		1DD8770A1DFBDD4400AA5D43 /* transbg */ = {
+			isa = PBXGroup;
+			children = (
+				1DD8770B1DFBDD5C00AA5D43 /* AlphaUtil.h */,
+				1DD8770C1DFBDD5C00AA5D43 /* AlphaUtil.m */,
+			);
+			name = transbg;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -557,6 +583,7 @@
 				1D7B26C21DEED98100A1C1A1 /* STKQueueEntry.m in Sources */,
 				1D7B275A1DF15F4A00A1C1A1 /* TingSong.m in Sources */,
 				1D7B26C01DEED98100A1C1A1 /* STKHTTPDataSource.m in Sources */,
+				1DD8770D1DFBDD5C00AA5D43 /* AlphaUtil.m in Sources */,
 				1D7B27491DF0085000A1C1A1 /* SCGestureTransitionBackContext.m in Sources */,
 				1DD876F11DFA98FE00AA5D43 /* SDImageCache.m in Sources */,
 				1DB223B31DF57A5C00702A3F /* AudioPlayerDelegate.m in Sources */,
@@ -567,6 +594,7 @@
 				1DD876F01DFA98FE00AA5D43 /* NSImage+WebCache.m in Sources */,
 				1D7B27561DF11BD700A1C1A1 /* SearchSongCell.m in Sources */,
 				1D7B26BE1DEED98100A1C1A1 /* STKDataSource.m in Sources */,
+				1DD877091DFBB7BB00AA5D43 /* FileUtils.m in Sources */,
 				1D7B26C61DEEDEF100A1C1A1 /* SearchViewController.m in Sources */,
 				1D7B274F1DF0085000A1C1A1 /* SCTransitionDelegateManager.m in Sources */,
 				1DD876C01DF7F69200AA5D43 /* PlayMusicViewController.m in Sources */,
