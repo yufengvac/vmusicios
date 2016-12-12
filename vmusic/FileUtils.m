@@ -61,6 +61,20 @@
     return [rootPath stringByAppendingPathComponent:[NSString stringWithFormat:@"photoGraphic/%@",singerName]];
 }
 
++(NSString *)getSongPathByFileName:(NSString *)fileName{
+    NSString *rootPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *path = [rootPath stringByAppendingPathComponent:@"song"];
+    BOOL isDir;
+    if (!([fileManager fileExistsAtPath:path isDirectory:&isDir]&&isDir)) {
+        NSLog(@"歌曲路径不存在，创建个歌曲目录%@",path);
+        [fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    NSString *destinationPath = [path stringByAppendingPathComponent:fileName];
+   
+    return destinationPath;
+}
+
 +(NSString *)getFileNameOfUrl:(NSString *)url{
     
     NSString *filename = [[NSString alloc] init];

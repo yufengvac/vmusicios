@@ -11,6 +11,7 @@
 #import "SearchViewController.h"
 
 #import "SCPresentTransition.h"
+#import "DBHelper.h"
 
 #define screenWidth  [[UIScreen mainScreen]bounds].size.width
 #define screenHeight  ([[UIScreen mainScreen]bounds].size.height)
@@ -217,7 +218,18 @@
     lable.textAlignment = NSTextAlignmentCenter;
     
     UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake((width-100)/2, height/3*2, 100, 10)];
-    label1.text = @"没有下载任务";
+    if (isRight) {
+        DBHelper *dbHelper = [DBHelper sharedDataBaseHelper];
+        NSInteger count = [dbHelper getDownloadSongCount];
+        if (count>0) {
+            label1.text = [NSString stringWithFormat:@"%ld首歌曲",count];
+        }else{
+            label1.text = @"没有下载任务";
+        }
+    }else{
+        label1.text = @"没有下载任务";
+    }
+   
     label1.textColor = [UIColor_ColorChange colorWithHexString:@"#d9d9d9"];
     label1.textAlignment = NSTextAlignmentCenter;
     label1.font = [UIFont systemFontOfSize:12];

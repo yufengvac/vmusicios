@@ -12,6 +12,7 @@
 #import "SDWebImageManager.h"
 #import "FileUtils.h"
 #import "AlphaUtil.h"
+#import "DBHelper.h"
 #define screenWidth  [[UIScreen mainScreen]bounds].size.width
 #define screenHeight  [[UIScreen mainScreen]bounds].size.height
 #define statusBarHeight 15
@@ -141,23 +142,33 @@
     
     NSInteger oneSize = screenWidth/5;
     UIButton *favor = [[UIButton alloc]initWithFrame:CGRectMake(0, baseHeight+margin+64, oneSize, oneSize)];
+    favor.tag = 105;
+    [favor addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
     [favor setImage:[UIImage imageNamed:@"icon_favor_music_no"] forState:UIControlStateNormal];
     [self.view addSubview:favor];
     
     UIButton *mode = [[UIButton alloc]initWithFrame:CGRectMake(oneSize, baseHeight+margin+64, oneSize, oneSize)];
+    mode.tag = 106;
+    [mode addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
     [mode setImage:[UIImage imageNamed:@"icon_mode_order_music"] forState:UIControlStateNormal];
     [self.view addSubview:mode];
     
     
     UIButton *download = [[UIButton alloc]initWithFrame:CGRectMake(oneSize*2, baseHeight+margin+64, oneSize, oneSize)];
+    download.tag = 107;
+    [download addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
     [download setImage:[UIImage imageNamed:@"icon_download_music"] forState:UIControlStateNormal];
     [self.view addSubview:download];
     
     UIButton *share = [[UIButton alloc]initWithFrame:CGRectMake(oneSize*3, baseHeight+margin+64, oneSize, oneSize)];
+    share.tag = 108;
+    [share addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
     [share setImage:[UIImage imageNamed:@"icon_share_music"] forState:UIControlStateNormal];
     [self.view addSubview:share];
     
     UIButton *songlist = [[UIButton alloc]initWithFrame:CGRectMake(oneSize*4, baseHeight+margin+64, oneSize, oneSize)];
+    songlist.tag = 109;
+    [songlist addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
     [songlist setImage:[UIImage imageNamed:@"icon_songlist_music"] forState:UIControlStateNormal];
     [self.view addSubview:songlist];
 }
@@ -171,13 +182,6 @@
             break;
         case 102:
             [self.delegate togglePlayPause];
-           
-            if ([self.audioPlayer state]==STKAudioPlayerStatePlaying||[self.audioPlayer state]==STKAudioPlayerStateBuffering) {
-                [btn setImage:[UIImage imageNamed:@"icon_play_pause"] forState:UIControlStateNormal];
-            }else{
-                [btn setImage:[UIImage imageNamed:@"icon_play_play"] forState:UIControlStateNormal];
-            }
-           
             break;
         case 103:
             [self.delegate playPre];
@@ -185,8 +189,26 @@
         case 104:
             [self.delegate playNext];
             break;
+        case 105:
+            break;
+        case 106:
+            break;
+        case 107:
+            [self downloadSong:self.tingSong];
+            break;
+        case 108:
+            break;
+        case 109:
+            break;
         default:
             break;
+    }
+    
+    UIButton *playBtn = [self.view viewWithTag:102];
+    if ([self.audioPlayer state]==STKAudioPlayerStatePlaying||[self.audioPlayer state]==STKAudioPlayerStateBuffering) {
+        [playBtn setImage:[UIImage imageNamed:@"icon_play_pause"] forState:UIControlStateNormal];
+    }else{
+        [playBtn setImage:[UIImage imageNamed:@"icon_play_play"] forState:UIControlStateNormal];
     }
 }
 -(void)sliderAction:(UISlider *)slider{
@@ -301,14 +323,14 @@
         
         dispatch_queue_t queue = dispatch_queue_create("myQueue", DISPATCH_QUEUE_SERIAL);
         dispatch_async(queue, ^{
-            for (int i =1; i<=100; i++) {
+            for (int i =1; i<=50; i++) {
                 __block CGFloat percent = i*i/(50.0*50.0);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
                     [self.imageView setAlpha:percent];
                     [self.imageView1 setAlpha:(1-percent)];
                 });
-                [NSThread sleepForTimeInterval:0.02];
+                [NSThread sleepForTimeInterval:0.01];
             }
         });
     }
@@ -352,23 +374,29 @@
     });
 }
 
-- (UIImage*) getBrighterImage:(UIImage *)originalImage
-{
-    UIImage *brighterImage;
-    CIContext *context = [CIContext contextWithOptions:nil];
-    CIImage *inputImage = [CIImage imageWithCGImage:originalImage.CGImage];
-    
-    CIFilter *lighten = [CIFilter filterWithName:@"CIColorControls"];
-    [lighten setValue:inputImage forKey:kCIInputImageKey];
-    [lighten setValue:@(0.3) forKey:@"inputBrightness"];
-    [lighten setValue:@(2.2) forKey:@"inputContrast"];
-    
-    CIImage *result = [lighten valueForKey:kCIOutputImageKey];
-    CGImageRef cgImage = [context createCGImage:result fromRect:[inputImage extent]];
-    brighterImage = [UIImage imageWithCGImage:cgImage];
-    CGImageRelease(cgImage);
-    
-    return brighterImage;
+-(void)downloadSong:(TingSong *)tingSong{
+    dispatch_queue_t queue = dispatch_queue_create("downloadSong", DISPATCH_QUEUE_SERIAL);
+    dispatch_async(queue, ^{
+        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+        TingAudition *tingAudition = [tingSong.auditionList lastObject];
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:tingAudition.url]];
+        NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request completionHandler:^(NSURL *location,NSURLResponse *response,NSError *error){
+            if (location!=nil) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIButton *downloadBtn = [self.view viewWithTag:107];
+                    [downloadBtn setImage:[UIImage imageNamed:@"icon_download_music_ed"] forState:UIControlStateNormal];
+                });
+                NSLog(@"下载歌曲-%@-完成",tingSong.name);
+               
+                NSFileManager *fileManager = [NSFileManager defaultManager];
+                [fileManager moveItemAtURL:location toURL:[NSURL fileURLWithPath:[FileUtils getSongPathByFileName:[NSString stringWithFormat:@"%@.mp3",tingSong.name]]] error:nil];
+                DBHelper *dbHelper = [DBHelper sharedDataBaseHelper];
+                [dbHelper insertTable:tingSong];
+            }
+        }];
+        [task resume];
+    });
 }
 
 -(void)downloadSingerPics:(NSMutableArray *)picUrls{

@@ -13,4 +13,5 @@
 +(NSString *)getPicPathBySingerName:(NSString *)singerName andUrl:(NSString *)url;
 +(NSArray *)getPicsBySingerName:(NSString *)singerName;
 +(NSString *)getRootSingerPathWithSingerName:(NSString *)signerName;
++(NSString *)getSongPathByFileName:(NSString *)fileName;
 @end

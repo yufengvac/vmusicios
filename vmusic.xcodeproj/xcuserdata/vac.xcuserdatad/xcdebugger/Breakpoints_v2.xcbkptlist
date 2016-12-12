@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "vmusic/MainViewController.m"
-            timestampString = "502273985.071443"
+            timestampString = "503223792.590801"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "379"
-            endingLineNumber = "379"
+            startingLineNumber = "391"
+            endingLineNumber = "391"
             landmarkName = "-btnClick:"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,12 +154,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "vmusic/PlayMusicViewController.m"
-            timestampString = "503061220.504094"
+            timestampString = "503221651.808291"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
-            landmarkName = "-newSongWillPlay:andNewSong:"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
+            landmarkName = "-updateUi"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

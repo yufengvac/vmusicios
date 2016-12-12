@@ -124,7 +124,7 @@
     [self initializeDefaultDataList];
     NSNumber *lastSongId = [[NSUserDefaults standardUserDefaults] objectForKey:@"id"];
     self.currentIndex = [TingSongUtil getIndexOfMusicQueue:self.musicQueueArray bySongId:lastSongId];
-    if (self.currentIndex>0) {
+    if (self.currentIndex>=0) {
         self.currentTingSong = self.musicQueueArray[self.currentIndex];
         songNameLable.text = self.currentTingSong.name;
         singerNameLable.text = self.currentTingSong.singerName;
@@ -331,14 +331,12 @@
         NSLog(@"index=%d,self.musicQueueArray.count = %ld,超过了最后一条",index,self.musicQueueArray.count);
         return;
     }
-//    [self.audioPlayer stop];
+    
     self.currentTingSong = self.musicQueueArray[index];
     if (self.currentTingSong.auditionList.count>0) {
         TingAudition *tingAudition = [self.currentTingSong.auditionList lastObject];
         NSURL *playUrl = [NSURL URLWithString:tingAudition.url];
-//        STKDataSource* dataSource = [STKAudioPlayer dataSourceFromURL:playUrl];
         
-//        [self.audioPlayer playDataSource:dataSource withQueueItemID:[[MyMusicQueueId alloc]initWithUrl:playUrl andCount:0 andTingSong:self.currentTingSong]];
         self.progressView.progress = 0;
         [self.audioPlayer playURL:playUrl withQueueItemID:[[MyMusicQueueId alloc]initWithUrl:playUrl andCount:0 andTingSong:self.currentTingSong]];
         
@@ -478,7 +476,6 @@
                 NSString *picUrl = [NSString stringWithFormat:@"%@",[json1 objectForKey:@"pic_url"]];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     UIImageView *singerImageView = [[self.window viewWithTag:108] viewWithTag:301];
-//                    [singerImageView setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:picUrl]]]];
                     [singerImageView sd_setImageWithURL:[NSURL URLWithString:picUrl] placeholderImage:[UIImage imageNamed:@"default_bg"] options:SDWebImageContinueInBackground];
                 });
             }
@@ -524,6 +521,7 @@
     if (self.progressTimer!=nil) {
         [self.progressTimer setFireDate:[NSDate distantPast]];
     }
+    [self showBottom];
     NSLog(@"applicationDidBecomeActive");
 }
 
