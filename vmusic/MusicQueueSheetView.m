@@ -101,6 +101,7 @@
     tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     [tableView registerClass:[MusicQueueCell class] forCellReuseIdentifier:@"cell"];
     [tableView scrollToNearestSelectedRowAtScrollPosition:self.curIndex animated:NO];
+    [self setTableFooterView:tableView];
     [self.contentView addSubview:tableView];
 }
 
@@ -128,7 +129,17 @@
     }
 //    [self.delegate setTingSongQueue:self.dataArray];
     
-    [self.delegate initPlay:tingSong.songId index:(int)indexPath.row];
+    [self.delegate initPlay:tingSong.songId index:(int)indexPath.row isLocal:[[NSUserDefaults standardUserDefaults]boolForKey:@"isLocal"]];
+}
+//去掉多余横线
+- (void)setTableFooterView:(UITableView *)tb {
+    if (!tb) {
+        return;
+    }
+    
+    UIView *view = [[UIView alloc] init];
+    view.backgroundColor = [UIColor whiteColor];
+    [tb setTableFooterView:view];
 }
 
 -(void)btnClick:(UIButton *)btn{

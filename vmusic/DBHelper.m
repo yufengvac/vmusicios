@@ -45,7 +45,7 @@ static DBHelper* helper = nil;
 -(BOOL)insertTable:(TingSong *)tingSong{
     if ([self.db open]) {
         TingAudition *audition = [tingSong.auditionList lastObject];
-        BOOL result = [self.db executeUpdate:@"INSERT INTO song (songId, name , alias , singerId , singerName , albumId , albumName ,favorites,bitRate,duration,size,suffix,url,typeDescription) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);",tingSong.songId, tingSong.name,tingSong.alias,tingSong.singerId,tingSong.singerName,tingSong.albumId,tingSong.albumName,tingSong.favorites,audition.bitRate,audition.duration,audition.size,audition.suffix,audition.url,audition.typeDescription];
+        BOOL result = [self.db executeUpdate:@"INSERT INTO song (songId, name , alias , singerId , singerName , albumId , albumName ,favorites,bitRate,duration,size,suffix,url,typeDescription) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);",tingSong.songId, tingSong.name,tingSong.alias,tingSong.singerId,tingSong.singerName,tingSong.albumId,tingSong.albumName,tingSong.favorites,audition.bitRate,audition.duration,audition.size,audition.suffix,[NSString stringWithFormat:@"song/%@.mp3",tingSong.name],audition.typeDescription];
         if (result) {
             NSLog(@"插入-%@-成功",tingSong.name);
         }else{
@@ -103,4 +103,5 @@ static DBHelper* helper = nil;
     }
     return count;
 }
+
 @end

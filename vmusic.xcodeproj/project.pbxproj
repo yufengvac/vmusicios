@@ -73,6 +73,7 @@
 		1DE3C5391DFE58510061081B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1DE3C5331DFE58510061081B /* Info.plist */; };
 		1DE3C53B1DFE58E60061081B /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE3C53A1DFE58E60061081B /* libsqlite3.0.tbd */; };
 		1DE3C53F1DFE88180061081B /* DBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3C53E1DFE88180061081B /* DBHelper.m */; };
+		1DE3C5431DFF93A00061081B /* SongDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3C5421DFF93A00061081B /* SongDownloadViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -207,6 +208,8 @@
 		1DE3C53A1DFE58E60061081B /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		1DE3C53D1DFE88180061081B /* DBHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBHelper.h; sourceTree = "<group>"; };
 		1DE3C53E1DFE88180061081B /* DBHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBHelper.m; sourceTree = "<group>"; };
+		1DE3C5411DFF93A00061081B /* SongDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongDownloadViewController.h; sourceTree = "<group>"; };
+		1DE3C5421DFF93A00061081B /* SongDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongDownloadViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +271,7 @@
 		1D7B265C1DED1D6F00A1C1A1 /* vmusic */ = {
 			isa = PBXGroup;
 			children = (
+				1DE3C5401DFF937C0061081B /* songdownload */,
 				1DE3C5271DFE58510061081B /* fmdb */,
 				1DD876C21DFA98FE00AA5D43 /* SDWebImage */,
 				1DD876BD1DF7F1A400AA5D43 /* playmusic */,
@@ -552,6 +556,15 @@
 			name = dbhelper;
 			sourceTree = "<group>";
 		};
+		1DE3C5401DFF937C0061081B /* songdownload */ = {
+			isa = PBXGroup;
+			children = (
+				1DE3C5411DFF93A00061081B /* SongDownloadViewController.h */,
+				1DE3C5421DFF93A00061081B /* SongDownloadViewController.m */,
+			);
+			name = songdownload;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -665,6 +678,7 @@
 				1D7B274C1DF0085000A1C1A1 /* SCPresentTransition.m in Sources */,
 				1DD876FC1DFA98FE00AA5D43 /* UIImage+WebP.m in Sources */,
 				1DD876F51DFA98FE00AA5D43 /* SDWebImageDownloader.m in Sources */,
+				1DE3C5431DFF93A00061081B /* SongDownloadViewController.m in Sources */,
 				1D7B274E1DF0085000A1C1A1 /* SCSwipeBackInteractionController.m in Sources */,
 				1D7B27521DF0085000A1C1A1 /* UIView+Capture.m in Sources */,
 				1D7B26771DED1F4C00A1C1A1 /* MainViewController.m in Sources */,

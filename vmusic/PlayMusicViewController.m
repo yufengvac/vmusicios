@@ -231,6 +231,7 @@
     titleLabel.text = newSong.name;
     NSLog(@"name是%@",newSong.name);
     
+    
     if (newSong.auditionList.count>0) {
         TingAudition *audition = [newSong.auditionList lastObject];
         UILabel *totalTimeLabel = [self.view viewWithTag:202];
@@ -239,6 +240,8 @@
     }
     [self.bgTimer invalidate];
     self.bgTimer = nil;
+    
+    self.tingSong = newSong;
     [self viewDidAppear:YES];
 }
 -(void)newSongDidPlay:(TingSong *)newSong{
@@ -266,19 +269,22 @@
     self.progressTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateUi) userInfo:nil repeats:YES];
 }
 -(void)viewDidAppear:(BOOL)animated{
+    self.imageView.alpha = 0;
+    [self.imageView setImage:[UIImage imageNamed:@"default_music"]];
+    [self.imageView1 setImage:[UIImage imageNamed:@"default_music"]];
     if (![FileUtils isExitPath:self.tingSong.singerName]) {
         [self loadSingerPicJson:self.tingSong.singerName];
         
-        self.imageView.alpha = 0;
-        [self.imageView setImage:[UIImage imageNamed:@"default_music"]];
-        [self.imageView1 setImage:[UIImage imageNamed:@"default_music"]];
     }else{
         NSArray *picArray = [FileUtils getPicsBySingerName:self.tingSong.singerName];
         if (picArray.count==0) {
             return;
         }
         self.bgIndex = 0;
-
+        NSString *path = [[FileUtils getRootSingerPathWithSingerName:self.tingSong.singerName] stringByAppendingPathComponent:picArray[0]];
+        self.imageView.image =[UIImage imageWithContentsOfFile:path];
+        self.imageView1.image =[UIImage imageWithContentsOfFile:path];
+        
         if (picArray.count>1) {
             self.bgIndex = 1;
             self.bgTimer = [NSTimer scheduledTimerWithTimeInterval:15 target:self selector:@selector(changeSingerPic:) userInfo:picArray repeats:YES];
@@ -390,7 +396,8 @@
                 NSLog(@"下载歌曲-%@-完成",tingSong.name);
                
                 NSFileManager *fileManager = [NSFileManager defaultManager];
-                [fileManager moveItemAtURL:location toURL:[NSURL fileURLWithPath:[FileUtils getSongPathByFileName:[NSString stringWithFormat:@"%@.mp3",tingSong.name]]] error:nil];
+                NSString *urlStr = [FileUtils getSongPathByFileName:[NSString stringWithFormat:@"%@.mp3",tingSong.name]];
+                [fileManager moveItemAtURL:location toURL:[NSURL fileURLWithPath:urlStr] error:nil];
                 DBHelper *dbHelper = [DBHelper sharedDataBaseHelper];
                 [dbHelper insertTable:tingSong];
             }

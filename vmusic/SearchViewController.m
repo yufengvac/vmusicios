@@ -328,7 +328,7 @@ BOOL hasAddView = NO;
     }
     [self.delegate setTingSongQueue:self.songDataArray];
    
-    [self.delegate initPlay:tingSong.songId index:(int)indexPath.row];
+    [self.delegate initPlay:tingSong.songId index:(int)indexPath.row isLocal:NO];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

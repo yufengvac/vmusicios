@@ -16,6 +16,7 @@
 #import "PlayMusicViewController.h"
 #import "SCPresentTransition.h"
 #import "UIImageView+WebCache.h"
+#import "FileUtils.h"
 #define screenWidth  [[UIScreen mainScreen]bounds].size.width
 #define screenHeight  [[UIScreen mainScreen]bounds].size.height
 #define bottomHeight 60
@@ -26,6 +27,7 @@
 @property(strong,nonatomic) TingSong *currentTingSong;
 @property(weak,nonatomic) NSTimer *progressTimer;
 @property(strong,nonatomic) UIProgressView *progressView;
+@property(assign,nonatomic) BOOL isLocalM;
 @end
 
 @implementation AppDelegate
@@ -123,6 +125,7 @@
     
     [self initializeDefaultDataList];
     NSNumber *lastSongId = [[NSUserDefaults standardUserDefaults] objectForKey:@"id"];
+    self.isLocalM = [[NSUserDefaults standardUserDefaults] boolForKey:@"isLocal"];
     self.currentIndex = [TingSongUtil getIndexOfMusicQueue:self.musicQueueArray bySongId:lastSongId];
     if (self.currentIndex>=0) {
         self.currentTingSong = self.musicQueueArray[self.currentIndex];
@@ -177,7 +180,7 @@
                 [self.audioPlayer pause];
                 [btn setImage:[UIImage imageNamed:@"icon_play"] forState:UIControlStateNormal];
             }else{
-                [self initPlay:self.currentTingSong.songId index:self.currentIndex];
+                [self initPlay:self.currentTingSong.songId index:self.currentIndex isLocal:self.isLocalM];
             }
             break;
         case 110:
@@ -231,7 +234,8 @@
 }
 
 
--(void)initPlay:(NSNumber *)songId index:(int)index{
+-(void)initPlay:(NSNumber *)songId index:(int)index isLocal:(BOOL) isLocalMusic{
+    self.isLocalM = isLocalMusic;
     if (self.musicQueueArray.count==0) {
         NSLog(@"播放队列为空！");
         return;
@@ -290,6 +294,8 @@
     
     [defaults setObject:data forKey:@"musicQueueArray"];
     [defaults setObject:self.currentTingSong.songId forKey:@"id"];
+    [defaults setBool:isLocalMusic forKey:@"isLocal"];
+    
     [defaults synchronize];
     
     //    for (int i=0; i<self.musicQueueArray.count; i++) {
@@ -314,16 +320,16 @@
     }else if(self.audioPlayer.state == STKAudioPlayerStatePlaying){
         [self.audioPlayer pause];
     }else{
-        [self initPlay:self.currentTingSong.songId index:self.currentIndex];
+        [self initPlay:self.currentTingSong.songId index:self.currentIndex isLocal:self.isLocalM];
     }
 }
 -(void)playNext{
     TingSong *tingSong = self.musicQueueArray[self.currentIndex+1];
-    [self initPlay:tingSong.songId index:(self.currentIndex+1)];
+    [self initPlay:tingSong.songId index:(self.currentIndex+1) isLocal:self.isLocalM];
 }
 -(void)playPre{
     TingSong *tingSong = self.musicQueueArray[self.currentIndex-1];
-    [self initPlay:tingSong.songId index:(self.currentIndex-1)];
+    [self initPlay:tingSong.songId index:(self.currentIndex-1) isLocal:self.isLocalM];
 }
 
 -(void)playSong:(int)index{
@@ -335,9 +341,15 @@
     self.currentTingSong = self.musicQueueArray[index];
     if (self.currentTingSong.auditionList.count>0) {
         TingAudition *tingAudition = [self.currentTingSong.auditionList lastObject];
-        NSURL *playUrl = [NSURL URLWithString:tingAudition.url];
+        NSURL *playUrl;
+        if (self.isLocalM) {
+            playUrl = [NSURL fileURLWithPath:[FileUtils getSongPathByFileName:[NSString stringWithFormat:@"%@.mp3",self.currentTingSong.name]]];
+        }else{
+            playUrl = [NSURL URLWithString:tingAudition.url];
+        }
         
         self.progressView.progress = 0;
+        
         [self.audioPlayer playURL:playUrl withQueueItemID:[[MyMusicQueueId alloc]initWithUrl:playUrl andCount:0 andTingSong:self.currentTingSong]];
         
         [self loadSingerPic:self.currentTingSong.singerName];
@@ -457,6 +469,8 @@
 }
 
 -(void)loadSingerPic:(NSString *)singerName{
+    UIImageView *singerImageView = [[self.window viewWithTag:108] viewWithTag:301];
+    singerImageView.image = [UIImage imageNamed:@"default_bg"];
     dispatch_queue_t serialQueue = dispatch_queue_create("loadSingerPic", DISPATCH_QUEUE_SERIAL);
     dispatch_async(serialQueue, ^{
         NSString *url = [NSString stringWithFormat:@"http://search.dongting.com/artist/search?q=%@&size=1",singerName];
@@ -475,7 +489,7 @@
                 NSDictionary *json1 = [array objectAtIndex:0];
                 NSString *picUrl = [NSString stringWithFormat:@"%@",[json1 objectForKey:@"pic_url"]];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    UIImageView *singerImageView = [[self.window viewWithTag:108] viewWithTag:301];
+                   
                     [singerImageView sd_setImageWithURL:[NSURL URLWithString:picUrl] placeholderImage:[UIImage imageNamed:@"default_bg"] options:SDWebImageContinueInBackground];
                 });
             }
@@ -524,6 +538,7 @@
     [self showBottom];
     NSLog(@"applicationDidBecomeActive");
 }
+
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {

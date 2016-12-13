@@ -9,6 +9,7 @@
 #import "MainViewController.h"
 #import "UIColor+ColorChange.h"
 #import "SearchViewController.h"
+#import "SongDownloadViewController.h"
 
 #import "SCPresentTransition.h"
 #import "DBHelper.h"
@@ -223,8 +224,10 @@
         NSInteger count = [dbHelper getDownloadSongCount];
         if (count>0) {
             label1.text = [NSString stringWithFormat:@"%ld首歌曲",count];
+            label1.tag = 202;
         }else{
             label1.text = @"没有下载任务";
+            label1.tag = 203;
         }
     }else{
         label1.text = @"没有下载任务";
@@ -353,8 +356,15 @@
              NSLog(@"本地音乐点击");
             break;
         case 102:
+        {
             NSLog(@"音乐下载点击");
+            SongDownloadViewController *songDownload = [[SongDownloadViewController alloc]init];
+            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:songDownload];
+            nav.navigationBarHidden = YES;
+            songDownload.delegate = self.delegate;
+            [SCPresentTransition presentViewController:nav animated:YES completion:nil];
             break;
+        }
         case 103:
             NSLog(@"MV下载点击");
             break;
@@ -524,6 +534,16 @@
 //        
 //    }
     
+}
+-(void)viewDidAppear:(BOOL)animated{
+    UILabel *label = [self.view viewWithTag:202];
+    DBHelper *dbHelper = [DBHelper sharedDataBaseHelper];
+    NSInteger count = [dbHelper getDownloadSongCount];
+    if (count>0) {
+        label.text = [NSString stringWithFormat:@"%ld首歌曲",count];
+    }else{
+        label.text = @"没有下载任务";
+    }
 }
 
 - (void)didReceiveMemoryWarning {
