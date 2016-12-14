@@ -189,6 +189,13 @@
             musicQueueView.delegate = self;
             musicQueueView.dataArray = self.musicQueueArray;
             musicQueueView.curIndex = self.currentIndex;
+            musicQueueView.curSongId = ((TingSong *)[self.musicQueueArray objectAtIndex:self.currentIndex]).songId;
+            if ([self.audioPlayer state]==STKAudioPlayerStatePlaying) {
+                musicQueueView.curState = 1;
+            }else{
+                musicQueueView.curState = 0;
+            }
+            
             [musicQueueView showInView:self.window];
             break;
     }
@@ -234,23 +241,25 @@
 }
 
 
--(void)initPlay:(NSNumber *)songId index:(int)index isLocal:(BOOL) isLocalMusic{
+-(NSInteger)initPlay:(NSNumber *)songId index:(int)index isLocal:(BOOL) isLocalMusic{
     self.isLocalM = isLocalMusic;
     if (self.musicQueueArray.count==0) {
         NSLog(@"播放队列为空！");
-        return;
+        return 0;
     }
     if (index>=self.musicQueueArray.count||index<0) {
         NSLog(@"数组越界!");
-        return;
+        return 0;
     }
     if (!self.audioPlayer) {
         NSLog(@"audioPlayer未初始化");
-        return;
+        return 0;
     }
+    NSInteger state = 0;
     if (self.audioPlayer.state ==STKAudioPlayerStateStopped) {
         self.currentIndex = index;
         [self playSong:index];
+        state =  1;
     }else if (self.audioPlayer.state == STKAudioPlayerStatePaused){
         if ([songId integerValue]==[self.currentTingSong.songId integerValue]) {
             [self.audioPlayer resume];
@@ -258,6 +267,7 @@
             self.currentIndex = index;
             [self playSong:index];
         }
+        state =  1;
     }else if (self.audioPlayer.state == STKAudioPlayerStatePlaying){
         if ([songId integerValue]== [self.currentTingSong.songId integerValue]) {
             [self.audioPlayer pause];
@@ -265,6 +275,7 @@
             self.currentIndex = index;
             [self playSong:index];
         }
+        state =  0;
     }
 
     
@@ -309,6 +320,7 @@
     //        NSLog(@"播放队列%d,名字是：%@",i,t);
     //    }
     //    NSLog(@"播放队列数量是：%ld",[self.audioPlayer pendingQueueCount]);
+    return state;
 }
 
 -(TingSong *)getCurrentTingSong{
@@ -476,9 +488,10 @@
         NSString *url = [NSString stringWithFormat:@"http://search.dongting.com/artist/search?q=%@&size=1",singerName];
         NSLog(@"loadSingerPic->%@",singerName);
         NSString *urlEncode = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"`#%^{}\"[]|\\<> "].invertedSet];
-        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlEncode] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30];
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSURLCache *urlCache = [[NSURLCache alloc]initWithMemoryCapacity:4*1024*1024 diskCapacity:50*1024*1024 diskPath:nil];
+        [NSURLCache setSharedURLCache:urlCache];
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlEncode] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:30];
         NSURLSessionTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error){
             if ([data isKindOfClass:[NSNull class]]||data ==nil) {
                 return;

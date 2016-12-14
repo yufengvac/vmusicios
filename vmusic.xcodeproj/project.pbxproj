@@ -74,6 +74,8 @@
 		1DE3C53B1DFE58E60061081B /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE3C53A1DFE58E60061081B /* libsqlite3.0.tbd */; };
 		1DE3C53F1DFE88180061081B /* DBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3C53E1DFE88180061081B /* DBHelper.m */; };
 		1DE3C5431DFF93A00061081B /* SongDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3C5421DFF93A00061081B /* SongDownloadViewController.m */; };
+		1DE3C5491E0148F70061081B /* TingAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3C5481E0148F70061081B /* TingAlbum.m */; };
+		1DE3C54C1E014F110061081B /* SearchAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3C54B1E014F110061081B /* SearchAlbumCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -210,6 +212,10 @@
 		1DE3C53E1DFE88180061081B /* DBHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBHelper.m; sourceTree = "<group>"; };
 		1DE3C5411DFF93A00061081B /* SongDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongDownloadViewController.h; sourceTree = "<group>"; };
 		1DE3C5421DFF93A00061081B /* SongDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongDownloadViewController.m; sourceTree = "<group>"; };
+		1DE3C5471E0148F70061081B /* TingAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TingAlbum.h; sourceTree = "<group>"; };
+		1DE3C5481E0148F70061081B /* TingAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TingAlbum.m; sourceTree = "<group>"; };
+		1DE3C54A1E014F110061081B /* SearchAlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchAlbumCell.h; sourceTree = "<group>"; };
+		1DE3C54B1E014F110061081B /* SearchAlbumCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchAlbumCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -420,6 +426,8 @@
 			children = (
 				1D7B27541DF11BD700A1C1A1 /* SearchSongCell.h */,
 				1D7B27551DF11BD700A1C1A1 /* SearchSongCell.m */,
+				1DE3C54A1E014F110061081B /* SearchAlbumCell.h */,
+				1DE3C54B1E014F110061081B /* SearchAlbumCell.m */,
 			);
 			name = searchcell;
 			sourceTree = "<group>";
@@ -431,6 +439,8 @@
 				1D7B27591DF15F4A00A1C1A1 /* TingSong.m */,
 				1D7B277D1DF162BE00A1C1A1 /* TingAudition.h */,
 				1D7B277E1DF162BE00A1C1A1 /* TingAudition.m */,
+				1DE3C5471E0148F70061081B /* TingAlbum.h */,
+				1DE3C5481E0148F70061081B /* TingAlbum.m */,
 			);
 			name = SearchModel;
 			sourceTree = "<group>";
@@ -687,10 +697,12 @@
 				1D7B26861DEE999900A1C1A1 /* AlphaColorHelper.m in Sources */,
 				1D7B26BA1DEED98100A1C1A1 /* NSMutableArray+STKAudioPlayer.m in Sources */,
 				177CB9A01DF4331B00E197C9 /* TingSongUtil.m in Sources */,
+				1DE3C5491E0148F70061081B /* TingAlbum.m in Sources */,
 				1DD876F91DFA98FE00AA5D43 /* UIButton+WebCache.m in Sources */,
 				1DE3C5371DFE58510061081B /* FMDatabaseQueue.m in Sources */,
 				1D7B265F1DED1D6F00A1C1A1 /* main.m in Sources */,
 				1DD876F81DFA98FE00AA5D43 /* SDWebImagePrefetcher.m in Sources */,
+				1DE3C54C1E014F110061081B /* SearchAlbumCell.m in Sources */,
 				1DC7E2D61DF51CBB0087D6AF /* MusicQueueSheetView.m in Sources */,
 				1D7B26BD1DEED98100A1C1A1 /* STKCoreFoundationDataSource.m in Sources */,
 				1DD876F21DFA98FE00AA5D43 /* SDImageCacheConfig.m in Sources */,

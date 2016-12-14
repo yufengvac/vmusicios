@@ -11,7 +11,7 @@
 @protocol AudioPlayerDelegate <NSObject>
 
 -(void)setTingSongQueue:(NSMutableArray *)tingSongArray;
--(void)initPlay:(NSNumber *)songId index:(int) index isLocal:(BOOL)isLocalMsuic;
+-(NSInteger)initPlay:(NSNumber *)songId index:(int) index isLocal:(BOOL)isLocalMsuic;
 -(TingSong *)getCurrentTingSong;
 -(void)togglePlayPause;
 -(void)playNext;

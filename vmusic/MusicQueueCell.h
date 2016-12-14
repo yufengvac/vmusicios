@@ -14,9 +14,11 @@
 @property(nonatomic,strong) UILabel *name;
 @property(nonatomic,strong) UILabel *line;
 @property(nonatomic,strong) UILabel *singerName;
+@property(nonatomic,strong) UIImageView *indicator;
 @property(nonatomic,strong) UIButton *favorBtn;
 @property(nonatomic,strong) UIButton *deleteBtn;
+@property(nonatomic,strong) NSArray *indicatorArray;
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
--(void)setData:(TingSong *)tingSong withFocuseIndex:(int)index withRow:(NSInteger)row;
+-(void)setData:(TingSong *)tingSong withSongId:(NSNumber *)songId withState:(NSInteger)state;
 @end

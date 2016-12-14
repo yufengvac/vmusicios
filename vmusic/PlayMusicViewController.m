@@ -351,7 +351,7 @@
         NSString *urlStr = [NSString stringWithFormat:@"http://search.dongting.com/artwork/search?artist=%@",singerName];
         NSString *urlEncodeStr = [urlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"`#%^{}\"[]|\\<> "].invertedSet];
         NSURLSession *session = [NSURLSession sharedSession];
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlEncodeStr] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlEncodeStr] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:10];
         NSURLSessionDataTask *downloadTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error){
             if ([data isKindOfClass:[NSURL class]]||data==nil) {
                 NSLog(@"结果为null");

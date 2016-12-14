@@ -91,18 +91,24 @@
 
 -(void)addTableViewWithFrame:(CGRect)frame{
     UITableView *tableView = [[UITableView alloc]initWithFrame:frame];
-//    tableView.backgroundColor= [UIColor grayColor];
     tableView.dataSource = self;
     tableView.delegate = self;
     tableView.scrollEnabled = YES;
     tableView.showsVerticalScrollIndicator = NO;
-//    tableView.separatorInset = UIEdgeInsetsMake(0, margin, 0, 0);
-//    tableView.separatorColor = [UIColor_ColorChange colorWithHexString:@"#949494"];
     tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     [tableView registerClass:[MusicQueueCell class] forCellReuseIdentifier:@"cell"];
-    [tableView scrollToNearestSelectedRowAtScrollPosition:self.curIndex animated:NO];
+
+    
     [self setTableFooterView:tableView];
     [self.contentView addSubview:tableView];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //刷新完成
+        self.curSongId = ((TingSong *)([self.dataArray objectAtIndex:self.curIndex])).songId;
+        NSLog(@"self.curSongId=%ld,self.curIndex=%d,self.dataArray.count=%ld",[self.curSongId integerValue],self.curIndex,self.dataArray.count);
+        NSIndexPath *scrollIndexPath = [NSIndexPath indexPathForRow:self.curIndex inSection:0];
+        [tableView scrollToRowAtIndexPath:scrollIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    });
+    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -118,7 +124,7 @@
         cell = [[MusicQueueCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     TingSong *tingSong =self.dataArray[indexPath.row];
-    [cell setData:tingSong withFocuseIndex:self.curIndex withRow:indexPath.row];
+    [cell setData:tingSong withSongId:self.curSongId withState:self.curState];
     return cell;
 }
 
@@ -129,8 +135,11 @@
     }
 //    [self.delegate setTingSongQueue:self.dataArray];
     
-    [self.delegate initPlay:tingSong.songId index:(int)indexPath.row isLocal:[[NSUserDefaults standardUserDefaults]boolForKey:@"isLocal"]];
+    self.curState =[self.delegate initPlay:tingSong.songId index:(int)indexPath.row isLocal:[[NSUserDefaults standardUserDefaults]boolForKey:@"isLocal"]];
+    self.curSongId = tingSong.songId;
+    [tableView reloadData];
 }
+
 //去掉多余横线
 - (void)setTableFooterView:(UITableView *)tb {
     if (!tb) {

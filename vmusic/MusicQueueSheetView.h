@@ -13,6 +13,8 @@
 @property(nonatomic,strong) UIView *contentView;
 @property(nonatomic,strong) NSMutableArray *dataArray;
 @property(nonatomic,assign) int curIndex;
+@property(nonatomic,strong) NSNumber *curSongId;
+@property(nonatomic,assign) NSInteger curState;
 -(void)showInView:(UIView *)view;
 @property(weak,nonatomic) id<AudioPlayerDelegate> delegate;
 @end
