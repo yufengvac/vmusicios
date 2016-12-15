@@ -44,15 +44,20 @@
         [self.contentView addSubview:btn];
         
         UIImageView *modeImageView = [[UIImageView alloc]initWithFrame:CGRectMake(margin, (topBarHeight-25)/2, 25, 25)];
+        modeImageView.tag = 301;
         modeImageView.image = [UIImage imageNamed:@"icon_mode_all_repeat"];
         [btn addSubview:modeImageView];
         
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(margin+35, 0, screenWidth/2, topBarHeight)];
+        label.tag = 201;
         label.textColor = [UIColor blackColor];
         label.font = [UIFont systemFontOfSize:15];
         label.textAlignment = NSTextAlignmentLeft;
-        label.text =@"顺序播放(15首)";
+        
+        label.text =[NSString stringWithFormat:@"列表循环(%ld首)",self.dataArray.count];
         [btn addSubview:label];
+        //        NSInteger mode = [[NSUserDefaults standardUserDefaults]integerForKey:@"mode"];
+        //        [self updatePlayModeWithMode:mode andBtn:btn];
         
         CGFloat btnWitdh = 40;
         
@@ -102,6 +107,9 @@
     [self setTableFooterView:tableView];
     [self.contentView addSubview:tableView];
     dispatch_async(dispatch_get_main_queue(), ^{
+        UIButton *btn = [self.contentView viewWithTag:101];
+        NSInteger mode = [[NSUserDefaults standardUserDefaults]integerForKey:@"mode"];
+        [self updatePlayModeWithMode:mode andBtn:btn];
         //刷新完成
         self.curSongId = ((TingSong *)([self.dataArray objectAtIndex:self.curIndex])).songId;
         NSLog(@"self.curSongId=%ld,self.curIndex=%d,self.dataArray.count=%ld",[self.curSongId integerValue],self.curIndex,self.dataArray.count);
@@ -154,9 +162,14 @@
 -(void)btnClick:(UIButton *)btn{
     NSInteger tag = btn.tag;
     switch (tag) {
-        case 101:
+        case 101:{
             NSLog(@"切换模式");
+            NSInteger mode = [[NSUserDefaults standardUserDefaults]integerForKey:@"mode"];
+            int curMode =(mode+1)%4;
+            [self updatePlayModeWithMode:curMode andBtn:btn];
             break;
+        }
+            
         case 102:
             [self disMissView];
             break;
@@ -165,6 +178,35 @@
             break;
     }
 }
+-(void)updatePlayModeWithMode:(NSInteger) curMode andBtn:(UIButton *)btn{
+    UILabel *label = [btn viewWithTag:201];
+    UIImageView *modeImageView = [btn viewWithTag:301];
+    switch (curMode) {
+        case 0:
+            modeImageView.image = [UIImage imageNamed:@"icon_mode_all_repeat"];
+            label.text =[NSString stringWithFormat:@"列表循环(%ld首)",self.dataArray.count];
+            break;
+        case 1:
+            modeImageView.image = [UIImage imageNamed:@"icon_mode_order"];
+            label.text =[NSString stringWithFormat:@"顺序播放(%ld首)",self.dataArray.count];
+            break;
+        case 2:
+            modeImageView.image = [UIImage imageNamed:@"icon_mode_repete_one"];
+            label.text =[NSString stringWithFormat:@"单曲循环(%ld首)",self.dataArray.count];
+            break;
+        case 3:
+            modeImageView.image = [UIImage imageNamed:@"icon_mode_shuffle"];
+            label.text =[NSString stringWithFormat:@"随机播放(%ld首)",self.dataArray.count];
+            break;
+            
+        default:
+            break;
+    }
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setInteger:curMode forKey:@"mode"];
+    [userDefault synchronize];
+}
+
 //展示从底部向上弹出的UIView（包含遮罩）
 - (void)showInView:(UIView *)view
 {

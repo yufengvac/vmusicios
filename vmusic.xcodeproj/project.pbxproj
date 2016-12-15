@@ -76,6 +76,11 @@
 		1DE3C5431DFF93A00061081B /* SongDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3C5421DFF93A00061081B /* SongDownloadViewController.m */; };
 		1DE3C5491E0148F70061081B /* TingAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3C5481E0148F70061081B /* TingAlbum.m */; };
 		1DE3C54C1E014F110061081B /* SearchAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3C54B1E014F110061081B /* SearchAlbumCell.m */; };
+		1DE3C54F1E024FCA0061081B /* TingSongList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3C54E1E024FCA0061081B /* TingSongList.m */; };
+		1DE3C5521E026A4F0061081B /* SearchSongListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3C5511E026A4F0061081B /* SearchSongListCell.m */; };
+		1DE3C5551E02A6610061081B /* TingMV.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3C5541E02A6610061081B /* TingMV.m */; };
+		1DE3C5581E02A7B20061081B /* TingMVDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3C5571E02A7B20061081B /* TingMVDetail.m */; };
+		1DE3C55B1E02ACCA0061081B /* SearchMVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3C55A1E02ACCA0061081B /* SearchMVCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -216,6 +221,16 @@
 		1DE3C5481E0148F70061081B /* TingAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TingAlbum.m; sourceTree = "<group>"; };
 		1DE3C54A1E014F110061081B /* SearchAlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchAlbumCell.h; sourceTree = "<group>"; };
 		1DE3C54B1E014F110061081B /* SearchAlbumCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchAlbumCell.m; sourceTree = "<group>"; };
+		1DE3C54D1E024FCA0061081B /* TingSongList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TingSongList.h; sourceTree = "<group>"; };
+		1DE3C54E1E024FCA0061081B /* TingSongList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TingSongList.m; sourceTree = "<group>"; };
+		1DE3C5501E026A4F0061081B /* SearchSongListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchSongListCell.h; sourceTree = "<group>"; };
+		1DE3C5511E026A4F0061081B /* SearchSongListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchSongListCell.m; sourceTree = "<group>"; };
+		1DE3C5531E02A6610061081B /* TingMV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TingMV.h; sourceTree = "<group>"; };
+		1DE3C5541E02A6610061081B /* TingMV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TingMV.m; sourceTree = "<group>"; };
+		1DE3C5561E02A7B20061081B /* TingMVDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TingMVDetail.h; sourceTree = "<group>"; };
+		1DE3C5571E02A7B20061081B /* TingMVDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TingMVDetail.m; sourceTree = "<group>"; };
+		1DE3C5591E02ACCA0061081B /* SearchMVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchMVCell.h; sourceTree = "<group>"; };
+		1DE3C55A1E02ACCA0061081B /* SearchMVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchMVCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -428,6 +443,10 @@
 				1D7B27551DF11BD700A1C1A1 /* SearchSongCell.m */,
 				1DE3C54A1E014F110061081B /* SearchAlbumCell.h */,
 				1DE3C54B1E014F110061081B /* SearchAlbumCell.m */,
+				1DE3C5501E026A4F0061081B /* SearchSongListCell.h */,
+				1DE3C5511E026A4F0061081B /* SearchSongListCell.m */,
+				1DE3C5591E02ACCA0061081B /* SearchMVCell.h */,
+				1DE3C55A1E02ACCA0061081B /* SearchMVCell.m */,
 			);
 			name = searchcell;
 			sourceTree = "<group>";
@@ -441,6 +460,12 @@
 				1D7B277E1DF162BE00A1C1A1 /* TingAudition.m */,
 				1DE3C5471E0148F70061081B /* TingAlbum.h */,
 				1DE3C5481E0148F70061081B /* TingAlbum.m */,
+				1DE3C54D1E024FCA0061081B /* TingSongList.h */,
+				1DE3C54E1E024FCA0061081B /* TingSongList.m */,
+				1DE3C5531E02A6610061081B /* TingMV.h */,
+				1DE3C5541E02A6610061081B /* TingMV.m */,
+				1DE3C5561E02A7B20061081B /* TingMVDetail.h */,
+				1DE3C5571E02A7B20061081B /* TingMVDetail.m */,
 			);
 			name = SearchModel;
 			sourceTree = "<group>";
@@ -660,17 +685,21 @@
 				1D7B26BF1DEED98100A1C1A1 /* STKDataSourceWrapper.m in Sources */,
 				1D7B26BB1DEED98100A1C1A1 /* STKAudioPlayer.m in Sources */,
 				1D7B26C21DEED98100A1C1A1 /* STKQueueEntry.m in Sources */,
+				1DE3C5581E02A7B20061081B /* TingMVDetail.m in Sources */,
+				1DE3C54F1E024FCA0061081B /* TingSongList.m in Sources */,
 				1D7B275A1DF15F4A00A1C1A1 /* TingSong.m in Sources */,
 				1D7B26C01DEED98100A1C1A1 /* STKHTTPDataSource.m in Sources */,
 				1DD8770D1DFBDD5C00AA5D43 /* AlphaUtil.m in Sources */,
 				1D7B27491DF0085000A1C1A1 /* SCGestureTransitionBackContext.m in Sources */,
 				1DD876F11DFA98FE00AA5D43 /* SDImageCache.m in Sources */,
 				1DB223B31DF57A5C00702A3F /* AudioPlayerDelegate.m in Sources */,
+				1DE3C5521E026A4F0061081B /* SearchSongListCell.m in Sources */,
 				1DD876F71DFA98FE00AA5D43 /* SDWebImageManager.m in Sources */,
 				1DD876FE1DFA98FE00AA5D43 /* UIImageView+WebCache.m in Sources */,
 				1DD877001DFA98FE00AA5D43 /* UIView+WebCacheOperation.m in Sources */,
 				1D7B26BC1DEED98100A1C1A1 /* STKAutoRecoveringHTTPDataSource.m in Sources */,
 				1DD876F01DFA98FE00AA5D43 /* NSImage+WebCache.m in Sources */,
+				1DE3C55B1E02ACCA0061081B /* SearchMVCell.m in Sources */,
 				1D7B27561DF11BD700A1C1A1 /* SearchSongCell.m in Sources */,
 				1D7B26BE1DEED98100A1C1A1 /* STKDataSource.m in Sources */,
 				1DD877091DFBB7BB00AA5D43 /* FileUtils.m in Sources */,
@@ -710,6 +739,7 @@
 				1DD876EF1DFA98FE00AA5D43 /* NSData+ImageContentType.m in Sources */,
 				1DE3C5381DFE58510061081B /* FMResultSet.m in Sources */,
 				1DE3C53F1DFE88180061081B /* DBHelper.m in Sources */,
+				1DE3C5551E02A6610061081B /* TingMV.m in Sources */,
 				177CB99B1DF4049B00E197C9 /* MyMusicQueueId.m in Sources */,
 				1DE3C5351DFE58510061081B /* FMDatabaseAdditions.m in Sources */,
 				1D7B27511DF0085000A1C1A1 /* SCZoomPresentTransition.m in Sources */,

@@ -105,6 +105,9 @@
     [self.slider setThumbImage:[UIImage imageNamed:@"icon_seekbar_point"] forState:UIControlStateNormal];
     [self.slider addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.slider];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionTapGesture:)];
+    tapGesture.delegate = self;
+    [_slider addGestureRecognizer:tapGesture];
     [self updateUi];
     
     UILabel *totalLabel = [[UILabel alloc]initWithFrame:CGRectMake(screenWidth-(margin+50), baseHeight, 50, 15)];
@@ -215,6 +218,26 @@
     CGFloat value =  slider.value;
     [self.audioPlayer seekToTime:[self.audioPlayer duration]*value];
 }
+- (void)actionTapGesture:(UITapGestureRecognizer *)sender {
+    CGPoint touchPoint = [sender locationInView:_slider];
+    CGFloat value = (_slider.maximumValue - _slider.minimumValue) * (touchPoint.x / _slider.frame.size.width );
+    [_slider setValue:value animated:YES];
+    [self.audioPlayer seekToTime:[self.audioPlayer duration]*value];
+    NSLog(@"actionTap");
+}
+- (IBAction)sliderTouchDown:(UISlider *)sender {
+    NSLog(@"sliderTouchDown");
+//    _tapGesture.enabled = NO;
+}
+- (IBAction)sliderTouchUp:(UISlider *)sender {
+    if (sender) {
+        NSLog(@"sliderTouchUp");
+    } else {
+        NSLog(@"sliderTouchUp from actionTap");
+    }
+//    _tapGesture.enabled = YES;
+}
+
 -(void)updateUi{
     double percent =  [self.audioPlayer progress]/[self.audioPlayer duration];
     if (!isnan(percent)) {
@@ -260,10 +283,14 @@
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-    [self performSelector:@selector(notifi) withObject:nil afterDelay:0.25f];
-
+//    [self performSelector:@selector(notifi) withObject:nil afterDelay:0.25f];
+    [self notifi];
     [self.progressTimer invalidate];
     self.progressTimer = nil;
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    [self.bgTimer invalidate];
+    self.bgTimer = nil;
 }
 -(void)viewWillAppear:(BOOL)animated{
     self.progressTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateUi) userInfo:nil repeats:YES];
@@ -292,10 +319,7 @@
     
     }
 }
--(void)viewDidDisappear:(BOOL)animated{
-    [self.bgTimer invalidate];
-    self.bgTimer = nil;
-}
+
 -(void)notifi{
     [[NSNotificationCenter defaultCenter]postNotificationName:@"showBottom" object:self];
 }

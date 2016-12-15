@@ -11,7 +11,7 @@
 #import "STKAudioPlayer.h"
 #import "AppDelegate.h"
 
-@interface PlayMusicViewController : UIViewController<OtherSongPlayDelegate>
+@interface PlayMusicViewController : UIViewController<OtherSongPlayDelegate,UIGestureRecognizerDelegate>
 @property(weak,nonatomic) id<AudioPlayerDelegate> delegate;
 @property(weak,nonatomic) STKAudioPlayer *audioPlayer;
 @end

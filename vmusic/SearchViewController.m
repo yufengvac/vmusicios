@@ -11,9 +11,13 @@
 #import "AVFoundation/AVFoundation.h"
 #import "SearchSongCell.h"
 #import "SearchAlbumCell.h"
+#import "SearchSongListCell.h"
+#import "SearchMVCell.h"
 #import "TingSong.h"
 #import "TingAudition.h"
 #import "TingAlbum.h"
+#import "TingSongList.h"
+#import "TingMV.h"
 #define screenWidth  [[UIScreen mainScreen]bounds].size.width
 #define screenHeight  ([[UIScreen mainScreen]bounds].size.height)
 #define statusBarHeight 15
@@ -25,8 +29,12 @@
 @property NSString *keyWord;
 @property NSMutableArray *songDataArray;
 @property NSMutableArray *albumDataArray;
+@property NSMutableArray *songListDataArray;
+@property NSMutableArray *mvDataArray;
 @property int curIndex;
 @property int curAlbumIndex;
+@property int curSongListIndex;
+@property int curMVIndex;
 @property BOOL isLoading;
 @end
 
@@ -200,7 +208,7 @@ BOOL hasAddView = NO;
     btn1.titleLabel.font = [UIFont systemFontOfSize:15];
     btn1.titleLabel.textAlignment = NSTextAlignmentCenter;
     btn1.tag = 101;
-    [btn1 addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
+    [btn1 addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn1];
     
     UIButton *btn2 = [[UIButton alloc]initWithFrame:CGRectMake(width, baseH, width, navigationViewHeight)];
@@ -208,6 +216,7 @@ BOOL hasAddView = NO;
     [btn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn2.titleLabel.font = [UIFont systemFontOfSize:15];
     btn2.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [btn2 addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     btn2.tag = 102;
     [self.view addSubview:btn2];
     
@@ -216,6 +225,7 @@ BOOL hasAddView = NO;
     [btn3 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn3.titleLabel.font = [UIFont systemFontOfSize:15];
     btn3.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [btn3 addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     btn3.tag = 103;
     [self.view addSubview:btn3];
     
@@ -225,6 +235,7 @@ BOOL hasAddView = NO;
     [btn4 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn4.titleLabel.font = [UIFont systemFontOfSize:15];
     btn4.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [btn4 addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     btn4.tag = 104;
     [self.view addSubview:btn4];
     
@@ -233,7 +244,7 @@ BOOL hasAddView = NO;
     line.backgroundColor = [UIColor blackColor];
     [self.view addSubview:line];
     
-    UILabel *indcaitor = [[UILabel alloc]initWithFrame:CGRectMake(0, baseH+navigationViewHeight-1, width, 2)];
+    UILabel *indcaitor = [[UILabel alloc]initWithFrame:CGRectMake(0, baseH+navigationViewHeight-2, width, 2)];
     indcaitor.tag = 202;
     indcaitor.backgroundColor = [UIColor colorWithRed:0.33 green:0.64 blue:0.89 alpha:1.0];
     [self.view addSubview:indcaitor];
@@ -271,20 +282,6 @@ BOOL hasAddView = NO;
         [scrollView removeFromSuperview];
     }
 }
-//-(void)addCollectionView{
-//    CGFloat y = statusBarHeight+topContentHeight+navigationViewHeight+0.1;
-//    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
-//    [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-//    
-//    UICollectionView *collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, y , screenWidth, screenHeight - y -bottomHeight) collectionViewLayout:flowLayout];
-//    [collectionView registerClass:[SearchSongCell class] forCellWithReuseIdentifier:@"cellId"];
-//    collectionView.pagingEnabled = YES;
-//    collectionView.scrollEnabled = YES;
-//    collectionView.dataSource = self;
-//    collectionView.backgroundColor = [UIColor whiteColor];
-//    collectionView.showsHorizontalScrollIndicator = NO;
-//    [self.view addSubview:collectionView];
-//}
 
 -(void)addCollectionView{
     CGFloat y = statusBarHeight+topContentHeight+navigationViewHeight+0.1;
@@ -317,6 +314,28 @@ BOOL hasAddView = NO;
     [scrollView addSubview:tableView];
 }
 
+-(void)btnClick:(UIButton *)btn{
+    NSInteger tag = btn.tag;
+    UIScrollView *scrollView = [self.view viewWithTag:301];
+    switch (tag) {
+        case 101:
+            [scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+            break;
+        case 102:
+            [scrollView setContentOffset:CGPointMake(screenWidth, 0) animated:YES];
+            break;
+        case 103:
+            [scrollView setContentOffset:CGPointMake(screenWidth*2, 0) animated:YES];
+            break;
+        case 104:
+            [scrollView setContentOffset:CGPointMake(screenWidth*3, 0) animated:YES];
+            break;
+            
+        default:
+            break;
+    }
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     if (tableView.tag==401) {
         TingSong *tingSong = [self.songDataArray objectAtIndex:indexPath.row];
@@ -326,7 +345,11 @@ BOOL hasAddView = NO;
             return 80;
         }
     }else if (tableView.tag == 402){
-        return 70;
+        return 60;
+    }else if (tableView.tag == 403){
+        return 60;
+    }else if (tableView.tag == 404){
+        return 80;
     }
     return 40;
     
@@ -353,6 +376,10 @@ BOOL hasAddView = NO;
         return self.songDataArray.count;
     }else if(tag == 402){
         return self.albumDataArray.count;
+    }else if (tag == 403){
+        return self.songListDataArray.count;
+    }else if (tag == 404){
+        return self.mvDataArray.count;
     }
     return 0;
 }
@@ -375,6 +402,24 @@ BOOL hasAddView = NO;
         TingAlbum *tingAlbum = self.albumDataArray[indexPath.row];
         [cell setTingAlbum:tingAlbum];
         return cell;
+    }else if (tableView.tag == 403){
+        SearchSongListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"songListCellId"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (cell==nil) {
+            cell = [[SearchSongListCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"songListCellId"];
+        }
+        TingSongList *tingSongList = self.songListDataArray[indexPath.row];
+        [cell setTingSongList:tingSongList];
+        return cell;
+    }else if (tableView.tag == 404){
+        SearchMVCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mvCellId"];
+        cell.selectionStyle = UITableViewCellAccessoryNone;
+        if (cell==nil) {
+            cell = [[SearchMVCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"mvCellId"];
+        }
+        TingMV *tingMv = self.mvDataArray[indexPath.row];
+        [cell setTingMv:tingMv];
+        return cell;
     }
     return nil;
 }
@@ -389,11 +434,11 @@ BOOL hasAddView = NO;
     }
     return YES;
 }
--(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
-    NSLog(@"scrollViewDidEndScrollingAnimation -%.2f",scrollView.contentOffset.x);
-}
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
 
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView.tag!=301) {
+        return;
+    }
     if (scrollView.contentOffset.x == 0) {
         UIView *uiview = [self.diction objectForKey:@"one"];
         if (uiview==nil) {
@@ -415,10 +460,16 @@ BOOL hasAddView = NO;
         }
         [self selectIndex:2];
     }else if (scrollView.contentOffset.x == screenWidth*2){
-        NSLog(@"第三页");
+        UIView *uiView = [self.diction objectForKey:@"three"];
+        if (uiView==nil) {
+            [self addSongListTableView:scrollView];
+        }
         [self selectIndex:3];
     }else if (scrollView.contentOffset.x == screenWidth*3){
-        NSLog(@"第四页");
+        UIView *uiView = [self.diction objectForKey:@"four"];
+        if (uiView==nil) {
+            [self addMVTableView:scrollView];
+        }
         [self selectIndex:4];
     }
 }
@@ -428,23 +479,46 @@ BOOL hasAddView = NO;
     UIButton *btn2 = [self.view viewWithTag:102];
     UIButton *btn3 = [self.view viewWithTag:103];
     UIButton *btn4 = [self.view viewWithTag:104];
+    UILabel *label = [self.view viewWithTag:202];
     [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [btn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [btn3 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [btn4 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    NSInteger width = screenWidth/4;
+    NSInteger baseH = statusBarHeight + topContentHeight;
     switch (index) {
-        case 1:
+        case 1:{
             [btn1 setTitleColor: [UIColor colorWithRed:0.33 green:0.64 blue:0.89 alpha:1.0] forState: UIControlStateNormal];
+            [UIView animateWithDuration:0.3 animations:^{
+                label.frame = CGRectMake(0, baseH+navigationViewHeight-2,width , 2);
+            }];
             break;
-        case 2:
-            [btn2 setTitleColor: [UIColor colorWithRed:0.33 green:0.64 blue:0.89 alpha:1.0] forState: UIControlStateNormal];
-            break;
-        case 3:
+        
+        }
+        case 2:{
+                [btn2 setTitleColor: [UIColor colorWithRed:0.33 green:0.64 blue:0.89 alpha:1.0] forState: UIControlStateNormal];
+                [UIView animateWithDuration:0.3 animations:^{
+                    label.frame = CGRectMake(width, baseH+navigationViewHeight-2, width, 2);
+                }];
+                break;
+        }
+        case 3:{
             [btn3 setTitleColor: [UIColor colorWithRed:0.33 green:0.64 blue:0.89 alpha:1.0] forState: UIControlStateNormal];
+            [UIView animateWithDuration:0.3 animations:^{
+                label.frame = CGRectMake(width*2, baseH+navigationViewHeight-2, width, 2);
+            }];
             break;
-        case 4:
+        }
+           
+        case 4:{
             [btn4 setTitleColor: [UIColor colorWithRed:0.33 green:0.64 blue:0.89 alpha:1.0] forState: UIControlStateNormal];
-            break;
+            [UIView animateWithDuration:0.3 animations:^{
+                label.frame = CGRectMake(width*3, baseH+navigationViewHeight-2, width, 2);
+            }];
+             break;
+        }
+           
         default:
             break;
     }
@@ -473,7 +547,31 @@ BOOL hasAddView = NO;
     [self loadAlbumDataWithIndex:self.curAlbumIndex andTableView:tableView andTipLabel:label];
 }
 
+-(void)addSongListTableView:(UIScrollView *)scrollView{
+    NSLog(@"第三页为nil，去加载一个");
+    UITableView *tableView = [[UITableView alloc]initWithFrame:scrollView.bounds style:UITableViewStylePlain];
+    tableView.tag = 403;
+    tableView.dataSource = self;
+    tableView.delegate = self;
+    tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 0);
+    [tableView registerClass:[SearchSongListCell class] forCellReuseIdentifier:@"songListCellId"];
+    [self.diction setObject:tableView forKey:@"three"];
+    tableView.hidden = YES;
+    [scrollView addSubview:tableView];
+    
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake((screenWidth-150)/2+screenWidth*2, (screenHeight-20)/3, 150, 20)];
+    label.text = [NSString stringWithFormat:@"正在搜索%@",self.keyWord];
+    label.tag = 203;
+    label.textColor = [UIColor blackColor];
+    label.font = [UIFont systemFontOfSize:15];
+    label.textAlignment = NSTextAlignmentCenter;
+    [scrollView addSubview:label];
+    self.curSongListIndex = 1;
+    [self loadSongListWithIndex:self.curSongListIndex andTableView:tableView andTipLabel:label];
+}
+
 -(void)loadAlbumDataWithIndex:(int)index andTableView:(UITableView *)tableView andTipLabel:(UILabel *)label{
+    self.isLoading = YES;
     dispatch_queue_t queue = dispatch_queue_create("loadAlbumData", DISPATCH_QUEUE_SERIAL);
     dispatch_async(queue, ^{
         NSURLSession *session = [NSURLSession sharedSession];
@@ -525,6 +623,118 @@ BOOL hasAddView = NO;
     });
 }
 
+-(void)addMVTableView:(UIScrollView *)scrollView{
+    UITableView *tableView = [[UITableView alloc]initWithFrame:scrollView.bounds style:UITableViewStylePlain];
+    tableView.tag = 404;
+    tableView.dataSource = self;
+    tableView.delegate = self;
+    tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 0);
+    [tableView registerClass:[SearchMVCell class] forCellReuseIdentifier:@"mvCellId"];
+    [self.diction setObject:tableView forKey:@"four"];
+    tableView.hidden = YES;
+    [scrollView addSubview:tableView];
+    
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake((screenWidth-150)/2+screenWidth*3, (screenHeight-20)/3, 150, 20)];
+    label.text = [NSString stringWithFormat:@"正在搜索%@",self.keyWord];
+    label.textColor = [UIColor blackColor];
+    label.font = [UIFont systemFontOfSize:15];
+    label.textAlignment = NSTextAlignmentCenter;
+    [scrollView addSubview:label];
+    self.curMVIndex = 1;
+    [self loadMVWithIndex:self.curMVIndex andTableView:tableView andTipLabel:label];
+}
+
+-(void)loadSongListWithIndex:(int)index andTableView:(UITableView *)tableView andTipLabel:(UILabel *)label{
+    self.isLoading = YES;
+    dispatch_queue_t queue = dispatch_queue_create("loadSongList", DISPATCH_QUEUE_SERIAL);
+    dispatch_async(queue, ^{
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSString *url = [NSString stringWithFormat:@"http://search.dongting.com/songlist/search?size=20&page=%d&q=%@",index,self.keyWord];
+        NSString *urlEncode = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"`#%^{}\"[]|\\<> "].invertedSet];
+        
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlEncode] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:10];
+        NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error){
+            if ([data isKindOfClass:[NSURL class]]||data==nil) {
+                label.text = @"无返回结果！";
+                return ;
+            }
+            NSLog(@"已经获取到歌单");
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+            NSMutableArray *array = [json mutableArrayValueForKey:@"data"];
+            if (array!=nil&&array.count>0) {
+                if (index==1) {
+                    self.songListDataArray = [NSMutableArray array];
+                }
+                for (int i=0; i<array.count; i++) {
+                    TingSongList *tingSongList = [[TingSongList alloc]init];
+                    NSDictionary *json1 = [array objectAtIndex:i];
+                    tingSongList.title = [json1 objectForKey:@"title"];
+                    tingSongList.desc = [json1 objectForKey:@"desc"];
+                    tingSongList.list_id = [json1 objectForKey:@"_id"];
+                    tingSongList.quan_id = [json1 objectForKey:@"quan_id"];
+                    tingSongList.song_list = [json1 objectForKey:@"song_list"];
+                    tingSongList.create_at = [json1 objectForKey:@"create_at"];
+                    tingSongList.comment_count = [json1 objectForKey:@"create_at"];
+                    tingSongList.listen_count = [json1 objectForKey:@"listen_count"];
+                    tingSongList.pic_url = [json1 objectForKey:@"pic_url"];
+                    tingSongList.author = [json1 objectForKey:@"author"];
+                    [self.songListDataArray addObject:tingSongList];
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (label!=nil) {
+                        label.hidden = YES;
+                    }
+                    self.isLoading = NO;
+                    tableView.hidden = NO;
+                    [tableView reloadData];
+                });
+            }else{
+                
+            }
+        }];
+        [task resume];
+    });
+}
+
+-(void)loadMVWithIndex:(int)index andTableView:(UITableView *)tableView andTipLabel:(UILabel *)label{
+    
+    dispatch_queue_t queue = dispatch_queue_create("loadMV", DISPATCH_QUEUE_SERIAL);
+    dispatch_async(queue, ^{
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSString *url = [NSString stringWithFormat:@"http://search.dongting.com/mv/search?size=20&page=%d&q=%@",index,self.keyWord];
+        NSString *urlEncode = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"`#%^{}\"[]|\\<> "].invertedSet];
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlEncode] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:10];
+        NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error){
+            if (data==nil) {
+                label.text = @"无返回结果！";
+                return ;
+            }
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+            NSMutableArray *array = [json objectForKey:@"data"];
+            if (array.count>0) {
+                if (index==1) {
+                    self.mvDataArray = [NSMutableArray array];
+                }
+                for (int i=0; i<array.count; i++) {
+                    NSDictionary *json1 = [array objectAtIndex:i];
+                    [self.mvDataArray addObject:[[TingMV alloc]initWithDictionary:json1]];
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.isLoading = NO;
+                    if (label!=nil) {
+                        label.hidden = YES;
+                    }
+                    tableView.hidden = NO;
+                    [tableView reloadData];
+                });
+            }else{
+                label.text = @"无返回结果！";
+            }
+        }];
+        [task resume];
+    });
+}
+
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView.tag == 401) {
         if (tableView.contentOffset.y+tableView.frame.size.height>tableView.contentSize.height) {
@@ -545,19 +755,24 @@ BOOL hasAddView = NO;
                 [self loadAlbumDataWithIndex:self.curAlbumIndex andTableView:tableView andTipLabel:nil];
             }
         }
-    }
-}
-
--(void)btnClick:(UIButton *)btn{
-    NSInteger tag = btn.tag;
-    switch (tag) {
-        case 101:
-            
-            break;
-        case 102:
-            break;
-        default:
-            break;
+    }else if (tableView.tag==403){
+        if (tableView.contentOffset.y + tableView.frame.size.height >tableView.contentSize.height) {
+            if (!self.isLoading) {
+                self.isLoading = YES;
+                self.curSongListIndex++;
+                NSLog(@"加载歌单的第%d页",self.curSongListIndex);
+                [self loadSongListWithIndex:self.curSongListIndex andTableView:tableView andTipLabel:nil];
+            }
+        }
+    }else if (tableView.tag==404){
+        if (tableView.contentOffset.y + tableView.frame.size.height > tableView.contentSize.height) {
+            if (!self.isLoading) {
+                self.isLoading = YES;
+                self.curMVIndex++;
+                NSLog(@"加载MV的第%d页",self.curMVIndex);
+                [self loadMVWithIndex:self.curMVIndex andTableView:tableView andTipLabel:nil];
+            }
+        }
     }
 }
 

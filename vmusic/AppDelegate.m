@@ -73,7 +73,7 @@
     UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0, baseHeight, screenWidth, bottomHeight)];
     btn.backgroundColor = [UIColor whiteColor];
     btn.tag = 108;
-    [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
+    [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     self.progressView = [[UIProgressView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 1)];
     self.progressView.trackTintColor = [UIColor_ColorChange colorWithHexString:@"#EBEDED"];
@@ -138,9 +138,18 @@
 }
 
 -(void)showBottom{
-    NSLog(@"showBottom============");
-    UIButton *btn = [self.window viewWithTag:108];
-    btn.hidden = NO;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"showBottom============");
+        UIButton *btn = [self.window viewWithTag:108];
+        btn.hidden = NO;
+        if ([btn isHidden]) {
+            NSLog(@"是隐藏的");
+        }else{
+            NSLog(@"是显示的");
+        }
+        
+    });
+    
 }
 -(void)initAudio{
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
@@ -202,7 +211,7 @@
 }
 - (UIViewController *)getPresentedViewController
 {
-    UIViewController *appRootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    UIViewController *appRootVC = self.window.rootViewController;
     UIViewController *topVC = appRootVC;
     if (topVC.presentedViewController) {
         topVC = topVC.presentedViewController;
@@ -271,11 +280,12 @@
     }else if (self.audioPlayer.state == STKAudioPlayerStatePlaying){
         if ([songId integerValue]== [self.currentTingSong.songId integerValue]) {
             [self.audioPlayer pause];
+             state =  0;
         }else{
             self.currentIndex = index;
             [self playSong:index];
+            state =  1;
         }
-        state =  0;
     }
 
     
@@ -336,17 +346,27 @@
     }
 }
 -(void)playNext{
-    TingSong *tingSong = self.musicQueueArray[self.currentIndex+1];
-    [self initPlay:tingSong.songId index:(self.currentIndex+1) isLocal:self.isLocalM];
+    if (self.currentIndex+1<self.musicQueueArray.count) {
+        TingSong *tingSong = self.musicQueueArray[self.currentIndex+1];
+        [self initPlay:tingSong.songId index:(self.currentIndex+1) isLocal:self.isLocalM];
+    }else{
+        NSLog(@"已经最后一首啦！");
+    }
 }
 -(void)playPre{
-    TingSong *tingSong = self.musicQueueArray[self.currentIndex-1];
-    [self initPlay:tingSong.songId index:(self.currentIndex-1) isLocal:self.isLocalM];
+    if (self.currentIndex-1>=0) {
+        TingSong *tingSong = self.musicQueueArray[self.currentIndex-1];
+        [self initPlay:tingSong.songId index:(self.currentIndex-1) isLocal:self.isLocalM];
+    }else{
+        NSLog(@"已经是第一首啦！");
+    }
+   
 }
 
 -(void)playSong:(int)index{
     if (index>=self.musicQueueArray.count) {
         NSLog(@"index=%d,self.musicQueueArray.count = %ld,超过了最后一条",index,self.musicQueueArray.count);
+        [self.audioPlayer stop];
         return;
     }
     
@@ -475,7 +495,25 @@
     if (stopReason==1) {
         TingSong *tingSong = ((MyMusicQueueId *)queueItemId).tingSong;
         NSLog(@"didFinishPlayingQueueItemId=%@,progress=%f",tingSong.name,progress);
-        self.currentIndex = self.currentIndex+1;
+        NSInteger mode = [[NSUserDefaults standardUserDefaults]integerForKey:@"mode"];
+        if (mode==0) {
+            if (self.currentIndex+1>=self.musicQueueArray.count) {
+                self.currentIndex=0;
+            }else{
+                self.currentIndex = self.currentIndex+1;
+            }
+        }else if (mode==1){
+            if (self.currentIndex+1>=self.musicQueueArray.count) {
+                [self.audioPlayer stop];
+            }else{
+                self.currentIndex = self.currentIndex+1;
+            }
+        }else if (mode==2){
+            self.currentIndex = self.currentIndex;
+        }else if (mode==3){
+            self.currentIndex = arc4random() % self.musicQueueArray.count;
+        }
+        
         [self playSong:self.currentIndex];
     }
 }

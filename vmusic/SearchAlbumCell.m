@@ -11,6 +11,7 @@
 #import "UIImageView+WebCache.h"
 
 #define margin 10
+#define margin_small 5
 #define logoSize 50
 #define screenWidth [[UIScreen mainScreen]bounds].size.width
 
@@ -45,20 +46,20 @@
 
 }
 -(void)setTingAlbum:(TingAlbum *)tingAlbum{
-    self.logoImageView.frame = CGRectMake(margin, margin, logoSize, logoSize);
+    self.logoImageView.frame = CGRectMake(margin, margin_small, logoSize, logoSize);
     [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:tingAlbum.picUrl] placeholderImage:[UIImage imageNamed:@"default_bg"] options:SDWebImageContinueInBackground];
     
-    self.name.frame = CGRectMake(margin+logoSize+margin, (logoSize+margin*2)/3.0-10, screenWidth-(margin*3+logoSize), 20);
+    self.name.frame = CGRectMake(margin+logoSize+margin, (logoSize+margin_small*2)/3.0-10, screenWidth-(margin*3+logoSize), 20);
     self.name.text = tingAlbum.name;
     
-    self.singerName.frame = CGRectMake(margin+logoSize+margin,(logoSize+margin*2)/3.0-10+25, screenWidth-(margin*3+logoSize), 20);
+    self.singerName.frame = CGRectMake(margin+logoSize+margin,(logoSize+margin_small*2)/3.0-10+25, screenWidth-(margin*3+logoSize), 20);
     self.singerName.text = tingAlbum.singerName;
     
     CGSize size = [self sizeWithString:tingAlbum.singerName font:[UIFont systemFontOfSize:12] maxSize:self.singerName.frame.size];
-    self.publishDate.frame = CGRectMake(margin+logoSize+margin+size.width+5,(logoSize+margin*2)/3.0-10+25 ,screenWidth-(margin*3+logoSize+size.width+5), 20);
+    self.publishDate.frame = CGRectMake(margin+logoSize+margin+size.width+5,(logoSize+margin_small*2)/3.0-10+25 ,screenWidth-(margin*3+logoSize+size.width+5), 20);
     self.publishDate.text = tingAlbum.publishDate;
     
-    self.arrow.frame = CGRectMake(screenWidth-margin-7, ((logoSize+margin*2)-17)/2, 7, 17);
+    self.arrow.frame = CGRectMake(screenWidth-margin-7, ((logoSize+margin_small*2)-17)/2, 7, 17);
 }
 
 - (CGSize)sizeWithString:(NSString *)str font:(UIFont *)font maxSize:(CGSize)maxSize
